@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
-setup(name="realML.matrix",
+setup(name="realML",
       version="0.1",
-      description="Matrix-related functions in the RealML library",
+      description="ICSI provided machine learning primitives for DARPA D3M project",
       url="http://github.com/alexgittens/realML",
       author="Alex Gittens",
       author_email="gittea@rpi.edu",
