@@ -23,13 +23,14 @@ Le et al., "Fastfood --- Approximating Kernel Expansions in Loglinear Time", ICM
 import abc
 from .featurization import FeaturizationPrimitiveBase
 from numpy.random import randn, random
-from numpy import pi, exp, cos
+from numpy import pi, exp, cos, sqrt, expand_dims, sum, ones_like
+from numpy.linalg import norm
 
 __all__ = ['SDR']
 
 class SDR(FeaturizationPrimitiveBase):
 
-    def __init__(self, dim=300, numrandfeats=1000, maxIters=50, tol=.01, stepsize=.1, eps=.001):
+    def __init__(self, dim=300, numrandfeats=5000, maxIters=50, tol=.01, stepsize=.1, eps=.001):
         """
         inputs:
             dim: the desired dimensionality of the embeddings (positive integer)
@@ -58,23 +59,32 @@ class SDR(FeaturizationPrimitiveBase):
 
         # TODO: initialize with the pmi matrix
 
+        m, n = data.shape
+        self.U = randn(m, self.dim)/sqrt(self.dim)
+        self.V = randn(n, self.dim)/sqrt(self.dim)
+        gUhist = self.eps**2 * ones_like(self.U)
+        gVhist = self.eps**2 * ones_like(self.V)
+
         for iter in range(self.maxIters):
+            Unorms = expand_dims(norm(self.U, axis=1)**2, axis=1)
+            Vnorms = expand_dims(norm(self.V, axis=1)**2, axis=1)
             W = randn(self.dim, self.numrandfeats)
-            phases = 2*pi*random(1, self.numrandfeats)
-            ZU = 1/sqrt(self.numrandfeats)*cos(U.dot(W) + phases)
-            ZV = 1/sqrt(self.numrandfeats)*cos(U.dot(W) + phases)
-            expnorms = exp(1.0/2*norm(U, axis=1)**2) * exp(1.0/2*norm(V, axis=1)**2)
-            normalizer = np.sum(ZV, axis=0).dot(np.sum(ZU, axis=0)) # compute 1^T ZU ZV^T 1
-            gU = -1 * data.dot(V) + normalizer * expnorms * ZU.dot(ZV.transpose.dot(V))
-            gV = -1 * data.transpose.dot(U) + normalizer * expnorms * ZV.dot(ZU.transpose.dot(U))
+            phases =2*pi*random([1, self.numrandfeats])
+            ZU = exp(1.0/2*Unorms) * sqrt(2.0/self.numrandfeats)*cos(self.U.dot(W) + phases)
+            ZV = exp(1.0/2*Vnorms) * sqrt(2.0/self.numrandfeats)*cos(self.V.dot(W) + phases)
+
+            v1 = sum(ZV, axis=0)
+            v2 = sum(ZU, axis=0)
+            normalizer = 1.0/(v1.dot(v2)) # compute 1^T ZU ZV^T 1
+            gU = -1 * data.dot(self.V) + normalizer * ZU.dot(ZV.transpose().dot(self.V))
+            gV = -1 * data.transpose().dot(self.U) + normalizer * ZV.dot(ZU.transpose().dot(self.U))
+
             gUhist += gU**2
             gVhist += gV**2
-            dU = gU / (self.eps + np.sqrt(gUhist))
-            dV = gV / (self.eps + np.sqrt(gVhist))
+            dU = gU / sqrt(gUhist)
+            dV = gV / sqrt(gVhist)
             self.U = self.U - self.stepsize*dU
             self.V = self.V - self.stepsize*dV
-
-        return self
 
     def predict(self, outtype="array2+N", data=None):
         """
