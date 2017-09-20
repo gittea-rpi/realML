@@ -1,0 +1,3 @@
+from .rfmpreconditionedgaussiankrr import RFMPreconditionedGaussianKRR
+from .rfmpreconditionedpolynomialkrr import RFMPreconditionedPolynomialKRR
+
