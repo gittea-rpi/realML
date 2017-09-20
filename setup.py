@@ -15,7 +15,7 @@ setup(name="realML",
                    'Programming Language :: Python :: 3.4',
                    'Programming Language :: Python :: 3.5',
                    ],
-      keywords='machine learning, regression, dimensionality reduction, low rank factorization',
+      keywords=['machine learning', 'regression', 'dimensionality reduction', 'low rank factorization'],
       install_requires=[
           'numpy>=1.12.0',
           'scipy>=0.18.1',
