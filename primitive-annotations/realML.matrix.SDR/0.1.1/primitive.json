@@ -1,0 +1,107 @@
+{
+    "id": "b93b50fe-562b-3dd3-bff3-ae623ea042ac",
+    "name": "realML.matrix.SDR",
+    "common_name": "SDR",
+    "description": "Sufficient Dimensionality Reduction. This algorithm computes a nonlinear dimensionality reduction appropriate for finding embeddings by exploiting co-occurrence statistics. This implementation uses random features to compute an unbiased gradient estimate.",
+    "languages": [
+        "python3.5"
+    ],
+    "library": "RealML",
+    "version": "0.1.1",
+    "source_code": "http://github.com/alexgittens/realML/matrix/sdr.py",
+    "is_class": true,
+    "parameters": [
+        {
+            "is_hyperparameter": true,
+            "type": "integer",
+            "name": "dim",
+            "description": "the dimensionality of the desired embedding",
+            "optional": true,
+            "default": "30",
+            "range": [10, 300],
+            "kind": "log"
+        },
+        {
+            "is_hyperparameter": true,
+            "type": "integer",
+            "name": "numrandfeats",
+            "description": "number of random features to use in the kernel approximation",
+            "optional": true,
+            "default": "5000",
+            "range": [1000, 50000],
+            "kind": "log"
+         },
+         {
+            "is_hyperparameter": true,
+            "type": "float",
+            "name": "alpha",
+            "description": "bound on the euclidean norm of the desired feature vectors",
+            "optional": true,
+            "default": "5",
+            "range": [2, 5, 7],
+            "kind": "constant"
+         }
+         {
+           "is_hyperparameter": false,
+           "type": "float",
+           "name": "tol",
+           "description": "convergence tolerance for Adagrad",
+           "optional": true,
+           "default": "0.01"
+         },
+         {
+           "is_hyperparameter": true,
+           "type": "float",
+           "name": "stepsize",
+           "description": "stepsize for Adagrad",
+           "optional": true,
+           "default": ".1",
+           "range": [.01, 1],
+           "kind": "log"
+         },
+         {
+           "is_hyperparameter": true,
+           "type": "integer",
+           "name": "maxIters",
+           "description": "number of maximum iterations of adagrad",
+           "optional": true,
+           "default": "10",
+           "range": [10, 50],
+           "kind": "uniform"
+         },
+         {
+           "is_hyperparameter": false,
+           "type": "float",
+           "name": "eps",
+           "description": "fudge amount for the Adagrad gradient history",
+           "optional": true,
+           "default": "0.001"
+         }
+    ],
+    "algorithm_type": ["Dimensionality Reduction"],
+    "learning_type": ["Unsupervised learning"],
+    "task_type": ["Feature extraction"],
+    "is_deterministic": false,
+    "input_type": ["SPARSE"],
+    "output_type": ["FEATURES"],
+    "team": "ICSI",
+    "schema_version": 1.0,
+    "build": [
+        {
+            "type": "pip",
+            "package": "realML"
+        }
+    ],
+    "compute_resources": {
+      "sample_size": [8, 800],
+      "sample_unit": ["MB", "MB"],
+      "num_nodes": [1, 1],
+      "cores_per_node": [1, 1],
+      "gpus_per_node": [0, 0],
+      "mem_per_node": [0.01, 2],
+      "disk_per_node": [0, 0],
+      "mem_per_gpu": [0.0, 0.0],
+      "expected_running_time": [150, 500]
+    },
+    "interface_type": "featurization"
+}

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name="realML",
-      version="0.1.0",
+      version="0.1.1",
       description="ICSI provided machine learning primitives for DARPA D3M project",
       url="http://github.com/alexgittens/realML",
       author="Alex Gittens",
@@ -15,7 +15,7 @@ setup(name="realML",
                    'Programming Language :: Python :: 3.4',
                    'Programming Language :: Python :: 3.5',
                    ],
-      keywords=['machine learning', 'regression', 'dimensionality reduction', 'low rank factorization'],
+      keywords=['machine learning', 'regression', 'dimensionality reduction', 'low rank factorization', 'featurization', 'sufficient dimensionality reduction', 'kernel methods'],
       install_requires=[
           'numpy>=1.12.0',
           'scipy>=0.18.1',

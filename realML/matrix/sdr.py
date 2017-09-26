@@ -21,10 +21,11 @@ Le et al., "Fastfood --- Approximating Kernel Expansions in Loglinear Time", ICM
 from typing import *
 from primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase 
 from numpy.random import randn, random
-from numpy import pi, exp, cos, sqrt, expand_dims, sum, ones, ones_like, log, hstack, ndarray
+from numpy import pi, exp, cos, sqrt, expand_dims, sum, ones, ones_like, log, hstack, ndarray, copy
 from numpy.linalg import norm
 from scipy.sparse import coo_matrix
 from scipy.sparse.linalg import svds
+from scipy.optimize import brent
 import sys
 
 Input=ndarray
@@ -39,7 +40,7 @@ class SDR(UnsupervisedLearnerPrimitiveBase[Input, Output, Params]):
         given an m-by-n sparse matrix G of coocurrence statistics for discrete random variables X (m states) and Y (n states)
         and a desired embedding size k, returns U and V, m-by-k and n-by-k matrices of embeddings for the states of 
         X and Y minimizing D_KL(G/Zg || exp(UV^T)/Z) where Z and Zg are constants that normalize both matrices
-        to be probability distributiions
+        to be probability distributions. Constrains the maximum row norms of U and V to be less than alpha.
 
     This implementation uses Adagrad to solve the optimization problem, and uses 
     random features to make the gradient computation much more scalable than the algorithm given in the SDR paper.
@@ -47,18 +48,23 @@ class SDR(UnsupervisedLearnerPrimitiveBase[Input, Output, Params]):
     Read docstring for __init__() to see hyperparameters, then use fit() and predict() (see their docstrings)
     """
 
-    def __init__(self, *, dim: int = 300, numrandfeats: int = 1000, tol: float = .01, stepsize: float = 0.1, maxIters: int = 100, eps: float = 0.001):
+    def __init__(self, *, dim: int = 300, numrandfeats: int = 1000, alpha=5, tol: float = .01, stepsize: float = 0.1, maxIters: int = 100, eps: float = 0.001):
         """
         inputs:
             dim: the desired dimensionality of the embeddings (positive integer)
             numrandfeats: size of the random feature map used in estimating the gradient (positive integer)
+            alpha: maximum euclidean norm of a feature vector
             tol: stop when relative change (Frobenius norm) of embeddings is smaller than tol
             stepsize: Adagrad stepsize
             maxIters: maximum number of iterations
             eps: Adagrad protection against division by zero, small constant
+
+            Note the larger size alpha you allow for the feature vectors, the more randomfeatures you should allow, otherwise you will get poor performance.
+            The runtime increases as numrandfeats increases.
         """
         self.dim = dim
         self.numrandfeats = numrandfeats
+        self.alpha = alpha
         self.maxIters = maxIters
         self.tol = tol
         self.stepsize = stepsize
@@ -83,6 +89,8 @@ class SDR(UnsupervisedLearnerPrimitiveBase[Input, Output, Params]):
         if self.fitted:
             return
         m, n = self.G.shape
+        self.maxIters = iterations
+        gNormalizer = sum(self.G)
 
         # initialize with the PPMI: force sparsity if the data was not originally sparse
         sparseData = coo_matrix(self.G)
@@ -95,20 +103,39 @@ class SDR(UnsupervisedLearnerPrimitiveBase[Input, Output, Params]):
         numColEntities = sum(self.G, axis=0) + 0.0
 
         print("Constructing PPMI")
-        ppmiEntries=vals
-        for idx in range(len(vals)):
-            if idx % 1000 == 0:
-                sys.stdout.write(str(idx/1000.0)+'.')
-            ppmiEntries[idx] = max(log(numPairs*vals[idx]/(numRowEntities[i[idx]] * numColEntities[j[idx]])), 0)
-        sparsePPMI = coo_matrix((ppmiEntries, (i, j)))
+        def computePPMI(vals, i, j, numPairs, numRowEntities, numColEntities):
+            ppmiEntries=vals
+            for idx in range(len(vals)):
+                if idx % 1000 == 0:
+                    sys.stdout.write(str(idx/1000.0)+'.')
+                ppmiEntries[idx] = max(log(numPairs*vals[idx]/(numRowEntities[i[idx]] * numColEntities[j[idx]])), 0)
+            return ppmiEntries
+        sparsePPMI = coo_matrix((computePPMI(vals, i, j, numPairs, numRowEntities, numColEntities), (i, j)), shape=self.G.shape)
         self.U, _, vt = svds(sparsePPMI, k=self.dim-1)
         self.V = vt.transpose()
 
         gUhist = self.eps**2 * ones_like(self.U)
         gVhist = self.eps**2 * ones_like(self.V)
+        
+        def adaproj(G, X):
+            """calculates the projection Pi_{||x||_2<=alpha}^D(y) for each row y of X, 
+            where D=diag(g) for g, the corresponding row of G. 
+            used for constrained Adagrad optimization (see the adagrad paper for the definition of Pi_X^A)"""
+
+            res = copy(X)
+            for rownum in range(X.shape[0]):
+                curg = G[rownum, :]
+                curvec = X[rownum, :]
+                if norm(curvec) <= self.alpha:
+                    continue
+                else:
+                    scaledrownormdiff = lambda sf: (norm(curg/(curg + sf)*curvec)**2 - self.alpha**2)**2
+                    sf, fval, iters, funcalls = brent(scaledrownormdiff, brack=(0, sum(curg)), full_output=True)
+                    assert(fval < 1e-3)
+                    res[rownum, :] = curg/(curg + sf)*curvec
+            return res
 
         print("Refining")
-        self.maxIters = 1 # TODO: fix Adagrad-- this is not working at all
         for iter in range(self.maxIters):
             sys.stdout.write(str(iter)+'.')
             sys.stdout.flush()
@@ -122,8 +149,8 @@ class SDR(UnsupervisedLearnerPrimitiveBase[Input, Output, Params]):
             v1 = sum(ZV, axis=0)
             v2 = sum(ZU, axis=0)
             normalizer = 1.0/(v1.dot(v2)) # compute 1^T ZU ZV^T 1
-            gU = -1 * self.G.dot(self.V) + normalizer * ZU.dot(ZV.transpose().dot(self.V))
-            gV = -1 * self.G.transpose().dot(self.U) + normalizer * ZV.dot(ZU.transpose().dot(self.U))
+            gU = -1 * self.G.dot(self.V)/gNormalizer + normalizer * ZU.dot(ZV.transpose().dot(self.V))
+            gV = -1 * self.G.transpose().dot(self.U)/gNormalizer + normalizer * ZV.dot(ZU.transpose().dot(self.U))
 
             gUhist += gU**2
             gVhist += gV**2
@@ -133,16 +160,11 @@ class SDR(UnsupervisedLearnerPrimitiveBase[Input, Output, Params]):
                 print("reached convergence tolerance, terminating")
                 break
             else:
-                self.U = self.U - self.stepsize*dU
-                self.V = self.V - self.stepsize*dV
+                self.U = adaproj(gUhist, self.U - self.stepsize*dU)
+                self.V = adaproj(gVhist, self.V - self.stepsize*dV)
         print(" ")
 
-        # augment embeddings with the entity frequencies
-        #rowNormalizers = sum(exp(self.U.dot(self.V.transpose())), axis=1)
-        #rowProbs = numRowEntities/numPairs
-        #self.U = hstack((self.U, expand_dims(log(rowProbs/rowNormalizers), axis=1)))
-        #self.V = hstack((self.V, ones((n,1))))
-        #self.fitted = True
+        self.fitted = True
 
     def produce(self, *, inputs: None = None, timeout: float = None, iterations : int = None) -> Sequence[Output]:
         """

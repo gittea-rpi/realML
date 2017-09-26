@@ -149,6 +149,7 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Input, Outpu
         # TODO: use CraftMAps
 
         self.s = self.findStableRank(X)
+
         augXt = np.vstack((np.sqrt(self.sf)*X.transpose(), np.sqrt(self.offset)*np.ones((1, self.n))))
         Z = np.ones((self.s, self.n))
         for iter in range(self.degree):
@@ -157,13 +158,13 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Input, Outpu
             signs = numpy.random.choice([-1.0, 1.0], size=self.d+1, replace=True)
             for col in range(self.d+1):
                 C[rows[col], col] = signs[col]
-            Z = np.multiply(Z, fft(C.dot(augXt), axis=0, norm="ortho"))
-        Z = np.real(np.sqrt(1.0/self.s)*ifft(Z, axis=0, norm="ortho").transpose())
+            Z = Z * fft(C.dot(augXt), axis=0)
+        Z = ifft(Z, axis=0).real.transpose()
         L = scipy.linalg.cholesky(Z.transpose().dot(Z) + self.lparam*np.identity(self.s))
         self.U = numpy.linalg.solve(L, Z.transpose())
 
-        #K = self.kernel(X, X)
-        #print numpy.linalg.norm(K), numpy.linalg.norm(Z.dot(Z.transpose()))
+        K = self.kernel(X, X)
+        print(numpy.linalg.norm(K), numpy.linalg.norm(Z.dot(Z.transpose())))
 
     def set_params(self, *, params: Params) -> None:
         pass
