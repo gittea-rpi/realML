@@ -1,0 +1,1 @@
+the true-*.json files are the correct schemas describing the primitives; there's current issues with the schema, so I've put these here until the schema gets fixed and they validate correctly

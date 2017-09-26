@@ -1,14 +1,14 @@
 {
-  "id": "84354330-9277-383f-8ffc-a9458173ef47",
-  "name": "realML.kernel.RFMPreconditionedPolynomialKRR",
-  "common_name": "RFMPreconditionedPolynomialKRR",
-  "description": "Polynomial kernel ridge regression using a randomized preconditioner",
+  "id": "7edb3c46-fbed-35fa-a621-e1af39375c6b",
+  "name": "realML.kernel.RFMPreconditionedGaussianKRR",
+  "common_name": "RFMPreconditionedGaussianKRR",
+  "description": "Gaussian kernel ridge regression using a randomized preconditioner.",
   "languages": [
     "python3.5"
   ],
   "library": "RealML",
   "version": "0.1.1",
-  "source_code": "http://github.com/alexgittens/realML/kernel/rfmpreconditionedpolynomialkrr.py",
+  "source_code": "http://github.com/alexgittens/realML/kernel/rfmpreconditionedgaussiankrr.py",
   "is_class": true,
   "parameters": [
     {
@@ -17,37 +17,25 @@
       "name": "lparam",
       "description": "the regularization for the KRR",
       "optional": false,
-      "default": "0.001"
-    },
-    {
-      "is_hyperparameter": true,
-      "type": "int",
-      "name": "degree",
-      "description": "the degree of the polynomial fit",
-      "optional": false,
-      "default": "3"
+      "default": "0.001",
+      "range": [1e-4, 1e2],
+      "kind": "log"
     },
     {
       "is_hyperparameter": true,
       "type": "float",
-      "name": "offset",
-      "description": "the bias inside the polynomial kernel",
+      "name": "sigma",
+      "description": "the bandwidth parameter for the KRR",
       "optional": false,
-      "default": "1.0"
-    },
-    {
-      "is_hyperparameter": true,
-      "type": "float",
-      "name": "sf",
-      "description": "how much to scale the inner-products by in the polynomial kernel",
-      "optional": false,
-      "default": "1.0"
+      "default": "1.0",
+      "range": [1e-4, 1e2],
+      "kind": "log"
     },
     {
       "is_hyperparameter": false,
       "type": "float",
       "name": "eps",
-      "description": "termination tolerance in solve",
+      "description": "the termination tolerance for solves",
       "optional": true
     }
   ],
