@@ -17,7 +17,9 @@
       "name": "lparam",
       "description": "the regularization for the KRR",
       "optional": false,
-      "default": "0.001"
+      "default": "0.001",
+      "range": [1e-4, 1e2],
+      "kind": "log"
     },
     {
       "is_hyperparameter": true,
@@ -25,7 +27,9 @@
       "name": "degree",
       "description": "the degree of the polynomial fit",
       "optional": false,
-      "default": "3"
+      "default": "3",
+      "range": [1, 6],
+      "kind": "uniform"
     },
     {
       "is_hyperparameter": true,
@@ -33,7 +37,9 @@
       "name": "offset",
       "description": "the bias inside the polynomial kernel",
       "optional": false,
-      "default": "1.0"
+      "default": "1.0",
+      "range": [1e-4, 1e2],
+      "kind": "log"
     },
     {
       "is_hyperparameter": true,
@@ -41,7 +47,9 @@
       "name": "sf",
       "description": "how much to scale the inner-products by in the polynomial kernel",
       "optional": false,
-      "default": "1.0"
+      "default": "1.0",
+      "range": [1e-4, 1e2],
+      "kind": "log"
     },
     {
       "is_hyperparameter": false,

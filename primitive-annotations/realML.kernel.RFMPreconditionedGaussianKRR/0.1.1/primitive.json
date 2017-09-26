@@ -17,7 +17,9 @@
       "name": "lparam",
       "description": "the regularization for the KRR",
       "optional": false,
-      "default": "0.001"
+      "default": "0.001",
+      "range": [1e-4, 1e2],
+      "kind": "log"
     },
     {
       "is_hyperparameter": true,
@@ -25,7 +27,9 @@
       "name": "sigma",
       "description": "the bandwidth parameter for the KRR",
       "optional": false,
-      "default": "1.0"
+      "default": "1.0",
+      "range": [1e-4, 1e2],
+      "kind": "log"
     },
     {
       "is_hyperparameter": false,
