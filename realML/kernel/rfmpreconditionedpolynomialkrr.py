@@ -2,10 +2,12 @@ from typing import *
 from primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
 from sklearn.metrics.pairwise import polynomial_kernel
 import scipy.sparse.linalg
+from scipy.linalg.lapack import dpotrf
 from numpy.fft import fft, ifft
 import numpy as np
 import numpy.random
 import numpy.linalg 
+import warnings
 
 Input=np.ndarray
 Output=np.ndarray
@@ -30,6 +32,8 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Input, Outpu
         alphahat = argmin ||K alpha - y||_F^2 + lambda ||alpha||_F^2 
     predictions are then formed by 
         ypred = K(trainingData, x) alphahat
+
+    Warning: the data should be normalized (e.g. have every row of X be very low l2 norm), or numerical issues will arise when the degree is greater than 2
     """
 
     def __init__(self, *, lparam: float = None, degree: int = 3, offset: float = 1.0, sf: float = None, eps: float = 1e-05) -> None:
@@ -160,11 +164,13 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Input, Outpu
                 C[rows[col], col] = signs[col]
             Z = Z * fft(C.dot(augXt), axis=0)
         Z = ifft(Z, axis=0).real.transpose()
-        L = scipy.linalg.cholesky(Z.transpose().dot(Z) + self.lparam*np.identity(self.s))
+        #K = self.kernel(X, X)
+        #print(numpy.linalg.norm(K), numpy.linalg.norm(Z.dot(Z.transpose())))
+
+        precondMat = Z.transpose().dot(Z) + self.lparam*np.identity(self.s)
+        L = dpotrf(precondMat)[0].transpose()
         self.U = numpy.linalg.solve(L, Z.transpose())
 
-        K = self.kernel(X, X)
-        print(numpy.linalg.norm(K), numpy.linalg.norm(Z.dot(Z.transpose())))
 
     def set_params(self, *, params: Params) -> None:
         pass

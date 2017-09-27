@@ -2,7 +2,7 @@
   "id": "7edb3c46-fbed-35fa-a621-e1af39375c6b",
   "name": "realML.kernel.RFMPreconditionedGaussianKRR",
   "common_name": "RFMPreconditionedGaussianKRR",
-  "description": "Gaussian kernel ridge regression using a randomized preconditioner.",
+  "description": "Gaussian RBF kernel ridge regression (l2 regularized) using a randomized preconditioner. Allows multitarget regression",
   "languages": [
     "python3.5"
   ],
@@ -15,7 +15,7 @@
       "is_hyperparameter": true,
       "type": "float",
       "name": "lparam",
-      "description": "the regularization for the KRR",
+      "description": "the l2 regularization parameter for the KRR",
       "optional": false,
       "default": "0.001",
       "range": [1e-4, 1e2],

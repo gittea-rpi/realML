@@ -2,7 +2,7 @@
     "id": "b93b50fe-562b-3dd3-bff3-ae623ea042ac",
     "name": "realML.matrix.SDR",
     "common_name": "SDR",
-    "description": "Sufficient Dimensionality Reduction. This algorithm computes a nonlinear dimensionality reduction appropriate for finding embeddings by exploiting co-occurrence statistics. This implementation uses random features to compute an unbiased gradient estimate.",
+    "description": "Sufficient Dimensionality Reduction for featurization.  This primitive computes a nonlinear dimensionality reduction appropriate for finding embeddings by exploiting co-occurrence statistics. Given observations in a matrix G, computes row embedding matrix U and column embedding matrix V so that G is proportional to G=e^{UV^T} (exponent computed pointwise) --- uses the KL divergence as the objective. Expects G to be a sparse matrix of observations, with at least one entry in each row and in each column. The primitive uses random features to compute an unbiased gradient estimate, and applies Adagrad.",
     "languages": [
         "python3.5"
     ],

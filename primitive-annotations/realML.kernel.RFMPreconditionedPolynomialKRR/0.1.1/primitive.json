@@ -2,7 +2,7 @@
   "id": "84354330-9277-383f-8ffc-a9458173ef47",
   "name": "realML.kernel.RFMPreconditionedPolynomialKRR",
   "common_name": "RFMPreconditionedPolynomialKRR",
-  "description": "Polynomial kernel ridge regression using a randomized preconditioner",
+  "description": "Polynomial kernel ridge regression (l2 regularized) using a randomized preconditioner. Allows multitarget regression",
   "languages": [
     "python3.5"
   ],
@@ -15,7 +15,7 @@
       "is_hyperparameter": true,
       "type": "float",
       "name": "lparam",
-      "description": "the regularization for the KRR",
+      "description": "the l2 regularization parameter for the KRR",
       "optional": false,
       "default": "0.001",
       "range": [1e-4, 1e2],
