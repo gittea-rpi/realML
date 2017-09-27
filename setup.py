@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name="realML",
-      version="0.1.1",
+      version="0.1.2",
       description="ICSI provided machine learning primitives for DARPA D3M project",
       url="http://github.com/alexgittens/realML",
       author="Alex Gittens",
