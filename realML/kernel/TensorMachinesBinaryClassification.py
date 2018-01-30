@@ -68,8 +68,7 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
         'installation': [
             {
                 'type': metadata_module.PrimitiveInstallationType.PIP,
-                'package_uri': 'git+https://github.com/alexgittens/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__))),
-                'version': __version__
+                'package_uri': 'git+https://github.com/alexgittens/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
             }
         ],
         'location_uris': [ # NEED TO REF SPECIFIC COMMIT
