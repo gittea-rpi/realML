@@ -1,8 +1,13 @@
 from setuptools import setup, find_packages
 
 setup(name="realML",
-      version="0.1.2",
+      version="0.2",
       description="ICSI provided machine learning primitives for DARPA D3M project",
+      entry_points={
+          'd3m.primitives' : [
+              'realML.kernel.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification'
+          ],
+      },
       url="http://github.com/alexgittens/realML",
       author="Alex Gittens",
       author_email="gittea@rpi.edu",
@@ -15,10 +20,10 @@ setup(name="realML",
                    'Programming Language :: Python :: 3.4',
                    'Programming Language :: Python :: 3.5',
                    ],
-      keywords=['machine learning', 'regression', 'dimensionality reduction', 'low rank factorization', 'featurization', 'sufficient dimensionality reduction', 'kernel methods'],
+      keywords=['d3m_primitive', 'machine learning', 'regression', 'dimensionality reduction', 'low rank factorization', 'featurization', 'sufficient dimensionality reduction', 'kernel methods'],
       install_requires=[
-          'numpy>=1.12.0',
-          'scipy>=0.18.1',
+          'numpy>=1.14.0',
+          'scipy>=0.13.3',
           'scikit-learn>=0.18.1'
       ],
       packages=find_packages(),
