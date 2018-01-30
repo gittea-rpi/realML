@@ -51,7 +51,7 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
         'version': __version__,
         'name': 'Tensor Machine Binary Classifier',
         'description': 'Fit a polynomial function for logistic regression by modeling the polynomial coefficients as collection of low-rank tensors',
-        'python_path': 'd3m.primitives.realML.kernel.TensorMachineBinaryClassification',
+        'python_path': 'd3m.primitives.realML.kernel.TensorMachinesBinaryClassification',
         'primitive_family': metadata_module.PrimitiveFamily.CLASSIFICATION,
         'algorithm_types' : [
             metadata_module.PrimitiveAlgorithmType.LOGISTIC_REGRESSION,
