@@ -5,7 +5,10 @@ setup(name="realML",
       description="ICSI provided machine learning primitives for DARPA D3M project",
       entry_points={
           'd3m.primitives' : [
-              'realML.kernel.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification'
+              'realML.kernel.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
+              'realML.kernel.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares'
+              'realML.kernel.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR'
+              'realML.kernel.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR'
           ],
       },
       url="http://github.com/alexgittens/realML",

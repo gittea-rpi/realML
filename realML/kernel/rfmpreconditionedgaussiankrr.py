@@ -1,25 +1,48 @@
-from typing import *
-from primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
-from sklearn.metrics.pairwise import rbf_kernel
-import scipy.sparse.linalg
+import typing
+from typing import Any, List, Dict, Union, Optional, Sequence
+from collections import OrderedDict
+from numpy import ndarray
+import os
+
 import numpy as np
-import numpy.random
-import numpy.linalg 
+from sklearn.metrics.pairwise import polynomial_kernel
+import scipy.sparse.linalg
+import numpy.linalg
 
-Input=np.ndarray
-Output=np.ndarray
-Params= NamedTuple('Params', [])
+from .preconditionedKRR import *
 
-__all__ = ('RFMPreconditionedGaussianKRR')
+from d3m_metadata.container.numpy import ndarray as d3m_ndarray
+from d3m_metadata import hyperparams, params, metadata as metadata_module, utils
+from primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
+from primitive_interfaces.base import CallResult
 
-class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Input, Output, Params]):
+from . import __author__, __version__
+
+Inputs = d3m_ndarray
+Outputs = d3m_ndarray
+
+class Params(params.Params):
+    exemplars: Optional[ndarray] 
+    coeffs : Optional[ndarray]
+
+class Hyperparams(hyperparams.Hyperparams):
+    # search over these hyperparameters to tune performance
+    lparam = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, description="l2 regularization to use for the kernel regression", 
+                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    sigma = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, description="bandwidth (sigma) parameter for the kernel regression", 
+                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+
+    # control parameters determined once during pipeline building then fixed
+    eps = hyperparams.LogUniform(default=1e-3, lower=1e-14, upper=1e-2, description="relative error stopping tolerance for PCG solver", 
+                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'])
+    maxIters = hyperparams.UniformInt(default=200, lower=50, upper=500, description="maximum iterations of PCG", 
+                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+
+# TO DO: normalize the objective so lparam and sigma don't need a data-dependent range!
+class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Performs gaussian kernel regression using a random feature map to precondition the
-    problem for faster convergence: takes
-    - data X
-    - targets y 
-    - regularization parameter lambda
-    - bandwidth parameter sigma,
+    problem for faster convergence:
     forms the kernel 
         K_{ij} = exp(-||x_i - x_j||^2/(2sigma^2)) 
     and solves 
@@ -28,119 +51,113 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Input, Output,
         ypred = K(trainingData, x) alphahat
     """
 
-    def __init__(self, *, lparam: float = 1, sigma: float = None , eps: float = 1e-05) -> None:
+    __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
+    metadata = metadata_module.PrimitiveMetadata({
+        'id': '511c3536-2fff-369a-b81d-96755ff5b81b',
+        'version': __version__,
+        'name': 'RFM Preconditioned Gaussian Kernel Ridge Regression',
+        'description': 'Gaussian regression using random fourier features as a preconditioner for faster solves',
+        'python_path': 'd3m.primitives.realML.kernel.RFMPreconditionedGaussianKRR',
+        'primitive_family': metadata_module.PrimitiveFamily.REGRESSION,
+        'algorithm_types' : [
+            metadata_module.PrimitiveAlgorithmType.KERNEL_METHOD
+        ],
+        'keywords' : ['kernel learning', 'kernel ridge regression', 'preconditioned CG', 'Gaussian', 'RBF', 'regression'],
+        'source' : {
+            'name': __author__,
+            'contact': 'mailto:gittea@rpi.edu',
+            'uris' : [
+                "http://https://github.com/alexgittens/realML.git",
+            ],
+        },
+        'installation': [
+            {
+                'type': metadata_module.PrimitiveInstallationType.PIP,
+                'package_uri': 'git+https://github.com/alexgittens/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
+            }
+        ],
+        'location_uris': [ # NEED TO REF SPECIFIC COMMIT
+            'https://github.com/alexgittens/realML/blob/master/realML/kernel/RFMPreconditionedGaussianKRR.py',
+            ],
+        'preconditions': [
+            metadata_module.PrimitivePrecondition.NO_MISSING_VALUES,
+            metadata_module.PrimitivePrecondition.NO_CATEGORICAL_VALUES
+        ],
+    })
+
+    def __init__(self, *, 
+                 hyperparams : Hyperparams,
+                 random_seed: int = 0,
+                 docker_containers : Dict[str, str] = None) -> None:
         """
         Initializes the preconditioned gaussian kernel ridge regression primitive.
-
-        Inputs:
-            lparam: numeric, the regularization parameter. if None, chooses lambda to be 1/sqrt(numsamples)
-            sigma: numeric. bandwidth sigma for the kernel. if None or 0, chooses sigma to be sqrt(numfeatures/2) to match sklearn
-            eps: numeric. termination accuracy
         """
-        self.lparam = lparam + 0.0
-        self.sigma = sigma 
-        self.eps = eps + 0.0
-        self.maxIters = None
+        super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
+
+        self._seed = random_seed
+        self._Xtrain = None
+        self._ytrain = None
+        self._fitted = False
+        np.random.seed(random_seed)
     
-    def set_training_data(self, *, inputs: Sequence[Input], outputs: Sequence[Output]) -> None:
+    def set_training_data(self, *, inputs: Inputs, outputs: Outputs) -> None:
         """
         Sets the training data:
             Input: array, shape = [n_samples, n_features]
             Output: array, shape = [n_samples, n_targets]
         Only uses one input and output
         """
-        self.Xtrain = inputs[0]
-        self.ytrain = outputs[0]
-        self.fitted = False
+        self._Xtrain = inputs
+        self._ytrain = outputs
 
-        maxPCGsize = 20000
+        maxPCGsize = 20000 # TODO: make a control hyperparameter for when to switch to GS
 
-        if len(self.ytrain.shape) == 1:
-            self.ytrain = np.expand_dims(self.ytrain, axis=1) 
+        if len(self._ytrain.shape) == 1:
+            self._ytrain = np.expand_dims(self._ytrain, axis=1) 
 
-        if self.Xtrain.shape[0] > maxPCGsize:
+        if self._Xtrain.shape[0] > maxPCGsize:
             print("need to implement Gauss-Siedel for large datasets; currently training with a smaller subset")
-            choices = np.random.choice(self.Xtrain.shape[0], size=maxPCGsize, replace=False)
-            self.Xtrain = self.Xtrain[choices, :] 
-            self.ytrain = self.ytrain[choices, :]
+            choices = np.random.choice(self._Xtrain.shape[0], size=maxPCGsize, replace=False)
+            self._Xtrain = self._Xtrain[choices, :] 
+            self._ytrain = self._ytrain[choices, :]
 
-        self.n, self.d = self.Xtrain.shape
-        if (self.lparam is None) or (self.lparam == 0):
-            self.lparam = 1/sqrt(self.n)
-        if (self.sigma is None) or (self.sigma == 0):
-            self.sigma = sqrt(self.d/2)
-        else:
-            self.sigma = self.sigma + 0.0
+        self._n, self._d = self._Xtrain.shape
+        self._fitted = False
 
-
-    def fit(self, *, timeout: float = None, iterations: int = None) -> None:
+    def fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
         """
         Learns the kernel regression coefficients alpha given training pairs (X,y)
         """
-        if (iterations is not None):
-            self.maxIters = iterations
-        self.generatePreconditioner(self.Xtrain)
-        self.PCGfit(self.Xtrain, self.ytrain)
+        if self._fitted:
+            return CallResult(None)
 
-    def produce(self, *, inputs: Sequence[Input], timeout: float = None, iterations: int = None) -> Sequence[Output]:
+        if self._Xtrain is None or self._ytrain is None:
+            raise ValueError("Missing training data.")
+
+        self._U = generateGaussianPreconditioner(self._Xtrain, self.hyperparams['sigma'],
+                                                 self.hyperparams['lparam'])
+        def mykernel(X, Y):
+            return GaussianKernel(X, Y, self.hyperparams['sigma'])
+        self._coeffs = PCGfit(self.X_train, mykernel, self._U, self.hyperparams['lparam'],
+                              self.hyperparams['eps'], self.hyperparams['maxIters'])
+        self._fitted = True
+
+        return CallResult(None)
+
+    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
         """
         Predict the value for each sample in X
 
         Inputs:
-            X: array or sparse matrix of shape [n_samples, n_features]
+            X: array of shape [n_samples, n_features]
         Outputs:
             y: array of shape [n_samples, n_targets]
         """
-        return [self.kernel(X, self.Xtrain).dot(self.alpha) for X in inputs]
-
-    def PCGfit(self, X, y):
-        n, d = X.shape
-        _, t = y.shape
-
-        Kreg = self.kernel(X, X) + self.lparam*np.eye(n)
-        self.alpha = np.zeros((n, t))
-
-        def approxInverse(v):
-            return 1/self.lparam*(v - self.U.transpose().dot(self.U.dot(v)))
-        rfmPrecond = scipy.sparse.linalg.LinearOperator((self.n,self.n), matvec=approxInverse)
-
-        itercount = [0]
-        def count(v):
-            itercount[0] += 1
-
-        for tdim in range(t):
-            x, info = scipy.sparse.linalg.cg(Kreg, y[:, tdim], tol=self.eps, maxiter=self.maxIters, M=rfmPrecond, callback = count)
-            #print "iters for precond:", itercount[0]
-            #itercount[0] = 0
-            #x, info = scipy.sparse.linalg.cg(Kreg, y[:, tdim], tol=self.eps, maxiter=self.maxIters, callback = count)
-            #print "iters for nonprecond:", itercount[0]
-            self.alpha[:, tdim] = x
-
-    def kernel(self, Xrows, Xcols):
-        """
-        Computes the Gaussian kernel matrix K_{ij} = exp(-||xrows_i - xcols_j||_2^2/(2sigma^2))
-
-        Inputs:
-            Xrows: array [n_samples_row, n_features]
-            Xcols: array [n_samples_col, n_features]
-
-        Output:
-            K: array of kernel evaluations [n_samples_row, n_samples_col]
-        """
-        return rbf_kernel(Xrows, Xcols, gamma=1/(2*self.sigma**2))
-
-    def findStableRank(self, X):
-        # TODO: implement one or both estimators from Woodruff's work
-        return 2*max(150, self.d)
-
-    def generatePreconditioner(self, X):
-        self.s = self.findStableRank(X)
-        Z = np.sqrt(2.0/self.s)*np.cos(X.dot(np.random.randn(self.d, self.s))/self.sigma + 2*np.pi*np.random.rand(1,self.s))
-        L = scipy.linalg.cholesky(Z.transpose().dot(Z) + self.lparam*np.identity(self.s))
-        self.U = numpy.linalg.solve(L, Z.transpose())
+        return CallResult(GaussianKernel(inputs, self._Xtrain, self.hyperparams['sigma']).dot(self._coeffs))
 
     def set_params(self, *, params: Params) -> None:
-        pass
+        self._Xtrain = params['exemplars']
+        self._coeffs = params['coeffs']
 
     def get_params(self) -> Params:
-        return NamedTuple('Params', [])
+        return Params(exemplars=self._Xtrain, coeffs=self._coeffs)

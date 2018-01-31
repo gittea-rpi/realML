@@ -1,8 +1,8 @@
 import typing
 from typing import Any, List, Dict, Union, Optional, Sequence
 from collections import OrderedDict
-from numpy import ndarray, sign
-import os
+from numpy import ndarray
+import os, sklearn
 from .tensormachines import tm_fit, tm_predict, tm_preprocess
 
 from d3m_metadata.container.numpy import ndarray as d3m_ndarray
@@ -40,24 +40,25 @@ class Hyperparams(hyperparams.Hyperparams):
                              description="whether to use a preprocessing that tends to work well for tensor machines", 
                              semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'])
 
-class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
-    Learns a polynomial function using logistic regression for binary classification by modeling the polynomial's coefficients as low-rank tensors.
-    Meant as a faster, more scalable alternative to polynomial random feature map approaches like CRAFTMaps.
+    Fits an l2-regularized least squares polynomial regression model by modeling the coefficients of the polynomial with a low-rank tensor. Intended
+    as a scalable alternative to polynomial random feature maps like CRAFTMaps.
     """
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
     metadata = metadata_module.PrimitiveMetadata({
-        'id': 'ecc83605-d340-490d-9a2d-81c2ea6cb6cb', #uuid3(NAMESPACE_DNS, "realML.kernel.TensorMachineBinaryClassification" + __version__),
+        'id': '2d8155bb-3ca8-39de-8964-adb21225868e',
         'version': __version__,
-        'name': 'Tensor Machine Binary Classifier',
-        'description': 'Fit a polynomial function for logistic regression by modeling the polynomial coefficients as collection of low-rank tensors',
-        'python_path': 'd3m.primitives.realML.kernel.TensorMachinesBinaryClassification',
-        'primitive_family': metadata_module.PrimitiveFamily.CLASSIFICATION,
+        'name': 'Tensor Machine Regularized Least Squares',
+        'description': 'Fit a polynomial function for l2-regularized regression by modeling the polynomial coefficients as collection of low-rank tensors',
+        'python_path': 'd3m.primitives.realML.kernel.TensorMachinesRegularizedLeastSquares',
+        'primitive_family': metadata_module.PrimitiveFamily.REGRESSION,
         'algorithm_types' : [
-            metadata_module.PrimitiveAlgorithmType.LOGISTIC_REGRESSION,
+            metadata_module.PrimitiveAlgorithmType.KERNEL_METHOD,
+            metadata_module.PrimitiveAlgorithmType.POLYNOMIAL_NEURAL_NETWORK
         ],
-        'keywords' : ['kernel learning', 'binary classification', 'adaptive features', 'polynomial model', 'classification'],
+        'keywords' : ['kernel learning', 'polynomial regression', 'adaptive features', 'polynomial model', 'regression'],
         'source' : {
             'name': __author__,
             'contact': 'mailto:gittea@rpi.edu',
@@ -73,7 +74,7 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
             }
         ],
         'location_uris': [ # NEED TO REF SPECIFIC COMMIT
-            'https://github.com/alexgittens/realML/blob/master/realML/kernel/TensorMachinesBinaryClassification.py',
+            'https://github.com/alexgittens/realML/blob/master/realML/kernel/TensorMachinesRegularizedLeastSquares.py',
             ],
         'preconditions': [
             metadata_module.PrimitivePrecondition.NO_MISSING_VALUES,
@@ -111,7 +112,7 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
         if self._training_inputs is None or self._training_outputs is None:
             raise ValueError("Missing training data.")
 
-        (self._weights, _) = tm_fit(self._training_inputs, self._training_outputs, 'bc', self.hyperparams['r'],
+        (self._weights, _) = tm_fit(self._training_inputs, self._training_outputs, 'regression', self.hyperparams['r'],
            self.hyperparams['q'], self.hyperparams['gamma'], self.hyperparams['solver'],
            self.hyperparams['epochs'], self.hyperparams['alpha'], seed=self._seed)
 
@@ -124,8 +125,8 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
             inputs = tm_preprocess(inputs, colnorms=self._norms)
 
         pred_test = tm_predict(self._weights, inputs, self.hyperparams['q'],
-                                     self.hyperparams['r'], 'bc')
-        return CallResult(sign(pred_test).astype(int))
+                               self.hyperparams['r'], 'regression')
+        return CallResult(pred_test)
 
     def get_params(self) -> Params:
         return Params(weights=self._weights, norms=self._norms)

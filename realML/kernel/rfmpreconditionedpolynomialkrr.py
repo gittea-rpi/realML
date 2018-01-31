@@ -1,31 +1,51 @@
-from typing import *
-from primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
-from sklearn.metrics.pairwise import polynomial_kernel
-import scipy.sparse.linalg
-from scipy.linalg.lapack import dpotrf
-from numpy.fft import fft, ifft
+import typing
+from typing import Any, List, Dict, Union, Optional, Sequence
+from collections import OrderedDict
+from numpy import ndarray
+import os
+
 import numpy as np
-import numpy.random
-import numpy.linalg 
-import warnings
+import scipy.sparse.linalg
+import numpy.linalg
 
-Input=np.ndarray
-Output=np.ndarray
-Params = NamedTuple('Params', [ ])
+from .preconditionedKRR import *
 
+from d3m_metadata.container.numpy import ndarray as d3m_ndarray
+from d3m_metadata import hyperparams, params, metadata as metadata_module, utils
+from primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
+from primitive_interfaces.base import CallResult
 
-__all__ = ('RFMPreconditionedPolynomialKRR')
+from . import __author__, __version__
 
-class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Input, Output, Params]):
+Inputs = d3m_ndarray
+Outputs = d3m_ndarray
+
+class Params(params.Params):
+    exemplars: Optional[ndarray] 
+    coeffs : Optional[ndarray]
+
+class Hyperparams(hyperparams.Hyperparams):
+    # search over these hyperparameters to tune performance
+    lparam = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, description="l2 regularization to use on the regression",
+                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    degree = hyperparams.UniformInt(default=3, lower=2, upper=9, description="degree of the polynomial to fit",
+                               semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    offset = hyperparams.LogUniform(default=.1, lower=.001, upper=2, description="value of constant feature to use in the regression",
+                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    sf = hyperparams.LogUniform(default=.01, lower=.00001, upper=1, description="scale factor to use in the regression",
+                               semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+
+    # control parameters determined once during pipeline building then fixed
+    eps = hyperparams.LogUniform(default=1e-3, lower=1e-14, upper=1e-2, description="relative error stopping tolerance for PCG solver", 
+                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'])
+    maxIters = hyperparams.UniformInt(default=200, lower=50, upper=500, description="maximum iterations of PCG", 
+                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+
+# TODO: Normalize problem being solved so lparam etc easy to cross validate over fixed range regardless of amount of training data
+class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
-    Performs polynomial kernel regression using a random feature map to precondition the
-    problem for faster convergence: takes
-    - data X
-    - targets y 
-    - regularization parameter lambda
-    - scaling parameter sf
-    - offset parameter offset
-    - degree parameter degree,
+    Performs polynomial kernel regression using a TensorSketch polynomial random feature map to precondition the
+    problem for faster convergence: 
     forms the kernel 
         K_{ij} = (sf<x,y>+offset)^degree
     and solves 
@@ -36,144 +56,119 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Input, Outpu
     Warning: the data should be normalized (e.g. have every row of X be very low l2 norm), or numerical issues will arise when the degree is greater than 2
     """
 
-    def __init__(self, *, lparam: float = None, degree: int = 3, offset: float = 1.0, sf: float = None, eps: float = 1e-05) -> None:
-        """
-        Initializes the preconditioned gaussian kernel ridge regression primitive.
+    __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
+    metadata = metadata_module.PrimitiveMetadata({
+        'id': 'c75c72d7-6082-37db-b871-407b245c1a14',
+        'version': __version__,
+        'name': 'RFM Preconditioned Polynomial Kernel Ridge Regression',
+        'description': 'Polynomial regression using random polynomial features as a preconditioner for faster solves',
+        'python_path': 'd3m.primitives.realML.kernel.RFMPreconditionedPolynomialKRR',
+        'primitive_family': metadata_module.PrimitiveFamily.REGRESSION,
+        'algorithm_types' : [
+            metadata_module.PrimitiveAlgorithmType.KERNEL_METHOD
+        ],
+        'keywords' : ['kernel learning', 'kernel ridge regression', 'preconditioned CG', 'polynomial', 'regression'],
+        'source' : {
+            'name': __author__,
+            'contact': 'mailto:gittea@rpi.edu',
+            'uris' : [
+                "http://https://github.com/alexgittens/realML.git",
+            ],
+        },
+        'installation': [
+            {
+                'type': metadata_module.PrimitiveInstallationType.PIP,
+                'package_uri': 'git+https://github.com/alexgittens/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
+            }
+        ],
+        'location_uris': [ # NEED TO REF SPECIFIC COMMIT
+            'https://github.com/alexgittens/realML/blob/master/realML/kernel/RFMPreconditionedPolynomialKRR.py',
+            ],
+        'preconditions': [
+            metadata_module.PrimitivePrecondition.NO_MISSING_VALUES,
+            metadata_module.PrimitivePrecondition.NO_CATEGORICAL_VALUES
+        ],
+    })
 
-        Inputs:
-            lparam: numeric, the regularization parameter. if None, chooses lambda to be 1/sqrt(numsamples)
-            degree: integer. degree of the polynomial. if None, choooses to be 3
-            offset: numeric. offset parameter for the kernel. if None, chooses offset to be 1
-            sf: numeric. scaling factor for the kernel. if None, chooses sf to be 1/numfeatures
-            eps: numeric. termination accuracy
+    def __init__(self, *, 
+                 hyperparams : Hyperparams,
+                 random_seed: int = 0,
+                 docker_containers : Dict[str, str] = None) -> None:
         """
-        self.lparam = lparam 
-        self.degree = degree
-        self.offset = offset + 0.0
-        self.sf = sf
-        self.eps = eps + 0.0
-        self.maxIters = None
+        Initializes the preconditioned polynomial kernel ridge regression primitive.
+        """
+        super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
+
+        self._seed = random_seed
+        np.random.seed(random_seed)
+
+        self._Xtrain = None
+        self._ytrain = None
+        self._fitted = False
     
-    def set_training_data(self, *, inputs: Sequence[Input], outputs: Sequence[Output]) -> None:
+    def set_training_data(self, *, inputs: Inputs, outputs: Outputs) -> None:
         """
         Sets the training data:
             Input: array, shape = [n_samples, n_features]
             Output: array, shape = [n_samples, n_targets]
         Only uses one input and output
         """
-        self.Xtrain = inputs[0]
-        self.ytrain = outputs[0]
-        self.fitted = False
+        self._Xtrain = inputs
+        self._ytrain = outputs
+        self._fitted = False
 
-        maxPCGsize = 20000
+        maxPCGsize = 20000 # TODO: make a control hyperparameter for when to switch to GS
 
-        if len(self.ytrain.shape) == 1:
-            self.ytrain = np.expand_dims(self.ytrain, axis=1) 
+        if len(self._ytrain.shape) == 1:
+            self._ytrain = np.expand_dims(self._ytrain, axis=1) 
 
-        if self.Xtrain.shape[0] > maxPCGsize:
+        if self._Xtrain.shape[0] > maxPCGsize:
             print("need to implement Gauss-Siedel for large datasets; currently training with a smaller subset")
-            choices = np.random.choice(self.Xtrain.shape[0], size=maxPCGsize, replace=False)
-            self.Xtrain = self.Xtrain[choices, :] 
-            self.ytrain = self.ytrain[choices, :]
+            choices = np.random.choice(self._Xtrain.shape[0], size=maxPCGsize, replace=False)
+            self._Xtrain = self._Xtrain[choices, :] 
+            self._ytrain = self._ytrain[choices, :]
 
-        self.n, self.d = self.Xtrain.shape
-        if (self.lparam is None) or (self.lparam == 0):
-            self.lparam = 1/sqrt(self.n)
-        if (self.sf is None):
-            self.sf = 1.0/self.d
-        if (self.offset is None):
-            self.offset = 1
-        if (self.degree is None):
-            self.degree = 3
+        self._n, self._d = self._Xtrain.shape
+        self._fitted = False
 
-    def fit(self, *, timeout: float = None, iterations: int = None) -> None:
+    def fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
         """
         Learns the kernel regression coefficients alpha given training pairs (X,y)
         """
-        if (iterations is not None):
-            self.maxIters = iterations
-        self.generatePreconditioner(self.Xtrain)
-        self.PCGfit(self.Xtrain, self.ytrain)
+        if self._fitted:
+            return CallResult(None)
 
-    def produce(self, *, inputs: Sequence[Input], timeout: float = None, iterations: int = None) -> Sequence[Output]:
+        if self._Xtrain is None or self._ytrain is None:
+            raise ValueError("Missing training data.")
+
+        self._U = generatePolynomialPreconditioner(self._Xtrain, self.hyperparams['sf'],
+                                                   self.hyperparams['offset'], self.hyperparams['degree'],
+                                                   self.hyperparams['lparam'])
+        def mykernel(X, Y):
+            return PolynomialKernel(X, Y, self.hyperparams['sf'], self.hyperparams['offset'], 
+                                    self.hyperparams['degree'])
+        self._coeffs = self.PCGfit(self._Xtrain, self._ytrain, mykernel, self._U, 
+                    self.hyperparams['lparam'], self.hyperparams['eps'],
+                    self.hyperparams['maxIters'])
+        self._fitted = True
+
+        return CallResult(None)
+
+    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
         """
         Predict the value for each sample in X
 
         Inputs:
-            X: array or sparse matrix of shape [n_samples, n_features]
+            X: array of shape [n_samples, n_features]
         Outputs:
             y: array of shape [n_samples, n_targets]
         """
-        return [self.kernel(X, self.Xtrain).dot(self.alpha) for X in inputs]
-
-    def PCGfit(self, X, y):
-        n, d = X.shape
-        _, t = y.shape
-
-        Kreg = self.kernel(X, X) + self.lparam*np.eye(n)
-        self.alpha = np.zeros((n, t))
-
-        def approxInverse(v):
-            return 1/self.lparam*(v - self.U.transpose().dot(self.U.dot(v)))
-        rfmPrecond = scipy.sparse.linalg.LinearOperator((self.n,self.n), matvec=approxInverse)
-
-        itercount = [0]
-        def count(v):
-            itercount[0] += 1
-
-        for tdim in range(t):
-            x, info = scipy.sparse.linalg.cg(Kreg, y[:, tdim], tol=self.eps, maxiter=self.maxIters, M=rfmPrecond, callback = count)
-            #print "iters for precond:", itercount[0]
-            #itercount[0] = 0
-            #x, info = scipy.sparse.linalg.cg(Kreg, y[:, tdim], tol=self.eps, maxiter=self.maxIters, callback = count)
-            #print "iters for nonprecond:", itercount[0]
-            self.alpha[:, tdim] = x
-
-    def kernel(self, Xrows, Xcols):
-        """
-        Computes the polynomial kernel matrix K_{ij} = (sf<x_i, x_j> + offset)^degree
-
-        Inputs:
-            Xrows: array [n_samples_row, n_features]
-            Xcols: array [n_samples_col, n_features]
-
-        Output:
-            K: array of kernel evaluations [n_samples_row, n_samples_col]
-        """
-        return polynomial_kernel(Xrows, Xcols, degree=self.degree, gamma=self.sf, coef0=self.offset)
-
-    def findStableRank(self, X):
-        # TODO implement, and return the stable rank or a reasonable smaller number
-        return 2*max(150, self.d)
-
-    def generatePreconditioner(self, X):
-        """
-        computes the preconditioner for a polynomial kernel using TensorSketch 
-        """
-        # TODO: use CraftMAps
-
-        self.s = self.findStableRank(X)
-
-        augXt = np.vstack((np.sqrt(self.sf)*X.transpose(), np.sqrt(self.offset)*np.ones((1, self.n))))
-        Z = np.ones((self.s, self.n))
-        for iter in range(self.degree):
-            C = np.zeros((self.s, self.d+1))
-            rows = numpy.random.choice(self.s, size=self.d+1, replace=True)
-            signs = numpy.random.choice([-1.0, 1.0], size=self.d+1, replace=True)
-            for col in range(self.d+1):
-                C[rows[col], col] = signs[col]
-            Z = Z * fft(C.dot(augXt), axis=0)
-        Z = ifft(Z, axis=0).real.transpose()
-        #K = self.kernel(X, X)
-        #print(numpy.linalg.norm(K), numpy.linalg.norm(Z.dot(Z.transpose())))
-
-        precondMat = Z.transpose().dot(Z) + self.lparam*np.identity(self.s)
-        L = dpotrf(precondMat)[0].transpose()
-        self.U = numpy.linalg.solve(L, Z.transpose())
-
+        return CallResult(PolynomialKernel(inputs, self._Xtrain, self.hyperparams['sf'],
+                self.hyperparams['offset'], self.hyperparams['degree']).dot(self._coeffs))
 
     def set_params(self, *, params: Params) -> None:
-        pass
+        self._Xtrain = params['exemplars']
+        self._coeffs = params['coeffs']
 
     def get_params(self) -> Params:
-        return NamedTuple('Params', [])
+        return Params(exemplars=self._Xtrain, coeffs=self._coeffs)
