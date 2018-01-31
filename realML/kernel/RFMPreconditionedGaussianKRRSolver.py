@@ -134,12 +134,12 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
         if self._Xtrain is None or self._ytrain is None:
             raise ValueError("Missing training data.")
 
-        self._U = generateGaussianPreconditioner(self._Xtrain, self.hyperparams()['sigma'],
-                                                 self.hyperparams()['lparam'])
+        self._U = generateGaussianPreconditioner(self._Xtrain, self.hyperparams['sigma'],
+                                                 self.hyperparams['lparam'])
         def mykernel(X, Y):
-            return GaussianKernel(X, Y, self.hyperparams()['sigma'])
-        self._coeffs = PCGfit(self.X_train, mykernel, self._U, self.hyperparams()['lparam'],
-                              self.hyperparams()['eps'], self.hyperparams()['maxIters'])
+            return GaussianKernel(X, Y, self.hyperparams['sigma'])
+        self._coeffs = PCGfit(self.X_train, mykernel, self._U, self.hyperparams['lparam'],
+                              self.hyperparams['eps'], self.hyperparams['maxIters'])
         self._fitted = True
 
         return CallResult(None)
@@ -153,7 +153,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
         Outputs:
             y: array of shape [n_samples, n_targets]
         """
-        return CallResult(GaussianKernel(inputs, self._Xtrain, self.hyperparams()['sigma']).dot(self._coeffs))
+        return CallResult(GaussianKernel(inputs, self._Xtrain, self.hyperparams['sigma']).dot(self._coeffs))
 
     def set_params(self, *, params: Params) -> None:
         self._Xtrain = params['exemplars']
