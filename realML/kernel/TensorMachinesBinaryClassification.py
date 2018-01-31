@@ -22,15 +22,15 @@ class Params(params.Params):
 
 class Hyperparams(hyperparams.Hyperparams):
     # search over these hyperparameters to tune performance
-    q = hyperparams.UniformInt(default=3, lower=2, upper=9, description="degree of the polynomial to be fit", 
+    q = hyperparams.UniformInt(default=3, lower=2, upper=10, description="degree of the polynomial to be fit", 
                                semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    r = hyperparams.UniformInt(default=5, lower=2, upper=10, description="rank of the coefficient tensors to be fit", 
+    r = hyperparams.UniformInt(default=5, lower=2, upper=30, description="rank of the coefficient tensors to be fit", 
                                semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
     gamma = hyperparams.LogUniform(default=.01, lower=.0001, upper=10, description="l2 regularization to use on the tensor low-rank factors", 
                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
     alpha = hyperparams.LogUniform(default=.1, lower=.001, upper=1, description="variance of the random initialization of the factors", 
                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    epochs = hyperparams.UniformInt(default=30, lower=15, upper=100, description="maximum iterations of LBFGS, or number of epochs of SFO", 
+    epochs = hyperparams.UniformInt(default=30, lower=1, upper=100, description="maximum iterations of LBFGS, or number of epochs of SFO", 
                                     semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
     # control parameters determined once during pipeline building then fixed
@@ -128,7 +128,7 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
 
         pred_test = tm_predict(self._weights, inputs, self.hyperparams['q'],
                                      self.hyperparams['r'], 'bc')
-        return CallResult(sign(pred_test).astype(int))
+        return CallResult(sign(pred_test.flatten()).astype(int))
 
     def get_params(self) -> Params:
         return Params(weights=self._weights, norms=self._norms)
