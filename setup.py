@@ -6,8 +6,8 @@ setup(name="realML",
       entry_points={
           'd3m.primitives' : [
               'realML.kernel.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
-              'realML.kernel.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares'
-              'realML.kernel.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR'
+              'realML.kernel.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
+              'realML.kernel.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
               'realML.kernel.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR'
           ],
       },
