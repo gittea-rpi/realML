@@ -141,15 +141,15 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
         if self._Xtrain is None or self._ytrain is None:
             raise ValueError("Missing training data.")
 
-        self._U = generatePolynomialPreconditioner(self._Xtrain, self.hyperparams['sf'],
-                                                   self.hyperparams['offset'], self.hyperparams['degree'],
-                                                   self.hyperparams['lparam'])
+        self._U = generatePolynomialPreconditioner(self._Xtrain, self.hyperparams()['sf'],
+                                                   self.hyperparams()['offset'], self.hyperparams()['degree'],
+                                                   self.hyperparams()['lparam'])
         def mykernel(X, Y):
-            return PolynomialKernel(X, Y, self.hyperparams['sf'], self.hyperparams['offset'], 
-                                    self.hyperparams['degree'])
+            return PolynomialKernel(X, Y, self.hyperparams()['sf'], self.hyperparams()['offset'], 
+                                    self.hyperparams()['degree'])
         self._coeffs = self.PCGfit(self._Xtrain, self._ytrain, mykernel, self._U, 
-                    self.hyperparams['lparam'], self.hyperparams['eps'],
-                    self.hyperparams['maxIters'])
+                    self.hyperparams()['lparam'], self.hyperparams()['eps'],
+                    self.hyperparams()['maxIters'])
         self._fitted = True
 
         return CallResult(None)
@@ -163,8 +163,8 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
         Outputs:
             y: array of shape [n_samples, n_targets]
         """
-        return CallResult(PolynomialKernel(inputs, self._Xtrain, self.hyperparams['sf'],
-                self.hyperparams['offset'], self.hyperparams['degree']).dot(self._coeffs))
+        return CallResult(PolynomialKernel(inputs, self._Xtrain, self.hyperparams()['sf'],
+                self.hyperparams()['offset'], self.hyperparams()['degree']).dot(self._coeffs))
 
     def set_params(self, *, params: Params) -> None:
         self._Xtrain = params['exemplars']

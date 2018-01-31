@@ -100,7 +100,7 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
         self._training_inputs = inputs
         self._training_outputs = outputs
 
-        if self.hyperparams['preprocess'] == 'YES':
+        if self.hyperparams()['preprocess'] == 'YES':
             (self._training_inputs, self._norms) = tm_preprocess(self._training_inputs)
 
         self._fitted = False
@@ -112,20 +112,20 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
         if self._training_inputs is None or self._training_outputs is None:
             raise ValueError("Missing training data.")
 
-        (self._weights, _) = tm_fit(self._training_inputs, self._training_outputs, 'regression', self.hyperparams['r'],
-           self.hyperparams['q'], self.hyperparams['gamma'], self.hyperparams['solver'],
-           self.hyperparams['epochs'], self.hyperparams['alpha'], seed=self._seed)
+        (self._weights, _) = tm_fit(self._training_inputs, self._training_outputs, 'regression', self.hyperparams()['r'],
+           self.hyperparams()['q'], self.hyperparams()['gamma'], self.hyperparams()['solver'],
+           self.hyperparams()['epochs'], self.hyperparams()['alpha'], seed=self._seed)
 
         self._fitted = True
 
         return CallResult(None)
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
-        if self.hyperparams['preprocess'] == 'YES':
+        if self.hyperparams()['preprocess'] == 'YES':
             inputs = tm_preprocess(inputs, colnorms=self._norms)
 
-        pred_test = tm_predict(self._weights, inputs, self.hyperparams['q'],
-                               self.hyperparams['r'], 'regression')
+        pred_test = tm_predict(self._weights, inputs, self.hyperparams()['q'],
+                               self.hyperparams()['r'], 'regression')
         return CallResult(pred_test)
 
     def get_params(self) -> Params:
