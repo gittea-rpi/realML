@@ -2,6 +2,6 @@ from pkg_resources import get_distribution
 __author__ = 'ICSI'
 __version__ = get_distribution('realML').version
 from .TensorMachinesBinaryClassification import TensorMachinesBinaryClassification
+from .RFMPreconditionedPolynomialKRRSolver import RFMPreconditionedPolynomialKRR
 from .TensorMachinesRegularizedLeastSquares import TensorMachinesRegularizedLeastSquares
 from .RFMPreconditionedGaussianKRRSolver import RFMPreconditionedGaussianKRR
-from .RFMPreconditionedPolynomialKRRSolver import RFMPreconditionedPolynomialKRR
