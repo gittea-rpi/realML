@@ -275,7 +275,6 @@ def tm_fit(X, y, type, r, q, gamma, solver, epochs, alpha, verbosity='minimal', 
     else:
         print("Enter a valid solver! scipy's LBFGS and SFO are supported so far")
 
-    print("Now predicting on training data")
     z = tm_predict(w0, X, q, r, type)
     return (w, z)
 

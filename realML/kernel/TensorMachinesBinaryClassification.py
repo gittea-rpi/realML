@@ -2,6 +2,7 @@ import typing
 from typing import Any, List, Dict, Union, Optional, Sequence
 from collections import OrderedDict
 from numpy import ndarray, sign
+import numpy as np
 import os
 from .tensormachines import tm_fit, tm_predict, tm_preprocess
 
@@ -99,7 +100,7 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
         self._training_inputs = inputs
         self._training_outputs = outputs
 
-        if self.hyperparams['preprocess'] == 'YES':
+        if self.hyperparams()['preprocess'] == 'YES':
             (self._training_inputs, self._norms) = tm_preprocess(self._training_inputs)
 
         self._fitted = False
@@ -111,20 +112,22 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
         if self._training_inputs is None or self._training_outputs is None:
             raise ValueError("Missing training data.")
 
-        (self._weights, _) = tm_fit(self._training_inputs, self._training_outputs, 'bc', self.hyperparams['r'],
-           self.hyperparams['q'], self.hyperparams['gamma'], self.hyperparams['solver'],
-           self.hyperparams['epochs'], self.hyperparams['alpha'], seed=self._seed)
+        if len(self._training_outputs.shape) == 1:
+            self._training_outputs = np.expand_dims(self._training_outputs, axis=1)
+        (self._weights, _) = tm_fit(self._training_inputs, self._training_outputs, 'bc', self.hyperparams()['r'],
+           self.hyperparams()['q'], self.hyperparams()['gamma'], self.hyperparams()['solver'],
+           self.hyperparams()['epochs'], self.hyperparams()['alpha'], seed=self._seed)
 
         self._fitted = True
 
         return CallResult(None)
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
-        if self.hyperparams['preprocess'] == 'YES':
+        if self.hyperparams()['preprocess'] == 'YES':
             inputs = tm_preprocess(inputs, colnorms=self._norms)
 
-        pred_test = tm_predict(self._weights, inputs, self.hyperparams['q'],
-                                     self.hyperparams['r'], 'bc')
+        pred_test = tm_predict(self._weights, inputs, self.hyperparams()['q'],
+                                     self.hyperparams()['r'], 'bc')
         return CallResult(sign(pred_test).astype(int))
 
     def get_params(self) -> Params:
