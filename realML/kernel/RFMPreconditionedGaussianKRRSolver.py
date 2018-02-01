@@ -33,7 +33,7 @@ class Hyperparams(hyperparams.Hyperparams):
                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
     # control parameters determined once during pipeline building then fixed
-    eps = hyperparams.LogUniform(default=1e-3, lower=1e-14, upper=1e-2, description="relative error stopping tolerance for PCG solver", 
+    eps = hyperparams.LogUniform(default=1e-4, lower=1e-14, upper=1e-2, description="relative error stopping tolerance for PCG solver", 
                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'])
     maxIters = hyperparams.UniformInt(default=200, lower=50, upper=500, description="maximum iterations of PCG", 
                                     semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
@@ -138,7 +138,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
                                                  self.hyperparams['lparam'])
         def mykernel(X, Y):
             return GaussianKernel(X, Y, self.hyperparams['sigma'])
-        self._coeffs = PCGfit(self.X_train, mykernel, self._U, self.hyperparams['lparam'],
+        self._coeffs = PCGfit(self._Xtrain, self._ytrain, mykernel, self._U, self.hyperparams['lparam'],
                               self.hyperparams['eps'], self.hyperparams['maxIters'])
         self._fitted = True
 
@@ -153,7 +153,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
         Outputs:
             y: array of shape [n_samples, n_targets]
         """
-        return CallResult(GaussianKernel(inputs, self._Xtrain, self.hyperparams['sigma']).dot(self._coeffs))
+        return CallResult(GaussianKernel(inputs, self._Xtrain, self.hyperparams['sigma']).dot(self._coeffs).flatten())
 
     def set_params(self, *, params: Params) -> None:
         self._Xtrain = params['exemplars']

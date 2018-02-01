@@ -32,7 +32,7 @@ class Hyperparams(hyperparams.Hyperparams):
                                semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
     offset = hyperparams.LogUniform(default=.1, lower=.001, upper=2, description="value of constant feature to use in the regression",
                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    sf = hyperparams.LogUniform(default=.01, lower=.00001, upper=1, description="scale factor to use in the regression",
+    sf = hyperparams.LogUniform(default=.01, lower=.00001, upper=2, description="scale factor to use in the regression",
                                semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
     # control parameters determined once during pipeline building then fixed
@@ -147,7 +147,7 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
         def mykernel(X, Y):
             return PolynomialKernel(X, Y, self.hyperparams['sf'], self.hyperparams['offset'], 
                                     self.hyperparams['degree'])
-        self._coeffs = self.PCGfit(self._Xtrain, self._ytrain, mykernel, self._U, 
+        self._coeffs = PCGfit(self._Xtrain, self._ytrain, mykernel, self._U, 
                     self.hyperparams['lparam'], self.hyperparams['eps'],
                     self.hyperparams['maxIters'])
         self._fitted = True
@@ -164,7 +164,7 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
             y: array of shape [n_samples, n_targets]
         """
         return CallResult(PolynomialKernel(inputs, self._Xtrain, self.hyperparams['sf'],
-                self.hyperparams['offset'], self.hyperparams['degree']).dot(self._coeffs))
+                self.hyperparams['offset'], self.hyperparams['degree']).dot(self._coeffs).flatten())
 
     def set_params(self, *, params: Params) -> None:
         self._Xtrain = params['exemplars']
