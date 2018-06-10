@@ -14,7 +14,7 @@ from d3m import utils
 from d3m.container.numpy import ndarray as d3m_ndarray
 from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
-from d3m.primitive_interfaces.base import CallResult
+from d3m.primitive_interfaces.base import CallResult, DockerContainer
 
 from . import __author__, __version__
 
@@ -69,7 +69,7 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
         'version': __version__,
         'name': 'RFM Preconditioned Polynomial Kernel Ridge Regression',
         'description': 'Polynomial regression using random polynomial features as a preconditioner for faster solves',
-        'python_path': 'd3m.primitives.realML.kernel.RFMPreconditionedPolynomialKRR',
+        'python_path': 'd3m.primitives.realML.RFMPreconditionedPolynomialKRR',
         'primitive_family': 'REGRESSION',
         'algorithm_types' : [
             'KERNEL_METHOD',
@@ -101,7 +101,7 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
     def __init__(self, *, 
                  hyperparams : Hyperparams,
                  random_seed: int = 0,
-                 docker_containers : Dict[str, str] = None) -> None:
+                 docker_containers : Dict[str, DockerContainer] = None) -> None:
         """
         Initializes the preconditioned polynomial kernel ridge regression primitive.
         """

@@ -9,7 +9,7 @@ from d3m import utils
 from d3m.container.numpy import ndarray as d3m_ndarray
 from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
-from d3m.primitive_interfaces.base import CallResult
+from d3m.primitive_interfaces.base import CallResult, DockerContainer
 
 from . import __author__, __version__
 
@@ -58,7 +58,7 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
         'version': __version__,
         'name': 'Tensor Machine Regularized Least Squares',
         'description': 'Fit a polynomial function for l2-regularized regression by modeling the polynomial coefficients as collection of low-rank tensors',
-        'python_path': 'd3m.primitives.realML.kernel.TensorMachinesRegularizedLeastSquares',
+        'python_path': 'd3m.primitives.realML.TensorMachinesRegularizedLeastSquares',
         'primitive_family': 'REGRESSION',
         'algorithm_types' : [
             'KERNEL_METHOD',
@@ -92,7 +92,7 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
     def __init__(self, *,
                  hyperparams: Hyperparams,
                  random_seed: int = 0,
-                 docker_containers: Dict[str, str] = None) -> None:
+                 docker_containers: Dict[str, DockerContainer] = None) -> None:
 
         super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
 

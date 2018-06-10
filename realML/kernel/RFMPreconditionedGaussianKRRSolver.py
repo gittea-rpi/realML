@@ -15,7 +15,7 @@ from d3m import utils
 from d3m.container.numpy import ndarray as d3m_ndarray
 from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
-from d3m.primitive_interfaces.base import CallResult
+from d3m.primitive_interfaces.base import CallResult, DockerContainer
 
 from . import __author__, __version__
 
@@ -62,7 +62,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
         'version': __version__,
         'name': 'RFM Preconditioned Gaussian Kernel Ridge Regression',
         'description': 'Gaussian regression using random fourier features as a preconditioner for faster solves',
-        'python_path': 'd3m.primitives.realML.kernel.RFMPreconditionedGaussianKRR',
+        'python_path': 'd3m.primitives.realML.RFMPreconditionedGaussianKRR',
         'primitive_family': 'REGRESSION',
         'algorithm_types' : [
             'KERNEL_METHOD',
@@ -94,7 +94,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
     def __init__(self, *, 
                  hyperparams : Hyperparams,
                  random_seed: int = 0,
-                 docker_containers : Dict[str, str] = None) -> None:
+                 docker_containers : Dict[str, DockerContainer] = None) -> None:
         """
         Initializes the preconditioned gaussian kernel ridge regression primitive.
         """

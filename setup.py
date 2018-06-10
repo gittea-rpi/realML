@@ -9,10 +9,10 @@ setup(name="realML",
       packages=find_packages(),
       entry_points={
           'd3m.primitives' : [
-              'realML.kernel.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
-              'realML.kernel.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
-              'realML.kernel.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
-              'realML.kernel.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR'
+              'realML.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
+              'realML.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
+              'realML.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
+              'realML.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR'
           ],
       },
       url="https://github.com/ICSI-RealML/realML",
