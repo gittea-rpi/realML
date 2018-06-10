@@ -11,10 +11,10 @@ import numpy.linalg
 
 from .preconditionedKRR import *
 
-from d3m_metadata.container.numpy import ndarray as d3m_ndarray
-from d3m_metadata import hyperparams, params, metadata as metadata_module, utils
-from primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
-from primitive_interfaces.base import CallResult
+from d3m.metadata.container.numpy import ndarray as d3m_ndarray
+from d3m.metadata import hyperparams, params, metadata as metadata_module, utils
+from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
+from d3m.primitive_interfaces.base import CallResult
 
 from . import __author__, __version__
 
