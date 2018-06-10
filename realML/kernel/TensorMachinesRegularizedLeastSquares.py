@@ -5,8 +5,9 @@ from numpy import ndarray
 import os, sklearn
 from .tensormachines import tm_fit, tm_predict, tm_preprocess
 
-from d3m.metadata.container.numpy import ndarray as d3m_ndarray
-from d3m.metadata import hyperparams, params, metadata as metadata_module, utils
+from d3m import utils
+from d3m.container.numpy import ndarray as d3m_ndarray
+from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
 from d3m.primitive_interfaces.base import CallResult
 
@@ -52,7 +53,7 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
     """
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
-    metadata = metadata_module.PrimitiveMetadata({
+    metadata = metadata_base.PrimitiveMetadata({
         'id': '79a494ee-22a2-4768-8dcb-aa282486c5ef',
         'version': __version__,
         'name': 'Tensor Machine Regularized Least Squares',

@@ -10,8 +10,9 @@ import numpy.linalg
 
 from .preconditionedKRR import *
 
-from d3m.metadata.container.numpy import ndarray as d3m_ndarray
-from d3m.metadata import hyperparams, params, metadata as metadata_module, utils
+from d3m import utils
+from d3m.container.numpy import ndarray as d3m_ndarray
+from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
 from d3m.primitive_interfaces.base import CallResult
 
@@ -63,7 +64,7 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
     """
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
-    metadata = metadata_module.PrimitiveMetadata({
+    metadata = metadata_base.PrimitiveMetadata({
         'id': 'c7a35a32-444c-4530-aeb4-e7a95cbe2cbf',
         'version': __version__,
         'name': 'RFM Preconditioned Polynomial Kernel Ridge Regression',

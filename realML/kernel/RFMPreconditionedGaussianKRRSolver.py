@@ -11,8 +11,9 @@ import numpy.linalg
 
 from .preconditionedKRR import *
 
+from d3m import utils
 from d3m.container.numpy import ndarray as d3m_ndarray
-from d3m.metadata import hyperparams, params, metadata as metadata_module, utils
+from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
 from d3m.primitive_interfaces.base import CallResult
 
@@ -56,7 +57,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
     """
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
-    metadata = metadata_module.PrimitiveMetadata({
+    metadata = metadata_base.PrimitiveMetadata({
         'id': '90d9eefc-2db3-4738-a0e7-72eedab2d93a',
         'version': __version__,
         'name': 'RFM Preconditioned Gaussian Kernel Ridge Regression',
