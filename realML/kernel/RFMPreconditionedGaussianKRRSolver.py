@@ -27,16 +27,20 @@ class Params(params.Params):
 
 class Hyperparams(hyperparams.Hyperparams):
     # search over these hyperparameters to tune performance
-    lparam = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, description="l2 regularization to use for the kernel regression", 
-                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    sigma = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, description="bandwidth (sigma) parameter for the kernel regression", 
+    lparam = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, 
+                                    description="l2 regularization to use for the kernel regression", 
+                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    sigma = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, 
+                                   description="bandwidth (sigma) parameter for the kernel regression", 
                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
     # control parameters determined once during pipeline building then fixed
-    eps = hyperparams.LogUniform(default=1e-4, lower=1e-14, upper=1e-2, description="relative error stopping tolerance for PCG solver", 
-                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'])
-    maxIters = hyperparams.UniformInt(default=200, lower=50, upper=500, description="maximum iterations of PCG", 
-                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    eps = hyperparams.LogUniform(default=1e-4, lower=1e-14, upper=1e-2, 
+                                 description="relative error stopping tolerance for PCG solver", 
+                                 semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'])
+    maxIters = hyperparams.UniformInt(default=200, lower=50, upper=500, 
+                                      description="maximum iterations of PCG", 
+                                      semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
 # TO DO: normalize the objective so lparam and sigma don't need a data-dependent range!
 class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
@@ -53,35 +57,36 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
     metadata = metadata_module.PrimitiveMetadata({
-        'id': '511c3536-2fff-369a-b81d-96755ff5b81b',
+        'id': '90d9eefc-2db3-4738-a0e7-72eedab2d93a',
         'version': __version__,
         'name': 'RFM Preconditioned Gaussian Kernel Ridge Regression',
         'description': 'Gaussian regression using random fourier features as a preconditioner for faster solves',
         'python_path': 'd3m.primitives.realML.kernel.RFMPreconditionedGaussianKRR',
-        'primitive_family': metadata_module.PrimitiveFamily.REGRESSION,
+        'primitive_family': 'REGRESSION',
         'algorithm_types' : [
-            metadata_module.PrimitiveAlgorithmType.KERNEL_METHOD
+            'KERNEL_METHOD',
+            'MULTIVARIATE_REGRESSION'
         ],
         'keywords' : ['kernel learning', 'kernel ridge regression', 'preconditioned CG', 'Gaussian', 'RBF', 'regression'],
         'source' : {
             'name': __author__,
             'contact': 'mailto:gittea@rpi.edu',
             'uris' : [
-                "http://https://github.com/alexgittens/realML.git",
+                'https://github.com/ICSI-RealML/realML.git',
             ],
         },
         'installation': [
             {
-                'type': metadata_module.PrimitiveInstallationType.PIP,
-                'package_uri': 'git+https://github.com/alexgittens/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
+                'type': 'PIP',
+                'package_uri': 'git+https://github.com/ICSI-RealML/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
             }
         ],
         'location_uris': [ # NEED TO REF SPECIFIC COMMIT
-            'https://github.com/alexgittens/realML/blob/master/realML/kernel/RFMPreconditionedGaussianKRR.py',
+            'https://github.com/ICSI-RealML/realML/blob/master/realML/kernel/RFMPreconditionedGaussianKRRSolver.py',
             ],
         'preconditions': [
-            metadata_module.PrimitivePrecondition.NO_MISSING_VALUES,
-            metadata_module.PrimitivePrecondition.NO_CATEGORICAL_VALUES
+            'NO_MISSING_VALUES',
+            'NO_CATEGORICAL_VALUES'
         ],
     })
 
@@ -110,7 +115,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
         self._Xtrain = inputs
         self._ytrain = outputs
 
-        maxPCGsize = 20000 # TODO: make a control hyperparameter for when to switch to GS
+        maxPCGsize = 20000 # TODO: make a control hyperparameter for when to switch to using Gauss-Siedel
 
         if len(self._ytrain.shape) == 1:
             self._ytrain = np.expand_dims(self._ytrain, axis=1) 

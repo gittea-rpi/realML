@@ -26,20 +26,26 @@ class Params(params.Params):
 
 class Hyperparams(hyperparams.Hyperparams):
     # search over these hyperparameters to tune performance
-    lparam = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, description="l2 regularization to use on the regression",
-                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    degree = hyperparams.UniformInt(default=3, lower=2, upper=9, description="degree of the polynomial to fit",
-                               semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    offset = hyperparams.LogUniform(default=.1, lower=.001, upper=2, description="value of constant feature to use in the regression",
-                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    sf = hyperparams.LogUniform(default=.01, lower=.00001, upper=2, description="scale factor to use in the regression",
-                               semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    lparam = hyperparams.LogUniform(default=.01, lower=.0001, upper=1000, 
+                                    description="l2 regularization to use on the regression",
+                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    degree = hyperparams.UniformInt(default=3, lower=2, upper=9, 
+                                    description="degree of the polynomial to fit",
+                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    offset = hyperparams.LogUniform(default=.1, lower=.001, upper=2, 
+                                    description="value of constant feature to use in the regression",
+                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    sf = hyperparams.LogUniform(default=.01, lower=.00001, upper=2, 
+                                description="scale factor to use in the regression",
+                                semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
     # control parameters determined once during pipeline building then fixed
-    eps = hyperparams.LogUniform(default=1e-3, lower=1e-14, upper=1e-2, description="relative error stopping tolerance for PCG solver", 
-                                   semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'])
-    maxIters = hyperparams.UniformInt(default=200, lower=50, upper=500, description="maximum iterations of PCG", 
-                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+    eps = hyperparams.LogUniform(default=1e-3, lower=1e-14, upper=1e-2, 
+                                 description="relative error stopping tolerance for PCG solver", 
+                                 semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'])
+    maxIters = hyperparams.UniformInt(default=200, lower=50, upper=500, 
+                                      description="maximum iterations of PCG", 
+                                      semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
 # TODO: Normalize problem being solved so lparam etc easy to cross validate over fixed range regardless of amount of training data
 class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
@@ -58,35 +64,36 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
     metadata = metadata_module.PrimitiveMetadata({
-        'id': 'c75c72d7-6082-37db-b871-407b245c1a14',
+        'id': 'c7a35a32-444c-4530-aeb4-e7a95cbe2cbf',
         'version': __version__,
         'name': 'RFM Preconditioned Polynomial Kernel Ridge Regression',
         'description': 'Polynomial regression using random polynomial features as a preconditioner for faster solves',
         'python_path': 'd3m.primitives.realML.kernel.RFMPreconditionedPolynomialKRR',
-        'primitive_family': metadata_module.PrimitiveFamily.REGRESSION,
+        'primitive_family': 'REGRESSION',
         'algorithm_types' : [
-            metadata_module.PrimitiveAlgorithmType.KERNEL_METHOD
+            'KERNEL_METHOD',
+            'MULTIVARIATE_REGRESSION'
         ],
         'keywords' : ['kernel learning', 'kernel ridge regression', 'preconditioned CG', 'polynomial', 'regression'],
         'source' : {
             'name': __author__,
             'contact': 'mailto:gittea@rpi.edu',
             'uris' : [
-                "http://https://github.com/alexgittens/realML.git",
+                "https://github.com/ICSI-RealML/realML.git",
             ],
         },
         'installation': [
             {
-                'type': metadata_module.PrimitiveInstallationType.PIP,
-                'package_uri': 'git+https://github.com/alexgittens/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
+                'type': 'PIP',
+                'package_uri': 'git+https://github.com/ICSI-RealML/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
             }
         ],
         'location_uris': [ # NEED TO REF SPECIFIC COMMIT
-            'https://github.com/alexgittens/realML/blob/master/realML/kernel/RFMPreconditionedPolynomialKRR.py',
+            'https://github.com/ICSI-RealML/realML/blob/master/realML/kernel/RFMPreconditionedPolynomialKRRSolver.py',
             ],
         'preconditions': [
-            metadata_module.PrimitivePrecondition.NO_MISSING_VALUES,
-            metadata_module.PrimitivePrecondition.NO_CATEGORICAL_VALUES
+            'NO_MISSING_VALUES',
+            'NO_CATEGORICAL_VALUES'
         ],
     })
 

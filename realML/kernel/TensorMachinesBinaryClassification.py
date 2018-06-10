@@ -22,15 +22,20 @@ class Params(params.Params):
 
 class Hyperparams(hyperparams.Hyperparams):
     # search over these hyperparameters to tune performance
-    q = hyperparams.UniformInt(default=3, lower=2, upper=10, description="degree of the polynomial to be fit", 
+    q = hyperparams.UniformInt(default=3, lower=2, upper=10, 
+                               description="degree of the polynomial to be fit", 
                                semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    r = hyperparams.UniformInt(default=5, lower=2, upper=30, description="rank of the coefficient tensors to be fit", 
+    r = hyperparams.UniformInt(default=5, lower=2, upper=30, 
+                               description="rank of the coefficient tensors to be fit", 
                                semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    gamma = hyperparams.LogUniform(default=.01, lower=.0001, upper=10, description="l2 regularization to use on the tensor low-rank factors", 
+    gamma = hyperparams.LogUniform(default=.01, lower=.0001, upper=10, 
+                                   description="l2 regularization to use on the tensor low-rank factors", 
                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    alpha = hyperparams.LogUniform(default=.1, lower=.001, upper=1, description="variance of the random initialization of the factors", 
+    alpha = hyperparams.LogUniform(default=.1, lower=.001, upper=1, 
+                                   description="variance of the random initialization of the factors", 
                                    semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
-    epochs = hyperparams.UniformInt(default=30, lower=1, upper=100, description="maximum iterations of LBFGS, or number of epochs of SFO", 
+    epochs = hyperparams.UniformInt(default=30, lower=1, upper=100, 
+                                    description="maximum iterations of LBFGS, or number of epochs of SFO", 
                                     semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
     # control parameters determined once during pipeline building then fixed
@@ -49,14 +54,16 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
     metadata = metadata_module.PrimitiveMetadata({
-        'id': 'ecc83605-d340-490d-9a2d-81c2ea6cb6cb', #uuid3(NAMESPACE_DNS, "realML.kernel.TensorMachineBinaryClassification" + __version__),
+        'id': 'f8de43e0-7f81-4edd-9ef6-51bcd2953784',
         'version': __version__,
         'name': 'Tensor Machine Binary Classifier',
         'description': 'Fit a polynomial function for logistic regression by modeling the polynomial coefficients as collection of low-rank tensors',
         'python_path': 'd3m.primitives.realML.kernel.TensorMachinesBinaryClassification',
-        'primitive_family': metadata_module.PrimitiveFamily.CLASSIFICATION,
+        'primitive_family': 'CLASSIFICATION',
         'algorithm_types' : [
-            metadata_module.PrimitiveAlgorithmType.LOGISTIC_REGRESSION,
+            'KERNEL_METHOD',
+            'LOGISTIC_REGRESSION',
+            'POLYNOMIAL_NEURAL_NETWORK'
         ],
         'keywords' : ['kernel learning', 'binary classification', 'adaptive features', 'polynomial model', 'classification'],
         'source' : {
@@ -64,21 +71,21 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
             'contact': 'mailto:gittea@rpi.edu',
             'citation': 'https://arxiv.org/abs/1504.01697',
             'uris' : [
-                "http://https://github.com/alexgittens/realML.git",
+                "https://github.com/ICSI-RealML/realML.git",
             ],
         },
         'installation': [
             {
-                'type': metadata_module.PrimitiveInstallationType.PIP,
-                'package_uri': 'git+https://github.com/alexgittens/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
+                'type': 'PIP',
+                'package_uri': 'git+https://github.com/ICSI-RealML/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
             }
         ],
         'location_uris': [ # NEED TO REF SPECIFIC COMMIT
-            'https://github.com/alexgittens/realML/blob/master/realML/kernel/TensorMachinesBinaryClassification.py',
+            'https://github.com/ICSI-RealML/realML/blob/master/realML/kernel/TensorMachinesBinaryClassification.py',
             ],
         'preconditions': [
-            metadata_module.PrimitivePrecondition.NO_MISSING_VALUES,
-            metadata_module.PrimitivePrecondition.NO_CATEGORICAL_VALUES
+            'NO_MISSING_VALUES',
+            'NO_CATEGORICAL_VALUES'
         ],
     })
 

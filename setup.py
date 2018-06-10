@@ -1,8 +1,12 @@
 from setuptools import setup, find_packages
 
+with open('README.md') as file:
+    readme = file.read()
+
 setup(name="realML",
-      version="0.2",
+      version="2.0.0",
       description="ICSI provided machine learning primitives for DARPA D3M project",
+      packages=find_packages(),
       entry_points={
           'd3m.primitives' : [
               'realML.kernel.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
@@ -11,24 +15,16 @@ setup(name="realML",
               'realML.kernel.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR'
           ],
       },
-      url="http://github.com/alexgittens/realML",
-      author="Alex Gittens",
+      url="https://github.com/ICSI-RealML/realML",
+      long_description=readme,
+      author="International Computer Science Institute",
       author_email="gittea@rpi.edu",
       license="GPL",
-      classifiers=[
-                   'Development Status :: 3 - Alpha',
-                   'License :: OSI Approved :: GNU General Public License (GPL)',
-                   'Programming Language :: Python :: 3',
-                   'Programming Language :: Python :: 3.3',
-                   'Programming Language :: Python :: 3.4',
-                   'Programming Language :: Python :: 3.5',
-                   ],
       keywords=['d3m_primitive', 'machine learning', 'regression', 'dimensionality reduction', 'low rank factorization', 'featurization', 'sufficient dimensionality reduction', 'kernel methods'],
       install_requires=[
           'numpy>=1.14.0',
           'scipy>=0.13.3',
           'scikit-learn>=0.18.1'
       ],
-      packages=find_packages(),
       zip_safe=False
 )
