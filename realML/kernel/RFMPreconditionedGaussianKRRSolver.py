@@ -11,7 +11,7 @@ import numpy.linalg
 
 from .preconditionedKRR import *
 
-from d3m.metadata.container.numpy import ndarray as d3m_ndarray
+from d3m.container.numpy import ndarray as d3m_ndarray
 from d3m.metadata import hyperparams, params, metadata as metadata_module, utils
 from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
 from d3m.primitive_interfaces.base import CallResult
