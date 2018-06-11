@@ -47,11 +47,12 @@ def L1LowRank(X, k, alpha = 5):
     Uprime = QL.dot(U)
     VTprime = VT.dot(QRT.T)
     
-    Uprimek = Uprime[:, :k]
-    VTprimek = VTprime[:k, :]
+    finalrank = min(k, len(Sigma) )
+    Uprimek = Uprime[:, :finalrank]
+    VTprimek = VTprime[:finalrank, :]
 
-    A = X.dot(S1).dot(pinv(L)).dot(Uprimek)*np.sqrt(Sigma[:k])
-    B = np.sqrt(Sigma[:k])*VTprimek.dot(pinv(R)).dot(T2).dot(X)
+    A = X.dot(S1).dot(pinv(L)).dot(Uprimek)*np.sqrt(Sigma[:finalrank])
+    B = np.sqrt(np.expand_dims(Sigma[:finalrank], axis=1))*VTprimek.dot(pinv(R)).dot(T2).dot(X)
 
     return (A,B)
 

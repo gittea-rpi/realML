@@ -27,6 +27,11 @@ class Params(params.Params):
     B: Optional[ndarray]
 
 class Hyperparams(hyperparams.Hyperparams):
+    # search over these hyperparameters to tune performance
+    rank = hyperparams.UniformInt(default=5, lower=1, upper=500,
+                                  description="desired rank of the decomposition",
+                                  semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
+
     # control parameters determined once during pipeline building then fixed
     rankMultiplier = hyperparams.UniformInt(default=5, lower=3, upper=12, 
                                       description="work in dimension that is this multiple of the desired final rank", 
@@ -88,7 +93,7 @@ class L1LowRank(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         """
         super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
 
-        self._rank = 1
+        self._rank = self.hyperparams['rank']
         self._seed = random_seed
         self._featMat = None
         self._fitted = False
