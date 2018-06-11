@@ -12,7 +12,9 @@ setup(name="realML",
               'realML.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
               'realML.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
               'realML.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
-              'realML.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR'
+              'realML.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR',
+              'realML.FastLAD = realML.matrix:FastLAD',
+              'realML.L1LowRank = realML.matrix:L1LowRank'
           ],
       },
       url="https://github.com/ICSI-RealML/realML",

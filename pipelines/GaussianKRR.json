@@ -1,0 +1,55 @@
+primitive_path = "d3m.primitives.realML.RFMPreconditionedGaussianKRR"
+primitive_info = d3m.index.get_element(primitive_path).metadata.to_json_structure()
+primitive_id = primitive_info['id']
+primitive_digest = primitive_info['digest']
+primitive_version = primitive_info['version']
+primitive_name = primitive_info['name']
+
+{
+  "id":,
+  "schema": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json",
+  "pipeline_rank": 0,
+  "source" : {
+    "name": "ICSI"
+  }
+  "created" : "2018-06-10T05:53:00+00:00",
+  "context" : "TESTING",
+  "name" : "Fast_Gaussian_KRR_on_26_radon",
+  "description" : "A pipeline for the radon level prediction problem 26 using the d3m.primitives.realML.RFMPreconditionedGaussianKRR primitive",
+  "inputs" : [
+    {
+      "name":"input dataset"
+    }
+  ],
+  "outputs" : [
+    {
+      "name" : "output dataset",
+      "data" : "steps.0.produce"
+    }
+  ],
+  "steps" : [
+    {
+      "type": "PRIMITIVE",
+      "primitive" : {
+        "id": primitive_id,
+        "python_path": primitive_path,
+        "version": primitive_version,
+        "name": primitive_name
+      },
+      "arguments": {
+        "inputs": {
+          "type" : "CONTAINER",
+          "data" : "inputs.0"
+        }
+      },
+      "outputs": [
+        {
+          "id" : "produce"
+        }
+      ],
+      "hyperparams" : {
+        
+      }
+    }
+  ]
+}
