@@ -67,17 +67,17 @@ class FastLAD(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparam
             'name': __author__,
             'contact': 'mailto:gittea@rpi.edu',
             'uris' : [
-                'https://github.com/ICSI-RealML/realML.git',
+                'https://github.com/alexgittens/realML.git',
             ],
         },
         'installation': [
             {
                 'type': 'PIP',
-                'package_uri': 'git+https://github.com/ICSI-RealML/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
+                'package_uri': 'git+https://github.com/alexgittens/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
             }
         ],
         'location_uris': [ # NEED TO REF SPECIFIC COMMIT
-            'https://github.com/ICSI-RealML/realML/blob/master/realML/matrix/FastLADSolver.py',
+            'https://github.com/alexgittens/realML/blob/master/realML/matrix/FastLADSolver.py',
             ],
         'preconditions': [
             'NO_MISSING_VALUES',
