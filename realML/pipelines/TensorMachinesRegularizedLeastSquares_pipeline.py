@@ -1,11 +1,11 @@
 # pipeline example modified from David Johnson of the Michigan SPIDER team's regression example, originally at
 # https://gitlab.datadrivendiscovery.org/michigan/spider/blob/master/spider/pipelines/supervised_learning_owl.py
 from d3m.metadata import pipeline as d3m_pipeline
-import d3m.metadata.base as d3m_base
+from d3m.metadata import base as d3m_base
 
 import realML.pipelines.datasets
 from realML.pipelines.base import BasePipeline
-from realML.kernel import RFMPreconditionedGaussianKRR
+from realML.kernel import TensorMachinesRegularizedLeastSquares
 from common_primitives.dataframe_to_ndarray import DataFrameToNDArrayPrimitive
 from common_primitives.ndarray_to_dataframe import NDArrayToDataFramePrimitive
 from common_primitives.dataset_to_dataframe import DatasetToDataFramePrimitive
@@ -15,7 +15,7 @@ from common_primitives.extract_columns_semantic_types import ExtractColumnsBySem
 from common_primitives.one_hot_maker import OneHotMaker
 
 
-class RFMPreconditionedGaussianKRRPipeline(BasePipeline):
+class TensorMachinesRegularizedLeastSquaresPipeline(BasePipeline):
     def __init__(self):
         super().__init__()
 
@@ -100,8 +100,8 @@ class RFMPreconditionedGaussianKRRPipeline(BasePipeline):
         attributes = 'steps.3.produce'
         targets    = 'steps.5.produce'
 
-        #step 6: call RFMPreconditionedGaussianKRR for regression
-        step_6 = d3m_pipeline.PrimitiveStep(primitive_description=RFMPreconditionedGaussianKRR.metadata.query())
+        #step 6: call TensorMachinesRegularizedLeastSquaresPipeline for regression
+        step_6 = d3m_pipeline.PrimitiveStep(primitive_description=TensorMachinesRegularizedLeastSquares.metadata.query())
         step_6.add_argument(
                 name='inputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
