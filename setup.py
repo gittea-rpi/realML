@@ -9,12 +9,12 @@ setup(name="realML",
       packages=find_packages(),
       entry_points={
           'd3m.primitives' : [
-              'classification.logistic.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
-              'regression.polynomial.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
-              'regression.gaussiankernel.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
-              'regression.polynomialkernel.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR',
-              'regression.l1norm.FastLAD = realML.matrix:FastLAD',
-              'feature_extraction.matrixfactorization.L1LowRank = realML.matrix:L1LowRank'
+              'classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
+              'regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
+              'regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
+              'regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR',
+              'regression.fast_lad.FastLAD = realML.matrix:FastLAD',
+              'feature_extraction.l1_low_rank.L1LowRank = realML.matrix:L1LowRank'
           ],
       },
       url="https://github.com/ICSI-RealML/realML",

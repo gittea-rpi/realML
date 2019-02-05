@@ -58,8 +58,8 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
         'version': __version__,
         'name': 'Tensor Machine Regularized Least Squares',
         'description': 'Fit a polynomial function for l2-regularized regression by modeling the polynomial coefficients as collection of low-rank tensors',
-        'python_path': 'd3m.primitives.realML.TensorMachinesRegularizedLeastSquares',
-        'primitive_family': 'REGRESSION',
+        'python_path': 'd3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares',
+        'primitive_family': metadata_base.PrimitiveFamily.REGRESSION,
         'algorithm_types' : [
             'KERNEL_METHOD',
             'MULTIVARIATE_REGRESSION',

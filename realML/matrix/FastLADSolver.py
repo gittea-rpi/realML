@@ -57,8 +57,8 @@ class FastLAD(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparam
         'version': __version__,
         'name': 'Coreset-based Fast Least Absolute Deviations Solver',
         'description': 'Fast solver for least absolute deviations regression, using a coreset',
-        'python_path': 'd3m.primitives.realML.FastLAD',
-        'primitive_family': 'REGRESSION',
+        'python_path': 'd3m.primitives.regression.fast_lad.FastLAD',
+        'primitive_family': metadata_base.PrimitiveFamily.REGRESSION,
         'algorithm_types' : [
             'MULTIVARIATE_REGRESSION'
         ],

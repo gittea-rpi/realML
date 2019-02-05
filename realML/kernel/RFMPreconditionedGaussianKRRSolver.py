@@ -62,8 +62,8 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
         'version': __version__,
         'name': 'RFM Preconditioned Gaussian Kernel Ridge Regression',
         'description': 'Gaussian regression using random fourier features as a preconditioner for faster solves',
-        'python_path': 'd3m.primitives.realML.RFMPreconditionedGaussianKRR',
-        'primitive_family': 'REGRESSION',
+        'python_path': 'd3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR',
+        'primitive_family': metadata_base.PrimitiveFamily.REGRESSION,
         'algorithm_types' : [
             'KERNEL_METHOD',
             'MULTIVARIATE_REGRESSION'

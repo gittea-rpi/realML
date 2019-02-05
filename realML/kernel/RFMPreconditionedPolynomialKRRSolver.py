@@ -69,8 +69,8 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
         'version': __version__,
         'name': 'RFM Preconditioned Polynomial Kernel Ridge Regression',
         'description': 'Polynomial regression using random polynomial features as a preconditioner for faster solves',
-        'python_path': 'd3m.primitives.realML.RFMPreconditionedPolynomialKRR',
-        'primitive_family': 'REGRESSION',
+        'python_path': 'd3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR',
+        'primitive_family': metadata_base.PrimitiveFamily.REGRESSION,
         'algorithm_types' : [
             'KERNEL_METHOD',
             'MULTIVARIATE_REGRESSION'

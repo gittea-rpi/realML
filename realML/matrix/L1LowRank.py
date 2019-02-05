@@ -15,7 +15,8 @@ from .approxL1LowRankDecomposition import *
 from d3m import utils
 from d3m.container.numpy import ndarray as d3m_ndarray
 from d3m.metadata import hyperparams, params, base as metadata_base
-from d3m.primitive_interfaces.base import PrimitiveBase, CallResult, DockerContainer
+from d3m.primitive_interfaces.base import CallResult, DockerContainer
+from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase
 
 from . import __author__, __version__
 
@@ -40,7 +41,7 @@ class Hyperparams(hyperparams.Hyperparams):
                                       description="repeat the approximation this many times and take the best approximation",
                                       semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'])
 
-class L1LowRank(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class L1LowRank(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Performs fast approximate solution to the NP-hard problem of computing a low-rank approximation that minimizes
     the entrywise l1-norm approximation error
@@ -56,8 +57,8 @@ class L1LowRank(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         'version': __version__,
         'name': 'Fast Approximate Entrywise L1-Norm Low Rank Factorization',
         'description': 'Finds a low-rank approximation that approximately minimizes the sum of the entry-wise absolute value of the error matrix',
-        'python_path': 'd3m.primitives.realML.L1LowRank',
-        'primitive_family': 'FEATURE_EXTRACTION',
+        'python_path': 'd3m.primitives.feature_extraction.l1_low_rank.L1LowRank',
+        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
         'algorithm_types' : [
             'LOW_RANK_MATRIX_APPROXIMATIONS'
         ],
@@ -71,7 +72,7 @@ class L1LowRank(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         },
         'installation': [
             {
-                'type': 'PIP',
+                'type': metadata_base.PrimitiveInstallationType.PIP,
                 'package_uri': 'git+https://github.com/ICSI-RealML/realML.git@{git_commit}#egg=realML'.format(git_commit=utils.current_git_commit(os.path.dirname(__file__)))
             }
         ],
