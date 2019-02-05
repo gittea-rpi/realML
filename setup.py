@@ -5,7 +5,7 @@ with open('README.md') as file:
 
 setup(name="realML",
       version="2.5.0",
-      description="ICSI provided machine learning primitives for DARPA D3M project",
+      description="ICSI provided machine learning primitives for DARPA D3M project, focusing on fast kernel methods and matrix factorizations",
       packages=find_packages(),
       entry_points={
           'd3m.primitives' : [
