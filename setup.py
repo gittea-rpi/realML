@@ -24,10 +24,9 @@ setup(name="realML",
       license="GPL",
       keywords=['d3m_primitive', 'machine learning', 'regression', 'dimensionality reduction', 'low rank factorization', 'featurization', 'sufficient dimensionality reduction', 'kernel methods'],
       install_requires=[
-          'd3m',
-          'numpy',
-          'scipy',
-          'scikit-learn'
+          'numpy>=1.14.0',
+          'scipy>=0.13.3',
+          'scikit-learn>=0.18.1'
       ],
       zip_safe=False
 )
