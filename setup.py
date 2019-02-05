@@ -17,7 +17,7 @@ setup(name="realML",
               'feature_extraction.l1_low_rank.L1LowRank = realML.matrix:L1LowRank'
           ],
       },
-      url="https://github.com/alexgittens/realML",
+      url="https://github.com/ICSI-RealML/realML",
       long_description=readme,
       author="International Computer Science Institute",
       author_email="gittea@rpi.edu",
