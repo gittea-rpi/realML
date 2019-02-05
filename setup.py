@@ -9,12 +9,12 @@ setup(name="realML",
       packages=find_packages(),
       entry_points={
           'd3m.primitives' : [
-              'realML.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
-              'realML.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
-              'realML.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
-              'realML.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR',
-              'realML.FastLAD = realML.matrix:FastLAD',
-              'realML.L1LowRank = realML.matrix:L1LowRank'
+              'classification.logistic.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
+              'regression.polynomial.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
+              'regression.gaussiankernel.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
+              'regression.polynomialkernel.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR',
+              'regression.l1norm.FastLAD = realML.matrix:FastLAD',
+              'feature_extraction.matrixfactorization.L1LowRank = realML.matrix:L1LowRank'
           ],
       },
       url="https://github.com/ICSI-RealML/realML",
@@ -24,9 +24,10 @@ setup(name="realML",
       license="GPL",
       keywords=['d3m_primitive', 'machine learning', 'regression', 'dimensionality reduction', 'low rank factorization', 'featurization', 'sufficient dimensionality reduction', 'kernel methods'],
       install_requires=[
-          'numpy>=1.14.0',
-          'scipy>=0.13.3',
-          'scikit-learn>=0.18.1'
+          'd3m',
+          'numpy',
+          'scipy',
+          'scikit-learn'
       ],
       zip_safe=False
 )
