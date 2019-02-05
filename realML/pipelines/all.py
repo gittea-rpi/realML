@@ -6,10 +6,22 @@ import json
 
 from realML.pipelines.base import BasePipeline
 from realML.pipelines.RFMPreconditionedGaussianKRR_pipeline import RFMPreconditionedGaussianKRRPipeline
+from realML.pipelines.RFMPreconditionedPolynomialKRR_pipeline import RFMPreconditionedPolynomialKRRPipeline
+from realML.pipelines.TensorMachinesRegularizedLeastSquares_pipeline import TensorMachinesRegularizedLeastSquaresPipeline
+from realML.pipelines.FastLAD_pipeline import FastLADPipeline
 
 PIPELINES_BY_PRIMITIVE = {
     'd3m.primitives.realML.RFMPreconditionedGaussianKRR': [
         RFMPreconditionedGaussianKRRPipeline,
+    ],
+    'd3m.primitives.realML.RFMPreconditionedPolynomialKRR': [
+        RFMPreconditionedPolynomialKRRPipeline,
+    ],
+    'd3m.primitives.realML.TensorMachinesRegularizedLeastSquares': [
+        TensorMachinesRegularizedLeastSquaresPipeline,
+    ],
+    'd3m.primitives.realML.FastLAD': [
+        FastLADPipeline,
     ],
 }
 

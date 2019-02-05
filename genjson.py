@@ -20,10 +20,10 @@ version = pkg_resources.get_distribution("realML").version
 
 primitives = {
     'd3m.primitives.realML.RFMPreconditionedGaussianKRR' : [RFMPreconditionedGaussianKRRPipeline],
-    'd3m.primitives.realML.RFMPreconditionedPolynomialKRR' : None,
-    'd3m.primitives.realML.TensorMachinesRegularizedLeastSquares': None,
+    'd3m.primitives.realML.RFMPreconditionedPolynomialKRR' : [RFMPreconditionedPolynomialKRRPipeline],
+    'd3m.primitives.realML.TensorMachinesRegularizedLeastSquares': [TensorMachinesRegularizedLeastSquaresPipeline],
     'd3m.primitives.realML.TensorMachinesBinaryClassification': None,
-    'd3m.primitives.realML.FastLAD': None,
+    'd3m.primitives.realML.FastLAD': [FastLADPipeline],
     'd3m.primitives.realML.L1LowRank': None,
 }
 
@@ -33,7 +33,7 @@ for prim in primitives.keys():
     path = os.path.join(path, version)
     os.makedirs(path)
 
-    com = "python -m d3m.index describe -i 4 " + prim + " > " + os.path.join(path, "primitive.json")
+    com = "python3 -m d3m.index describe -i 4 " + prim + " > " + os.path.join(path, "primitive.json")
     print('Running command: %s' % str(com))
     subprocess.check_call(com, shell=True)
 
