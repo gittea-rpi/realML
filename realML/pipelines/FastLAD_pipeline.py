@@ -89,7 +89,7 @@ class FastLADPipeline(BasePipeline):
                 data=['https://metadata.datadrivendiscovery.org/types/SuggestedTarget'])
         pipeline.add_step(step_3)
 
-        #step 5: transform targets dataframe into an ndarray
+        #step 4: transform targets dataframe into an ndarray
         step_4 = d3m_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
         step_4.add_argument(
                 name = 'inputs',
@@ -98,51 +98,61 @@ class FastLADPipeline(BasePipeline):
         )
         step_4.add_output('produce')
         pipeline.add_step(step_4)
-        attributes = 'steps.2.produce'
+
+        #step 5 : transform features dataframe into an ndarray
+        step_5 = d3m_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
+        step_5.add_argument(
+            name = 'inputs',
+            argument_type = d3m_base.ArgumentType.CONTAINER,
+            data_reference = 'steps.2.produce'
+        )
+        step_5.add_output('produce')
+        pipeline.add_step(step_5)
+        attributes = 'steps.5.produce'
         targets    = 'steps.4.produce'
 
-        #step 5: call FastLAD for regression
-        step_5 = d3m_pipeline.PrimitiveStep(primitive_description=FastLAD.metadata.query())
-        step_5.add_argument(
+        #step 6: call FastLAD for regression
+        step_6 = d3m_pipeline.PrimitiveStep(primitive_description=FastLAD.metadata.query())
+        step_6.add_argument(
                 name='inputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
                 data_reference=attributes)
-        step_5.add_argument(
+        step_6.add_argument(
                 name='outputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
                 data_reference=targets)
-        step_5.add_output('produce')
-        pipeline.add_step(step_5)
-
-        #step 6: convert numpy-formatted prediction outputs to a dataframe
-        step_6 = d3m_pipeline.PrimitiveStep(primitive_description = NDArrayToDataFramePrimitive.metadata.query())
-        step_6.add_argument(
-                name = 'inputs',
-                argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.5.produce'
-        )
         step_6.add_output('produce')
         pipeline.add_step(step_6)
 
-        #step 7: generate a properly-formatted output dataframe from the dataframed prediction outputs using the input dataframe as a reference
-        step_7 = d3m_pipeline.PrimitiveStep(primitive_description = ConstructPredictionsPrimitive.metadata.query())
+        #step 7: convert numpy-formatted prediction outputs to a dataframe
+        step_7 = d3m_pipeline.PrimitiveStep(primitive_description = NDArrayToDataFramePrimitive.metadata.query())
         step_7.add_argument(
                 name = 'inputs',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.6.produce' #inputs here are the prediction column
-        )
-        step_7.add_argument(
-                name = 'reference',
-                argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.0.produce' #inputs here are the dataframed input dataset
+                data_reference = 'steps.6.produce'
         )
         step_7.add_output('produce')
         pipeline.add_step(step_7)
 
+        #step 8: generate a properly-formatted output dataframe from the dataframed prediction outputs using the input dataframe as a reference
+        step_8 = d3m_pipeline.PrimitiveStep(primitive_description = ConstructPredictionsPrimitive.metadata.query())
+        step_8.add_argument(
+                name = 'inputs',
+                argument_type = d3m_base.ArgumentType.CONTAINER,
+                data_reference = 'steps.7.produce' #inputs here are the prediction column
+        )
+        step_8.add_argument(
+                name = 'reference',
+                argument_type = d3m_base.ArgumentType.CONTAINER,
+                data_reference = 'steps.0.produce' #inputs here are the dataframed input dataset
+        )
+        step_8.add_output('produce')
+        pipeline.add_step(step_8)
+
         # Final Output
         pipeline.add_output(
                 name='output',
-                data_reference='steps.6.produce')
+                data_reference='steps.7.produce')
 
         return pipeline
 
