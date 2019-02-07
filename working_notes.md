@@ -20,7 +20,7 @@ Read through the following instructions before starting to follow them.
    ```
    export D3MIMAGE=cf28748b5e23
    export DATAIN=~/Dropbox/research/RealML/pipelines
-   export D3MKEY=~/.ssh/gitlab_rsa # this is also my    github key, so no need for a separate var
+   export D3MKEY=~/.ssh/gitlab_rsa # this is also my github key, so no need for a separate var
    ```
 
 3. Now copy the data you want to be accessible from the host to the Docker container into the mounted directory, and your ssh key(s).
@@ -70,7 +70,7 @@ Read through the following instructions before starting to follow them.
     ENDCONFIG
     ```
 
-7. Clone the fork of the d3mrepo primitive repo and CHECK OUT THE UPDATE BRANCH (don't work in master!); Also, remember to occasionally pull from the original JPL repo to update the master branch. Of course, here I already have a branch icsiupdate I'm using to work in, you may have to create one.
+7. Clone the fork of the d3m primitive repo and CHECK OUT THE UPDATE BRANCH (don't work in master!); Also, remember to occasionally pull from the original JPL repo to update the master branch. Of course, here I already have a branch icsiupdate I'm using to work in, you may have to create one.
  	
  	```
  	git clone $D3MPRIMITIVEREPO
@@ -78,7 +78,8 @@ Read through the following instructions before starting to follow them.
  	git checkout --track origin/icsiupdate
  	```
  	
-8. Clone the realML repo and install it as a working package: this is necessary so that the primitive json annotations link to the correct git commit of the realML primitive repo
+8. Clone the realML repo and install it as a working package: this is necessary so that the primitive json annotations link to the correct git commits of the realML primitive repo. Everytime you do a commit then regenerate the
+json annotations, they will point to a different git commit.
 	
 	```
 	git clone $REALMLREPO
@@ -88,15 +89,15 @@ Read through the following instructions before starting to follow them.
 	
 9. Do your work and modifications on the primitives and pipelines, using the fact that you can run the d3m primitives and so on inside the container.
 
-10. ***COMMIT AND PUSH AFTER EVERY CHANGE*** so that when you generate the json annotations they point to the right commit
+10. ***COMMIT AND PUSH AFTER EVERY CHANGE*** so that when you generate the json annotations they point to the right commit.
 
-11. go back to the realML/realML directory, and generate the json annotations in the ICSI subdirectory (this deletes old content of that directory, if it exists)
+11. Go back to the realML/realML directory, and generate the json annotations in the ICSI subdirectory (this deletes old content of that directory, if it exists)
 
     ```
     python3 genjsons.py
     ```
 
-12. Copy the annotations to our fork of the D3M primitive repo and push them to automatically start validation procedure running
+12. Copy the annotations to our fork of the D3M primitive repo and push them to automatically start the validation procedure running. Once it has run successfully, you can submit a merge request.
 
     ```
     rm -rf $LOCALPRIMITIVES/ICSI
@@ -106,12 +107,12 @@ Read through the following instructions before starting to follow them.
     git push
     ```
     
-13. Now, you need to get the pipelines onto your host system (through the mounted directory, presumably), the *on the host system* copy the pipelines to the ta1-submission repo, replace the old pipelines and push, wait for it to rebuild the submission image (or force it to the gitlab console), and run the pipelines on the jump server
+13. Now, you need to get the pipelines onto your host system (through the mounted directory, presumably), then *on the host system* copy the pipelines to the ta1-submission repo, replace the old pipelines and push, wait for gitlab to rebuild the pipeline submission image through CI (or force it to the gitlab console), and run the pipelines on the jump server
 
     ```
     cd ~/Dropbox/research/RealML/d3mrepos/ta1-submission-pipelines
     rm -rf pipelines/*
-    cp ../../realML/ICSI/*/*/pipelines/*.json 	pipelines #change to reflect locations for your pipelines
+    cp ../../realML/ICSI/*/*/pipelines/*.json pipelines #change to reflect locations for your pipelines
     git commit -a -m "updated pipelines"
     git push
     	
