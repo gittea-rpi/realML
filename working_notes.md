@@ -22,21 +22,24 @@ Read through the following instructions before starting to follow them.
    export DATAIN=~/Dropbox/research/RealML/pipelines
    export D3MKEY=~/.ssh/gitlab_rsa # this is also my    github key, so no need for a separate var
    ```
+
 3. Now copy the data you want to be accessible from the host to the Docker container into the mounted directory, and your ssh key(s).
 
 4. Launch a Docker container using the latest D3M image and set up some useful variables inside the container.
    
    ```
    docker run -it -v datain:/root/datain $D3MIMAGE /bin/bash
+
    export REALMLREPO=https://github.com/ICSI-RealML/realML.git
-export D3MPRIMITIVEREPO=git@gitlab.datadrivendiscovery.org:agittens/primitives_repo.git
-export GITUNAME="Alex Gittens"
-export GITEMAIL="gittea@rpi.edu"
-export D3MPRIVATEKEY="gitlab_rsa"
-export D3MPUBLICKEY="gitlab_rsa.pub"
-export LOCALREALML=~/realML
-export LOCALPRIMITIVES=~/primitives_repo/v2019.1.21
+   export D3MPRIMITIVEREPO=git@gitlab.datadrivendiscovery.org:agittens/primitives_repo.git
+   export GITUNAME="Alex Gittens"
+   export GITEMAIL="gittea@rpi.edu"
+   export D3MPRIVATEKEY="gitlab_rsa"
+   export D3MPUBLICKEY="gitlab_rsa.pub"
+   export LOCALREALML=~/realML
+   export LOCALPRIMITIVES=~/primitives_repo/v2019.1.21
     ```
+
 5. Setup your ssh keys and and git user information
     
     ```
@@ -49,6 +52,7 @@ export LOCALPRIMITIVES=~/primitives_repo/v2019.1.21
     git config --global user.name $GITUNAME
     git config --global user.email $GITEMAIL
     ```
+
 6. Setup ssh so that it uses the correct key file
     
     ```
@@ -65,6 +69,7 @@ export LOCALPRIMITIVES=~/primitives_repo/v2019.1.21
     	IdentityFile ~/.ssh/$D3MPRIVATEKEY
     ENDCONFIG
     ```
+
 7. Clone the fork of the d3mrepo primitive repo and CHECK OUT THE UPDATE BRANCH (don't work in master!); Also, remember to occasionally pull from the original JPL repo to update the master branch. Of course, here I already have a branch icsiupdate I'm using to work in, you may have to create one.
  	
  	```
@@ -73,7 +78,7 @@ export LOCALPRIMITIVES=~/primitives_repo/v2019.1.21
  	git checkout --track origin/icsiupdate
  	```
  	
-8. clone the realML repo and install it as a working package: this is necessary so that the primitive json annotations link to the correct git commit of the realML primitive repo
+8. Clone the realML repo and install it as a working package: this is necessary so that the primitive json annotations link to the correct git commit of the realML primitive repo
 	
 	```
 	git clone $REALMLREPO
@@ -105,12 +110,12 @@ export LOCALPRIMITIVES=~/primitives_repo/v2019.1.21
 
     ```
     cd ~/Dropbox/research/RealML/d3mrepos/ta1-submission-pipelines
-	rm -rf pipelines/*
-	cp ../../realML/ICSI/*/*/pipelines/*.json 	pipelines #change to reflect locations for your pipelines
-	git commit -a -m "updated pipelines"
-	git push
-	
-	ssh ta1-icsi@k8s.datadrivendiscovery.org -i ~/.ssh/ICSI_D3M_id_rsa
-cd ta1-example
-/performer-toolbox/d3m_runner/d3m_runner.py --mode ta1 --yaml-file ./generateSubmission.yml --debug
-	```
+    rm -rf pipelines/*
+    cp ../../realML/ICSI/*/*/pipelines/*.json 	pipelines #change to reflect locations for your pipelines
+    git commit -a -m "updated pipelines"
+    git push
+    	
+    ssh ta1-icsi@k8s.datadrivendiscovery.org -i ~/.ssh/ICSI_D3M_id_rsa
+    cd ta1-example
+    /performer-toolbox/d3m_runner/d3m_runner.py --mode ta1 --yaml-file ./generateSubmission.yml --debug
+    ```
