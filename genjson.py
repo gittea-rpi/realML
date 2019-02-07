@@ -11,10 +11,10 @@ import json
 from realML.pipelines import *
 
 #clear out any existing directory
-if os.path.isdir("ICSI"):
-    shutil.rmtree("ICSI")
+if os.path.isdir("json_annotations"):
+    shutil.rmtree("json_annotations")
 
-os.makedirs("ICSI")
+os.makedirs("json_annotations")
 
 version = pkg_resources.get_distribution("realML").version
 

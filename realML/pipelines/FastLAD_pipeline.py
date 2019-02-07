@@ -13,6 +13,7 @@ from common_primitives.column_parser import ColumnParserPrimitive
 from common_primitives.construct_predictions import ConstructPredictionsPrimitive
 from common_primitives.extract_columns_semantic_types import ExtractColumnsBySemanticTypesPrimitive
 from common_primitives.one_hot_maker import OneHotMaker
+import os.path
 
 
 class FastLADPipeline(BasePipeline):
@@ -144,7 +145,7 @@ class FastLADPipeline(BasePipeline):
         step_8.add_argument(
                 name = 'reference',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.0.produce' #inputs here are the dataframed input dataset
+                data_reference = 'steps.0.produce' #inputs here are the dataframe input dataset
         )
         step_8.add_output('produce')
         pipeline.add_step(step_8)
@@ -152,7 +153,15 @@ class FastLADPipeline(BasePipeline):
         # Final Output
         pipeline.add_output(
                 name='output',
-                data_reference='steps.7.produce')
+                data_reference='steps.8.produce')
 
         return pipeline
 
+if __name__ == '__main__':
+	instance = FastLADPipeline()
+	json_info = instance.get_json()
+	instanceid = instance.get_id()
+	instancepath = os.path.join(".", instanceid)
+	with open(instancepath + ".json", 'w') as file:
+		file.write(json_info)
+		file.close()

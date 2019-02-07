@@ -1,7 +1,3 @@
-.ipynb_checkpoints/
 *.pyc
-r_26
-r_59
-krr_pipeline
 realML.egg-info/
-pipelines/r_26
+json_annotations/

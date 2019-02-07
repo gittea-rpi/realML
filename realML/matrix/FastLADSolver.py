@@ -3,6 +3,7 @@ from typing import Any, List, Dict, Union, Optional, Sequence
 from collections import OrderedDict
 from numpy import ndarray
 import os
+import warnings
 
 import numpy as np
 from sklearn.metrics.pairwise import polynomial_kernel
@@ -109,6 +110,7 @@ class FastLAD(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparam
         """
         self._Xtrain = inputs
         self._ytrain = outputs
+        self._ymetadata = outputs.metadata
 
         if len(self._ytrain.shape) == 1:
             self._ytrain = np.expand_dims(self._ytrain, axis=1) 
@@ -150,7 +152,9 @@ class FastLAD(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparam
         Outputs:
             y: array of shape [n_samples, n_targets]
         """
-        return CallResult(inputs.dot(self._coeffs))
+        result = inputs.dot(self._coeffs)
+        result.metadata = self._ymetadata.set_for_value(result) # ensures the result has the same feature dimension (and column names?) as the training targets (otherwise will use the metadata of the inputs, which doesn't make sense)
+        return CallResult(result)
 
     def set_params(self, *, params: Params) -> None:
         self._Xtrain = params['exemplars']
