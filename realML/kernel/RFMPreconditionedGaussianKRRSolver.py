@@ -3,6 +3,7 @@ from typing import Any, List, Dict, Union, Optional, Sequence
 from collections import OrderedDict
 from numpy import ndarray
 import os
+import warnings
 
 import numpy as np
 from sklearn.metrics.pairwise import polynomial_kernel
@@ -16,6 +17,8 @@ from d3m.container.numpy import ndarray as d3m_ndarray
 from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
 from d3m.primitive_interfaces.base import CallResult, DockerContainer
+from common_primitives.ndarray_to_dataframe import NDArrayToDataFramePrimitive as NDArrayToDataFrame
+from common_primitives.ndarray_to_dataframe import Hyperparams as NDArrayToDataFrameHyperparams
 
 from . import __author__, __version__
 
@@ -115,6 +118,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
         """
         self._Xtrain = inputs
         self._ytrain = outputs
+        self._ymetadata = outputs.metadata
 
         maxPCGsize = 20000 # TODO: make a control hyperparameter for when to switch to using Gauss-Siedel
 
@@ -159,7 +163,9 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
         Outputs:
             y: array of shape [n_samples, n_targets]
         """
-        return CallResult(GaussianKernel(inputs, self._Xtrain, self.hyperparams['sigma']).dot(self._coeffs).flatten())
+        result = d3m_ndarray(GaussianKernel(inputs, self._Xtrain, self.hyperparams['sigma']).dot(self._coeffs).flatten())
+        result.metadata = self._ymetadata.set_for_value(result)
+        return CallResult(result)
 
     def set_params(self, *, params: Params) -> None:
         self._Xtrain = params['exemplars']

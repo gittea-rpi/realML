@@ -123,6 +123,7 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
         """
         self._Xtrain = inputs
         self._ytrain = outputs
+        self._ymetadata = outputs.metadata
         self._fitted = False
 
         maxPCGsize = 20000 # TODO: make a control hyperparameter for when to switch to GS
@@ -171,8 +172,10 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
         Outputs:
             y: array of shape [n_samples, n_targets]
         """
-        return CallResult(PolynomialKernel(inputs, self._Xtrain, self.hyperparams['sf'],
+        result = d3m_ndarray(PolynomialKernel(inputs, self._Xtrain, self.hyperparams['sf'],
                 self.hyperparams['offset'], self.hyperparams['degree']).dot(self._coeffs).flatten())
+        result.metadata = self._ymetadata.set_for_value(result)
+        return CallResult(result)
 
     def set_params(self, *, params: Params) -> None:
         self._Xtrain = params['exemplars']

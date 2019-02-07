@@ -106,6 +106,7 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
     def set_training_data(self, *, inputs: Inputs, outputs: Outputs) -> None:
         self._training_inputs = inputs
         self._training_outputs = outputs
+        self._ymetadata = outputs.metadata
 
         if self.hyperparams['preprocess'] == 'YES':
             (self._training_inputs, self._norms) = tm_preprocess(self._training_inputs)
@@ -131,9 +132,10 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
         if self.hyperparams['preprocess'] == 'YES':
             inputs = tm_preprocess(inputs, colnorms=self._norms)
 
-        pred_test = tm_predict(self._weights, inputs, self.hyperparams['q'],
-                               self.hyperparams['r'], 'regression')
-        return CallResult(pred_test.flatten())
+        pred_test = d3m_ndarray(tm_predict(self._weights, inputs, self.hyperparams['q'],
+                               self.hyperparams['r'], 'regression').flatten())
+        pred_test.metadata = self._ymetadata.set_for_value(pred_test)	
+        return CallResult(pred_test)
 
     def get_params(self) -> Params:
         return Params(weights=self._weights, norms=self._norms)

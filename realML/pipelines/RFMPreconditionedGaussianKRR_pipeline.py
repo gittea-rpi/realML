@@ -1,7 +1,7 @@
 # pipeline example modified from David Johnson of the Michigan SPIDER team's regression example, originally at
 # https://gitlab.datadrivendiscovery.org/michigan/spider/blob/master/spider/pipelines/supervised_learning_owl.py
 from d3m.metadata import pipeline as d3m_pipeline
-import d3m.metadata.base as d3m_base
+from d3m.metadata import base as d3m_base
 
 import realML.pipelines.datasets
 from realML.pipelines.base import BasePipeline
@@ -12,7 +12,7 @@ from common_primitives.dataset_to_dataframe import DatasetToDataFramePrimitive
 from common_primitives.column_parser import ColumnParserPrimitive
 from common_primitives.construct_predictions import ConstructPredictionsPrimitive
 from common_primitives.extract_columns_semantic_types import ExtractColumnsBySemanticTypesPrimitive
-from common_primitives.one_hot_maker import OneHotMaker
+import os.path
 
 
 class RFMPreconditionedGaussianKRRPipeline(BasePipeline):
@@ -68,37 +68,37 @@ class RFMPreconditionedGaussianKRRPipeline(BasePipeline):
                 data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
         pipeline.add_step(step_2)
 
-        #step 3: one-hot encoding for discrete features. Outputs an ndarray.
-        step_3 = d3m_pipeline.PrimitiveStep(primitive_description = OneHotMaker.metadata.query())
-        step_3.add_argument(
-                name = 'inputs',
-                argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.2.produce'
-        )
+        #step 3: Extract Targets
+        step_3 = d3m_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
+        step_3.add_argument(name='inputs', argument_type=d3m_base.ArgumentType.CONTAINER, data_reference='steps.1.produce')
         step_3.add_output('produce')
-        pipeline.add_step(step_3)
-
-        #step 4: Extract Targets
-        step_4 = d3m_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        step_4.add_argument(name='inputs', argument_type=d3m_base.ArgumentType.CONTAINER, data_reference='steps.1.produce')
-        step_4.add_output('produce')
-        step_4.add_hyperparameter(
+        step_3.add_hyperparameter(
                 name='semantic_types',
                 argument_type=d3m_base.ArgumentType.VALUE,
                 data=['https://metadata.datadrivendiscovery.org/types/SuggestedTarget'])
-        pipeline.add_step(step_4)
+        pipeline.add_step(step_3)
 
-        #step 5: transform targets dataframe into an ndarray
-        step_5 = d3m_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
-        step_5.add_argument(
+        #step 4: transform targets dataframe into an ndarray
+        step_4 = d3m_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
+        step_4.add_argument(
                 name = 'inputs',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.4.produce'
+                data_reference = 'steps.3.produce'
+        )
+        step_4.add_output('produce')
+        pipeline.add_step(step_4)
+
+        #step 5 : transform features dataframe into an ndarray
+        step_5 = d3m_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
+        step_5.add_argument(
+            name = 'inputs',
+            argument_type = d3m_base.ArgumentType.CONTAINER,
+            data_reference = 'steps.2.produce'
         )
         step_5.add_output('produce')
         pipeline.add_step(step_5)
-        attributes = 'steps.3.produce'
-        targets    = 'steps.5.produce'
+        attributes = 'steps.5.produce'
+        targets    = 'steps.4.produce'
 
         #step 6: call RFMPreconditionedGaussianKRR for regression
         step_6 = d3m_pipeline.PrimitiveStep(primitive_description=RFMPreconditionedGaussianKRR.metadata.query())
@@ -133,7 +133,7 @@ class RFMPreconditionedGaussianKRRPipeline(BasePipeline):
         step_8.add_argument(
                 name = 'reference',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.0.produce' #inputs here are the dataframed input dataset
+                data_reference = 'steps.0.produce' #inputs here are the dataframe input dataset
         )
         step_8.add_output('produce')
         pipeline.add_step(step_8)
@@ -141,7 +141,15 @@ class RFMPreconditionedGaussianKRRPipeline(BasePipeline):
         # Final Output
         pipeline.add_output(
                 name='output',
-                data_reference='steps.7.produce')
+                data_reference='steps.8.produce')
 
         return pipeline
 
+if __name__ == '__main__':
+	instance = RFMPreconditionedGaussianKRRPipeline()
+	json_info = instance.get_json()
+	instanceid = instance.get_id()
+	instancepath = os.path.join(".", instanceid)
+	with open(instancepath + ".json", 'w') as file:
+		file.write(json_info)
+		file.close()
