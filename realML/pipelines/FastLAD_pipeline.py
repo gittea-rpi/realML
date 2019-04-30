@@ -12,7 +12,7 @@ from common_primitives.dataset_to_dataframe import DatasetToDataFramePrimitive
 from common_primitives.column_parser import ColumnParserPrimitive
 from common_primitives.construct_predictions import ConstructPredictionsPrimitive
 from common_primitives.extract_columns_semantic_types import ExtractColumnsBySemanticTypesPrimitive
-from common_primitives.one_hot_maker import OneHotMaker
+from common_primitives.one_hot_maker import OneHotMakerPrimitive
 import os.path
 
 
@@ -71,7 +71,7 @@ class FastLADPipeline(BasePipeline):
 
         # One-hot encoding primitive is broken!
         #step 3: one-hot encoding for discrete features. Outputs an ndarray.
-        #step_3 = d3m_pipeline.PrimitiveStep(primitive_description = OneHotMaker.metadata.query())
+        #step_3 = d3m_pipeline.PrimitiveStep(primitive_description = OneHotMakerPrimitive.metadata.query())
         #step_3.add_argument(
         #        name = 'inputs',
         #        argument_type = d3m_base.ArgumentType.CONTAINER,
