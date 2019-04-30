@@ -18,7 +18,7 @@ Read through the following instructions before starting to follow them.
 2. Set some useful environment variables on the host system. One is the docker id for the d3m image, one is a directory that will be mounted onto the docker container so we can transfer files to and from the host system, and one is the key file for sshing into Github (where the RealML code repo is) and sshing into the D3M servers.
 
    ```
-   export D3MIMAGE=cf28748b5e23
+   export D3MIMAGE=5c314b00a752
    export DATAIN=~/Dropbox/research/RealML/pipelines
    export D3MKEY=~/.ssh/gitlab_rsa # this is also my github key, so no need for a separate var
    ```
@@ -28,7 +28,7 @@ Read through the following instructions before starting to follow them.
 4. Launch a Docker container using the latest D3M image and set up some useful variables inside the container.
    
    ```
-   docker run -it -v datain:/root/datain $D3MIMAGE /bin/bash
+   docker run -it -v $DATAIN:/root/datain $D3MIMAGE /bin/bash
 
    export REALMLREPO=https://github.com/ICSI-RealML/realML.git
    export D3MPRIMITIVEREPO=git@gitlab.datadrivendiscovery.org:agittens/primitives_repo.git
@@ -37,7 +37,7 @@ Read through the following instructions before starting to follow them.
    export D3MPRIVATEKEY="gitlab_rsa"
    export D3MPUBLICKEY="gitlab_rsa.pub"
    export LOCALREALML=~/realML
-   export LOCALPRIMITIVES=~/primitives_repo/v2019.1.21
+   export LOCALPRIMITIVES=~/primitives_repo/v2019.4.4
     ```
 
 5. Setup your ssh keys and and git user information
