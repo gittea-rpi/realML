@@ -31,7 +31,7 @@ Read through the following instructions before starting to follow them.
    docker run -it -v $DATAIN:/root/datain $D3MIMAGE /bin/bash
 
    export REALMLREPO=https://github.com/ICSI-RealML/realML.git
-   export D3MPRIMITIVEREPO=git@gitlab.datadrivendiscovery.org:agittens/primitives_repo.git
+   export D3MPRIMITIVEREPO=git@gitlab.com:alexgittens/primitives.git
    export GITUNAME="Alex Gittens"
    export GITEMAIL="gittea@rpi.edu"
    export D3MPRIVATEKEY="gitlab_rsa"

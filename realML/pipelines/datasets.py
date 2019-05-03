@@ -76,6 +76,14 @@ TRAIN_IDS = {
     'uu4_SPECT': 'uu4_ST_dataset_TRAIN',
 }
 
+FULL_IDS = {
+    'LL0_207_autoPrice': 'LL0_207_autoPrice_dataset',
+}
+
+SCORE_IDS = {
+    'LL0_207_autoPrice': 'LL0_207_autoPrice_SCORE',
+}
+
 TEST_IDS = {
     '1491_one_hundred_plants_margin': '1491_one_hundred_plants_dataset_TEST',
     '1491_one_hundred_plants_margin_clust': '1491_one_hundred_plants_margin_dataset_TEST',
@@ -168,6 +176,12 @@ def get_test_id(dataset_id):
 
 def get_problem_id(dataset_id):
     return PROBLEM_IDS[dataset_id]
+
+def get_full_id(dataset_id):
+    return FULL_IDS[dataset_id]
+
+def get_score_id(dataset_id):
+    return SCORE_IDS[dataset_id]
 
 if __name__ == '__main__':
     print(json.dumps(get_datasets(), indent = 4))
