@@ -64,10 +64,10 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
         pipeline.add_step(step_2)
 
 	# Step 3: Impute missing data
-	step_3 = meta_pipeline.PrimitiveStep(primitive_description = SimpleImputerPrimitive.metadata.query())
-	step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
-	step_3.add_output('produce')
-	pipeline.add_step(step_3)
+        step_3 = meta_pipeline.PrimitiveStep(primitive_description = SimpleImputerPrimitive.metadata.query())
+        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+        step_3.add_output('produce')
+        pipeline.add_step(step_3)
 
         # Step 4: Extract Targets
         step_4 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
@@ -83,7 +83,7 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
             argument_type = ArgumentType.CONTAINER,
             data_reference = 'steps.3.produce' #inputs here are the attributes from step 3
         )
-	step_5.add_argument(
+        step_5.add_argument(
             name = 'outputs',
             argument_type = ArgumentType.CONTAINER,
             data_reference = 'steps.4.produce' #outputs are the targets from step 4
@@ -114,10 +114,10 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
         return pipeline
 
 if __name__ == '__main__':
-	instance = TensorMachinesBinaryClassificationPipeline()
-	json_info = instance.get_json()
-	instanceid = instance.get_id()
-	instancepath = os.path.join(".", instanceid)
-	with open(instancepath + ".json", 'w') as file:
-		file.write(json_info)
-		file.close()
+        instance = TensorMachinesBinaryClassificationPipeline()
+        json_info = instance.get_json()
+        instanceid = instance.get_id()
+        instancepath = os.path.join(".", instanceid)
+        with open(instancepath + ".json", 'w') as file:
+                file.write(json_info)
+                file.close()
