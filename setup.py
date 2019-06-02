@@ -26,7 +26,7 @@ setup(name="realML",
       install_requires=[
           'regex==2017.4.5',
           'numpy>=1.14.0',
-          'scipy<1.2,>=0.19.0',
+          'scipy<=1.2.1,>=0.19.0',
           'scikit-learn>=0.18.1'
       ],
       zip_safe=False
