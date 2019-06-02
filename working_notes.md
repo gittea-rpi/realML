@@ -32,6 +32,7 @@ Read through the following instructions before starting to follow them.
 
    export REALMLREPO=https://github.com/ICSI-RealML/realML.git
    export D3MPRIMITIVEREPO=git@gitlab.com:alexgittens/primitives.git
+   export D3MUPSTREAMREPO=https://gitlab.com/datadrivendiscovery/primitives
    export GITUNAME="Alex Gittens"
    export GITEMAIL="gittea@rpi.edu"
    export D3MPRIVATEKEY="gitlab_rsa"
@@ -74,7 +75,13 @@ Read through the following instructions before starting to follow them.
  	
  	```
  	git clone $D3MPRIMITIVEREPO
- 	cd primitive_repo
+ 	cd primitives
+	git remote add upstream $D3MUPSTREAMREPO
+	git fetch upstream
+	git checkout master
+	git merge upstream/master
+	git push
+
  	git checkout --track origin/icsiupdate
  	```
  	
