@@ -31,8 +31,7 @@ class RFMPreconditionedGaussianKRRPipeline(BasePipeline):
 
     #define pipeline object
     def _gen_pipeline(self):
-        #pipeline context is just metadata, ignore for now
-        pipeline = d3m_pipeline.Pipeline(context = d3m_base.Context.TESTING)
+        pipeline = d3m_pipeline.Pipeline()
         #define inputs.  This will be read in automatically as a Dataset object.
         pipeline.add_input(name = 'inputs')
 

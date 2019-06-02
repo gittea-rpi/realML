@@ -34,7 +34,7 @@ for prim in primitives.keys():
         path = os.path.join(path, version)
         os.makedirs(path)
 
-        com = "python3 -m d3m.index describe -i 4 " + prim + " > " + os.path.join(path, "primitive.json")
+        com = "python3 -m d3m index describe -i 4 " + prim + " > " + os.path.join(path, "primitive.json")
         print('Running command: %s' % str(com))
         subprocess.check_call(com, shell=True)
 
