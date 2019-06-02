@@ -1,1 +1,1 @@
-python3 -m d3m.runtime fit-produce -p $1 -r ~/datain/LL0_207_autoPrice/LL0_207_autoPrice_problem/problemDoc.json -i ~/datain/LL0_207_autoPrice/TRAIN/dataset_TRAIN/datasetDoc.json -t ~/datain/LL0_207_autoPrice/TEST/dataset_TEST/datasetDoc.json
+python3 -m d3m runtime fit-produce -p $1 -r ~/datain/LL0_207_autoPrice/LL0_207_autoPrice_problem/problemDoc.json -i ~/datain/LL0_207_autoPrice/TRAIN/dataset_TRAIN/datasetDoc.json -t ~/datain/LL0_207_autoPrice/TEST/dataset_TEST/datasetDoc.json
