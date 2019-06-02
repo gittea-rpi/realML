@@ -34,6 +34,7 @@ DATASETS = {
     'LL0_207_autoPrice': 158,
     'LL1_net_nomination_seed': 80,
     'LL1_penn_fudan_pedestrian': 134,
+    'SEMI_1053_jm1': 1000,
     'uu1_datasmash': 45,
     'uu2_gp_hyperparameter_estimation': 100,
     'uu3_world_development_indicators': 2461,
@@ -70,6 +71,7 @@ TRAIN_IDS = {
     'LL1_net_nomination_seed': 'LL1_net_nomination_dataset_TRAIN',
     'LL1_penn_fudan_pedestrian': 'penn_fudan_pedestrian_dataset',
     'LL1_3476_HMDB_actio_recognition': 'LL1_3476_HMDB_actio_dataset_TRAIN',
+    'SEMI_1053_jm1': 'SEMI_1053_jm1_TRAIN',
     'uu1_datasmash': 'uu1_dh_dataset_TRAIN',
     'uu2_gp_hyperparameter_estimation': 'uu2_gp_hyperparameter_dataset_TRAIN',
     'uu3_world_development_indicators': 'uu3_world_development_dataset_TRAIN',
@@ -78,10 +80,14 @@ TRAIN_IDS = {
 
 FULL_IDS = {
     'LL0_207_autoPrice': 'LL0_207_autoPrice_dataset',
+    '196_autoMpg': '196_autoMpg_dataset',
+    'SEMI_1053_jm1': 'SEMI_1053_jm1_dataset'
 }
 
 SCORE_IDS = {
     'LL0_207_autoPrice': 'LL0_207_autoPrice_SCORE',
+    '196_autoMpg': '196_autoMpg_SCORE',
+    'SEMI_1053_jm1': 'SEMI_1053_jm1_SCORE'
 }
 
 TEST_IDS = {
@@ -114,6 +120,7 @@ TEST_IDS = {
     'LL1_net_nomination_seed': 'LL1_net_nomination_dataset_TEST',
     'LL1_penn_fudan_pedestrian': 'penn_fudan_pedestrian_dataset',
     'LL1_3476_HMDB_actio_recognition': 'LL1_3476_HMDB_actio_dataset_TEST',
+    'SEMI_1053_jm1': 'SEMI_1053_jm1_TEST',
     'uu1_datasmash': 'uu1_dh_dataset_TEST',
     'uu2_gp_hyperparameter_estimation': 'uu2_gp_hyperparameter_dataset_TEST',
     'uu3_world_development_indicators': 'uu3_world_development_dataset_TEST',
@@ -150,6 +157,7 @@ PROBLEM_IDS = {
     'LL1_net_nomination_seed': 'LL1_net_nomination_seed_problem',
     'LL1_penn_fudan_pedestrian': 'penn_fudan_pedestrian_problem',
     'LL1_3476_HMDB_actio_recognition': 'LL1_3476_HMDB_actio_recognition_problem',
+    'SEMI_1053_jm1': 'SEMI_1053_jm1_problem',
     'uu1_datasmash': 'uu1_datasmash_problem',
     'uu2_gp_hyperparameter_estimation': 'uu2_gp_hyperparameter_estimation_problem',
     'uu3_world_development_indicators': 'uu3_world_development_indicators_problem',
