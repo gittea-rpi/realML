@@ -77,7 +77,7 @@ class RFMPreconditionedGaussianKRRPipeline(BasePipeline):
         step_3.add_hyperparameter(
                 name='semantic_types',
                 argument_type=d3m_base.ArgumentType.VALUE,
-                data=['https://metadata.datadrivendiscovery.org/types/SuggestedTarget'])
+                data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'])
         pipeline.add_step(step_3)
 
         #step 4: transform targets dataframe into an ndarray
