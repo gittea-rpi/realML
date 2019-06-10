@@ -272,8 +272,8 @@ def tm_fit(X, y, type, r, q, gamma, solver, epochs, alpha, verbosity='minimal', 
         w = optimizer.optimize(epochs)
         opt_outputs = optimizer;
 
-    else:
-        print("Enter a valid solver! scipy's LBFGS and SFO are supported so far")
+    #else:
+    #    print("Enter a valid solver! scipy's LBFGS and SFO are supported so far")
 
     z = tm_predict(w0, X, q, r, type)
     return (w, z)
@@ -293,18 +293,18 @@ def tm_solver(Xtrain, ytrain, Xtest, ytest, type, options):
     (n,d) = Xtrain.shape
     ntest = Xtest.shape[0]
 
-    print("running tensor machine training")
-    print("data size: %d by %d" % (n,d))
-    print("parameters: degree(%d) rank(%d) solver(%s) gamma(%e) maxIter(%d) alpha(%f)" % 
-          (options['q'], options['r'], options['solver'], options['gamma'], 
-           options['maxIter'], options['alpha']))
+    #print("running tensor machine training")
+    #print("data size: %d by %d" % (n,d))
+    #print("parameters: degree(%d) rank(%d) solver(%s) gamma(%e) maxIter(%d) alpha(%f)" % 
+    #      (options['q'], options['r'], options['solver'], options['gamma'], 
+    #       options['maxIter'], options['alpha']))
 
     timeStart = time()
     (w, predtrain) = tm_fit(Xtrain, ytrain, type, options['r'], 
             options['q'], options['gamma'], options['solver'], 
             options['maxIter'], options['alpha'], options['verbosity'])
     timeEnd = time()
-    print("Finished training in %d seconds" % (timeEnd - timeStart))
+    #print("Finished training in %d seconds" % (timeEnd - timeStart))
     
     predtest = tm_predict(w, Xtest, options['q'], options['r'], type)
 
@@ -319,6 +319,6 @@ def tm_solver(Xtrain, ytrain, Xtest, ytest, type, options):
         error_train = norm(ytrain - predtrain)/norm(ytrain)
         error_test = norm(ytest - predtest)/norm(ytest)
 
-    print('Training error: %f\n Testing error: %f' % (error_train, error_test))
+    #print('Training error: %f\n Testing error: %f' % (error_train, error_test))
 
 

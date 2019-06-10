@@ -126,7 +126,7 @@ class RFMPreconditionedGaussianKRR(SupervisedLearnerPrimitiveBase[Inputs, Output
             self._ytrain = np.expand_dims(self._ytrain, axis=1) 
 
         if self._Xtrain.shape[0] > maxPCGsize:
-            print("need to implement Gauss-Siedel for large datasets; currently training with a smaller subset")
+            #print("need to implement Gauss-Siedel for large datasets; currently training with a smaller subset")
             choices = np.random.choice(self._Xtrain.shape[0], size=maxPCGsize, replace=False)
             self._Xtrain = self._Xtrain[choices, :] 
             self._ytrain = self._ytrain[choices, :]

@@ -70,10 +70,10 @@ if __name__ == "__main__":
     CauchyXapprox = A.dot(B)
 
     cauchyerr = norm((CauchyXapprox - X).flatten(), 1)
-    print("Relative objective value using Cauchy transforms is %f" % (cauchyerr/n))
+    #print("Relative objective value using Cauchy transforms is %f" % (cauchyerr/n))
 
     U,S,VT = svd(X)
     l2approx = (U[:, :1]*S[:1]).dot(VT[:1,:])
     l2err = norm((l2approx - X).flatten(), 1)
-    print("Relative objective value using SVD is %f" % (l2err/n))
+    #print("Relative objective value using SVD is %f" % (l2err/n))
 

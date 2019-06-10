@@ -136,7 +136,7 @@ class FastLAD(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparam
             self._coeffs = coresetLAD(self._Xtrain, self._ytrain, self._U, r,
                               stoppingTol, self.hyperparams['maxIters'])
         else:
-            print("coreset size is larger than number of examples, so solving the full LAD problem --- you may want to lower the coresetmultiplier parameter")
+            #print("coreset size is larger than number of examples, so solving the full LAD problem --- you may want to lower the coresetmultiplier parameter")
             self._coeffs = LAD(self._Xtrain, self._ytrain, stoppingTol, self.hyperparams['maxIters'])
 
         self._fitted = True

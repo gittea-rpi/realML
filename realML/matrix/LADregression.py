@@ -109,13 +109,13 @@ if __name__ == "__main__":
     maxIters = 300
     eps = 1e-6
     stoppingTol = eps*norm(ytrain, 1)/(np.sqrt(n)*norm(Xtrain))
-    print('finished setting up training dataset')
+    #print('finished setting up training dataset')
     
     start = timer()
     irlssoln = LAD(Xtrain, ytrain, stoppingTol, maxIters)
     end = timer()
     irlserr = norm(Xtrain.dot(irlssoln) - ytrain, 1)
-    print("Obj error of full problem is %f and elapsed time is %f (s)" % (irlserr, end - start))
+    #print("Obj error of full problem is %f and elapsed time is %f (s)" % (irlserr, end - start))
 
     start = timer()
     probs = r/n * np.ones(n)
@@ -123,11 +123,11 @@ if __name__ == "__main__":
     unifsoln = LAD(Xs, ys, stoppingTol, maxIters)
     end = timer()
     reluniferr = norm(Xtrain.dot(unifsoln) - ytrain, 1)/irlserr
-    print("Rel obj error of unif sampled problem is %f and elapsed time is %f (s)" % (reluniferr, end-start))
+    #print("Rel obj error of unif sampled problem is %f and elapsed time is %f (s)" % (reluniferr, end-start))
 
     start = timer()
     U = generateWellConditionedBasis(np.concatenate((Xtrain, ytrain), axis=1), r)
     MGsoln = coresetLAD(Xtrain, ytrain, U, r, stoppingTol, maxIters)
     end = timer()
     relMGerr = norm(Xtrain.dot(MGsoln) - ytrain, 1)/irlserr
-    print("Rel obj error of MG sampled problem is %f and elapsed time is %f (s)" % (relMGerr, end-start))
+    #print("Rel obj error of MG sampled problem is %f and elapsed time is %f (s)" % (relMGerr, end-start))
