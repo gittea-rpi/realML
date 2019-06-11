@@ -4,12 +4,12 @@ with open('README.md') as file:
     readme = file.read()
 
 setup(name="realML",
-      version="2.8.0",
+      version="2.8.1",
       description="ICSI provided machine learning primitives for DARPA D3M project, focusing on fast kernel methods and matrix factorizations ",
       packages=find_packages(),
       entry_points={
           'd3m.primitives' : [
-              'classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
+              #'classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification = realML.kernel:TensorMachinesBinaryClassification',
               'regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares = realML.kernel:TensorMachinesRegularizedLeastSquares',
               'regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR = realML.kernel:RFMPreconditionedGaussianKRR',
               'regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR',
