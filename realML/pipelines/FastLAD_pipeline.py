@@ -22,13 +22,7 @@ class FastLADPipeline(BasePipeline):
 
         #specify one seed dataset on which this pipeline can operate
         dataset = 'LL0_207_autoPrice'
-        self.meta_info = {
-                'problem': realML.pipelines.datasets.get_problem_id(dataset),
-		'full_inputs': [ realML.pipelines.datasets.get_full_id(dataset) ],
-                'train_inputs': [ realML.pipelines.datasets.get_train_id(dataset) ],
-                'test_inputs': [ realML.pipelines.datasets.get_problem_id(dataset) ],
-		'score_inputs': [ realML.pipelines.datasets.get_score_id(dataset) ],
-            }
+        self.meta_info = genmeta(dataset)
 
     #define pipeline object
     def _gen_pipeline(self):
