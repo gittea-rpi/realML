@@ -28,7 +28,7 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
         
         #specify one seed dataset on which this pipeline can operate
         dataset = 'SEMI_1053_jm1'
-        self.meta_info = genmeta(dataset)
+        self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
     def _gen_pipeline(self):

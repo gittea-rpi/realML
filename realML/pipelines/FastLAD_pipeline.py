@@ -21,7 +21,7 @@ class FastLADPipeline(BasePipeline):
 
         #specify one seed dataset on which this pipeline can operate
         dataset = 'LL0_207_autoPrice'
-        self.meta_info = genmeta(dataset)
+        self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
     def _gen_pipeline(self):

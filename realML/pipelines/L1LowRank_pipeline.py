@@ -26,7 +26,7 @@ class L1LowRankPipeline(BasePipeline):
         
         #specify one seed dataset on which this pipeline can operate
         dataset = '196_autoMpg'
-        self.meta_info = genmeta(dataset)
+        self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
     def _gen_pipeline(self):
