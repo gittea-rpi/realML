@@ -3,7 +3,6 @@
 from d3m.metadata import pipeline as d3m_pipeline
 from d3m.metadata import base as d3m_base
 
-import realML.pipelines.datasets
 from realML.pipelines.base import BasePipeline
 from realML.kernel import RFMPreconditionedPolynomialKRR
 from common_primitives.dataframe_to_ndarray import DataFrameToNDArrayPrimitive

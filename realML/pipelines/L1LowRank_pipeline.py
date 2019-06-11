@@ -4,7 +4,6 @@
 from d3m.metadata import pipeline as meta_pipeline
 from d3m.metadata.base import ArgumentType, Context
 
-import realML.pipelines.datasets
 from realML.pipelines.base import BasePipeline
 from realML.matrix import L1LowRank
 
