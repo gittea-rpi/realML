@@ -39,70 +39,93 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
 
         # Step 0: DatasetToDataFrame
         step_0 = meta_pipeline.PrimitiveStep(primitive_description = DatasetToDataFramePrimitive.metadata.query())
-        step_0.add_argument(name='inputs', argument_type = ArgumentType.CONTAINER, data_reference='inputs.0')
+        step_0.add_argument(name='inputs', 
+		argument_type = ArgumentType.CONTAINER, 
+		data_reference='inputs.0')
         step_0.add_output('produce')
         pipeline.add_step(step_0)
 
         # Step 1: ColumnParser
         step_1 = meta_pipeline.PrimitiveStep(primitive_description=ColumnParserPrimitive.metadata.query())
-        step_1.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
+        step_1.add_argument(name='inputs', 
+		argument_type=ArgumentType.CONTAINER, 
+		data_reference='steps.0.produce')
         step_1.add_output('produce')
         pipeline.add_step(step_1)
 
-        # Step 2: Extract Attributes
+        # Step 2: Extract Attributes 
         step_2 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        step_2.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+        step_2.add_argument(name='inputs', 
+		argument_type=ArgumentType.CONTAINER, 
+		data_reference='steps.1.produce')
         step_2.add_output('produce')
-        step_2.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
+        step_2.add_hyperparameter(name='semantic_types', 
+		argument_type=ArgumentType.VALUE, 
+		data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
         pipeline.add_step(step_2)
 
 	# Step 3: Impute missing data
         step_3 = meta_pipeline.PrimitiveStep(primitive_description = SimpleImputerPrimitive.metadata.query())
-        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+        step_3.add_argument(name='inputs', 
+		argument_type=ArgumentType.CONTAINER, 
+		data_reference='steps.2.produce')
         step_3.add_output('produce')
         pipeline.add_step(step_3)
 
         # Step 4: Extract Targets
         step_4 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+        step_4.add_argument(name='inputs', 
+		argument_type=ArgumentType.CONTAINER, 
+		data_reference='steps.1.produce')
         step_4.add_output('produce')
-        step_4.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
+        step_4.add_hyperparameter(name='semantic_types', 
+		argument_type=ArgumentType.VALUE, 
+		data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
         pipeline.add_step(step_4)
 
-        # Step 5: use TensorMachinesBinaryClassification
-        step_5 = meta_pipeline.PrimitiveStep(primitive_description = TensorMachinesBinaryClassification.metadata.query())
-        step_5.add_argument(
+	# Step 5: Transform targets into an ndarray
+	step_5 = d3m_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
+	step_5.add_argument(
+		name = 'inputs',
+		argument_type = d3m_base.ArgumentType.CONTAINER,
+		data_reference = 'steps.4.produce'
+	)
+	pipeline.add_step(step_5)
+
+        # Step 6: use TensorMachinesBinaryClassification
+        step_6 = meta_pipeline.PrimitiveStep(primitive_description = TensorMachinesBinaryClassification.metadata.query())
+        step_6.add_argument(
             name = 'inputs',
             argument_type = ArgumentType.CONTAINER,
             data_reference = 'steps.3.produce' #inputs here are the attributes from step 3
         )
-        step_5.add_argument(
+        step_6.add_argument(
             name = 'outputs',
             argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.4.produce' #outputs are the targets from step 4
+            data_reference = 'steps.5.produce' #outputs are the targets from step 5
 	)
-        step_5.add_output('produce')
-        pipeline.add_step(step_5)
+        step_6.add_output('produce')
+        pipeline.add_step(step_6)
         
-        # Step 6: generate a properly-formatted output dataframe from the prediction outputs using the input dataframe as a reference
-        step_6 = meta_pipeline.PrimitiveStep(primitive_description=ConstructPredictionsPrimitive.metadata.query())
-        step_6.add_argument(
+        # Step 7: generate a properly-formatted output dataframe from the prediction outputs using the input dataframe as a reference
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description=ConstructPredictionsPrimitive.metadata.query())
+        step_7.add_argument(
             name='inputs',
             argument_type=ArgumentType.CONTAINER,
-            data_reference='steps.5.produce'  # inputs here are the prediction column
+            data_reference='steps.6.produce'  # inputs here are the prediction column
         )
-        step_6.add_argument(
+        step_7.add_argument(
             name='reference',
             argument_type=ArgumentType.CONTAINER,
             data_reference='steps.0.produce'  # inputs here are the dataframed input dataset
         )
-        step_6.add_output('produce')
-        pipeline.add_step(step_6)
+        step_7.add_output('produce')
+        pipeline.add_step(step_7)
 
         # Adding output step to the pipeline
         pipeline.add_output(
             name='output', 
-            data_reference='steps.6.produce')
+            data_reference='steps.7.produce')
 
         return pipeline
 
