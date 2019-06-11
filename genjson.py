@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#
 #convenience script for generating the entire primitive JSON file structure 
 #modified from the Michigan SPIDER repo, originally at https://gitlab.datadrivendiscovery.org/michigan/spider/blob/master/genjson.py
 
