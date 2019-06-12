@@ -61,7 +61,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class sparsepca(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Given a mean centered rectangular matrix `A` with shape `(m, n)`, SPCA
     computes a set of sparse components that can optimally reconstruct the
@@ -74,7 +74,7 @@ class sparsepca(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
     metadata = metadata_module.PrimitiveMetadata({
         "id": "bc635ff3-391e-4e6c-8660-8e2c1ae26b3f",
         "version":  __version__,
-        "python_path": "d3m.primitives.feature_extraction.sparse_pca.sparsepca",
+        "python_path": "d3m.primitives.feature_extraction.sparse_pca.ICSI",
         "name": "Sparse Principal Component Analysis",
         'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
         'algorithm_types' : [
