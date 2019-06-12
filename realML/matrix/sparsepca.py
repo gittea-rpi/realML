@@ -76,7 +76,7 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         'version': __version__,
         'name': 'Sparse Principal Component Analysis',
         'description': "Given a mean centered rectangular matrix `A` with shape `(m, n)`, SPCA computes a set of sparse components that can optimally reconstruct the input data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. In addition, some ridge shrinkage can be applied in order to improve conditioning.",
-        'python_path': 'd3m.primitives.feature_extraction.sparsepca.SparsePCA',
+        'python_path': 'd3m.primitives.feature_extraction.sparse_pca.SparsePCA',
         'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
         'algorithm_types' : [
             'LOW_RANK_MATRIX_APPROXIMATIONS'
