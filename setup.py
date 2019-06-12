@@ -4,7 +4,7 @@ with open('README.md') as file:
     readme = file.read()
 
 setup(name="realML",
-      version="2.7.3",
+      version="2.7.4",
       description="ICSI provided machine learning primitives for DARPA D3M project, focusing on fast kernel methods and matrix factorizations ",
       packages=find_packages(),
       entry_points={
@@ -15,7 +15,7 @@ setup(name="realML",
               'regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR = realML.kernel:RFMPreconditionedPolynomialKRR',
               'regression.fast_lad.FastLAD = realML.matrix:FastLAD',
               #'feature_extraction.l1_low_rank.L1LowRank = realML.matrix:L1LowRank',
-              'feature_extraction.sparse_pca.sparsepca = realML.matrix:sparse_pca',
+              #'feature_extraction.sparse_pca.sparsepca = realML.matrix:sparse_pca',
           ],
       },
       url="https://github.com/ICSI-RealML/realML",
