@@ -76,7 +76,7 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         "version":  __version__,
         "python_path": "d3m.primitives.feature_extraction.sparse_pca.ICSI",
         "name": "Sparse Principal Component Analysis",
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
+        'primitive_family': "FEATURE_EXTRACTION",
         'algorithm_types' : [
             'LOW_RANK_MATRIX_APPROXIMATIONS'
         ],
