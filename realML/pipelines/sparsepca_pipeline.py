@@ -6,7 +6,7 @@ from d3m.metadata.base import ArgumentType, Context
 
 import realML.pipelines.datasets
 from realML.pipelines.base import BasePipeline
-from realML.matrix import sparsepca
+from realML.matrix import SparsePCA
 
 from d3m.primitives.data_transformation.dataframe_to_ndarray import Common as DataFrameToNDArrayPrimitive
 from d3m.primitives.data_transformation.ndarray_to_dataframe import Common as NDArrayToDataFramePrimitive
