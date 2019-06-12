@@ -11,8 +11,6 @@ from d3m.metadata import base as metadata_base, hyperparams, params
 import d3m.metadata.base as metadata_module
 from d3m import exceptions, utils
 
-import common_primitives
-
 from . import __author__, __version__
 
 
@@ -63,7 +61,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class SparsePCAPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class sparsepca(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Given a mean centered rectangular matrix `A` with shape `(m, n)`, SPCA
     computes a set of sparse components that can optimally reconstruct the
