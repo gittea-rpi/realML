@@ -70,20 +70,22 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
     shrinkage can be applied in order to improve conditioning.
     """
 
-    __author__ = "ICSI"
-    metadata = metadata_module.PrimitiveMetadata({
-        "id": "bc635ff3-391e-4e6c-8660-8e2c1ae26b3f",
-        "version":  __version__,
-        "python_path": "d3m.primitives.feature_extraction.sparse_pca.ICSI",
-        "name": "Sparse Principal Component Analysis",
-        'primitive_family': "FEATURE_EXTRACTION",
+    __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
+    metadata = metadata_base.PrimitiveMetadata({
+        'id': 'ea3b78a6-dc8c-4772-a329-b653583817b4',
+        'version': __version__,
+        'name': 'Sparse Principal Component Analysis',
+        'description': "Given a mean centered rectangular matrix `A` with shape `(m, n)`, SPCA computes a set of sparse components that can optimally reconstruct the input data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. In addition, some ridge shrinkage can be applied in order to improve conditioning.",
+        'python_path': 'd3m.primitives.feature_extraction.sparsepca.SparsePCA',
+        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
         'algorithm_types' : [
             'LOW_RANK_MATRIX_APPROXIMATIONS'
         ],
-        "source": {
+        'keywords' : ['low rank approximation', 'sparse PCA'],
+        'source' : {
             'name': __author__,
             'contact': 'mailto:erichson@berkeley.edu',
-            'uris': [
+            'uris' : [
                 'https://github.com/ICSI-RealML/realML.git',
             ],
         },
@@ -100,8 +102,9 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
             'NO_MISSING_VALUES',
             'NO_CATEGORICAL_VALUES'
         ],
-    })
-
+    })    
+    
+    
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)
 
