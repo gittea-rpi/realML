@@ -4,4 +4,4 @@ __author__ = 'ICSI'
 __version__ = get_distribution('realML').version
 from .FastLADSolver import FastLAD
 from .L1LowRank import L1LowRank
-
+from .sparsepca import sparsepca
