@@ -13,6 +13,9 @@ from d3m import exceptions, utils
 
 import common_primitives
 
+from . import __author__, __version__
+
+
 Inputs = ndarray
 Outputs = ndarray
 
@@ -69,14 +72,18 @@ class SparsePCAPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
     shrinkage can be applied in order to improve conditioning.
     """
 
-    __author__ = "ICSI DARPA D3M Team, N. Benjamin Erichson <erichson@berkeley.edu>"
+    __author__ = "ICSI"
     metadata = metadata_module.PrimitiveMetadata({
         "id": "bc635ff3-391e-4e6c-8660-8e2c1ae26b3f",
-        "version": "0.2.0",
+        "version":  __version__,
         "python_path": "d3m.primitives.feature_extraction.sparse_pca.sparsepca",
         "name": "Sparse Principal Component Analysis",
+        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
+        'algorithm_types' : [
+            'LOW_RANK_MATRIX_APPROXIMATIONS'
+        ],
         "source": {
-            'name': common_primitives.__author__,
+            'name': __author__,
             'contact': 'mailto:erichson@berkeley.edu',
             'uris': [
                 'https://github.com/ICSI-RealML/realML.git',
