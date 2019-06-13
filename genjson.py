@@ -26,7 +26,7 @@ primitives = {
     #'d3m.primitives.classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification' : [TensorMachinesBinaryClassificationPipeline],
     'd3m.primitives.regression.fast_lad.FastLAD' : [FastLADPipeline],
     #'d3m.primitives.feature_extraction.l1_low_rank.L1LowRank' : [L1LowRankPipeline]
-    'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [sparsepcaPipeline]
+    'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [sparsepcaPipeline,sparsepca_pipeline_LL0_acled]
 }
 
 for prim in primitives.keys():
