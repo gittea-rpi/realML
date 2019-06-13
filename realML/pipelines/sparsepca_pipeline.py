@@ -85,18 +85,16 @@ class sparsepcaPipeline(BasePipeline):
             argument_type = ArgumentType.CONTAINER,
             data_reference = 'steps.4.produce' #inputs here are the outputs from step 4
         )
-        
         step_5.add_hyperparameter(
                name = 'n_components',
                argument_type = ArgumentType.VALUE,
                data = 5
-       )
-       step_5.add_hyperparameter(
+        )
+        step_5.add_hyperparameter(
                name = 'beta',
                argument_type = ArgumentType.VALUE,
                data = 1e-8
-       )        
-         
+        )        
         step_5.add_output('produce')
         pipeline.add_step(step_5)
         
