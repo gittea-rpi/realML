@@ -16,7 +16,8 @@ from d3m.primitives.data_transformation.column_parser import DataFrameCommon as 
 from d3m.primitives.data_transformation.construct_predictions import DataFrameCommon as ConstructPredictionsPrimitive
 from d3m.primitives.data_transformation.extract_columns_by_semantic_types import DataFrameCommon as ExtractColumnsBySemanticTypesPrimitive
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
-import d3m.primitives.classification.gradient_boosting as GB
+#import d3m.primitives.classification.gradient_boosting as GB
+import d3m.primitives.classification.gradient_boosting
 
 class sparsepcaPipelineLL0acled(BasePipeline):
 
@@ -109,7 +110,7 @@ class sparsepcaPipelineLL0acled(BasePipeline):
         pipeline.add_step(step_6)
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description = GB.metadata.query())
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.classification.gradient_boosting.SKlearn.metadata.query())
         step_7.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
