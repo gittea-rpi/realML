@@ -108,12 +108,14 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
         self._training_inputs = inputs
         self._training_outputs = outputs
 
+
         if self.hyperparams['preprocess'] == 'YES':
             (self._training_inputs, self._norms) = tm_preprocess(self._training_inputs)
 
         self._fitted = False
 
     def fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
+
         if self._fitted:
             return CallResult(None)
 
@@ -122,6 +124,7 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
 
         if len(self._training_outputs.shape) == 1:
             self._training_outputs = np.expand_dims(self._training_outputs, axis=1)
+
         (self._weights, _) = tm_fit(self._training_inputs, self._training_outputs, 'bc', self.hyperparams['r'],
            self.hyperparams['q'], self.hyperparams['gamma'], self.hyperparams['solver'],
            self.hyperparams['epochs'], self.hyperparams['alpha'], seed=self._seed)
