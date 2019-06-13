@@ -18,7 +18,7 @@ from d3m.primitives.data_transformation.extract_columns_by_semantic_types import
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
 import d3m.primitives.classification.gradient_boosting as GB
 
-class sparsepcaPipeline(BasePipeline):
+class sparsepcaPipeline_LL0_acled(BasePipeline):
 
     #specify one seed dataset on which this pipeline can operate
 

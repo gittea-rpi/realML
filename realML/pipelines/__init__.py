@@ -5,10 +5,12 @@ from .TensorMachinesBinaryClassification_pipeline import TensorMachinesBinaryCla
 from .L1LowRank_pipeline import L1LowRankPipeline
 from .FastLAD_pipeline import FastLADPipeline
 from .sparsepca_pipeline import sparsepcaPipeline
+from .sparsepcaPipeline_LL0_acled import sparsepcaPipelineLL0acled
 __all__ = ["RFMPreconditionedGaussianKRRPipeline", 
            "RFMPreconditionedPolynomialKRRPipeline",
            "TensorMachinesRegularizedLeastSquaresPipeline",
            "TensorMachinesBinaryClassificationPipeline",
            "L1LowRankPipeline",
            "FastLADPipeline",
-           "sparsepcaPipeline"]
+           "sparsepcaPipeline",
+           "sparsepcaPipelineLL0acled"]
