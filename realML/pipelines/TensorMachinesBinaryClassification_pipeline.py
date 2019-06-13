@@ -27,6 +27,7 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
         super().__init__()
         
         #specify one seed dataset on which this pipeline can operate
+        #dataset = 'uu4_SPECT'
         dataset = 'SEMI_1053_jm1'
         self.meta_info = self.genmeta(dataset)
 
@@ -64,7 +65,7 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
 		data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
         pipeline.add_step(step_2)
 
-	# Step 3: Impute missing data
+	# Step 3: Impute missing attributes
         step_3 = meta_pipeline.PrimitiveStep(primitive_description = SimpleImputerPrimitive.metadata.query())
         step_3.add_argument(name='inputs', 
 		argument_type=ArgumentType.CONTAINER, 
@@ -72,60 +73,81 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
         step_3.add_output('produce')
         pipeline.add_step(step_3)
 
-        # Step 4: Extract Targets
-        step_4 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        step_4.add_argument(name='inputs', 
-		argument_type=ArgumentType.CONTAINER, 
-		data_reference='steps.1.produce')
+	# Step 4: Convert attributes to ndarray
+        step_4 = meta_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
+        step_4.add_argument(
+		name = 'inputs',
+		argument_type = ArgumentType.CONTAINER,
+		data_reference = 'steps.3.produce'
+        )
         step_4.add_output('produce')
-        step_4.add_hyperparameter(name='semantic_types', 
-		argument_type=ArgumentType.VALUE, 
-		data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
         pipeline.add_step(step_4)
 
-	# Step 5: Transform targets into an ndarray
-	step_5 = d3m_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
-	step_5.add_argument(
-		name = 'inputs',
-		argument_type = d3m_base.ArgumentType.CONTAINER,
-		data_reference = 'steps.4.produce'
-	)
-	pipeline.add_step(step_5)
+        # Step 5: Extract Targets
+        step_5 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
+        step_5.add_argument(name='inputs', 
+		argument_type=ArgumentType.CONTAINER, 
+		data_reference='steps.1.produce')
+        step_5.add_output('produce')
+        step_5.add_hyperparameter(name='semantic_types', 
+		argument_type=ArgumentType.VALUE, 
+		data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
+        pipeline.add_step(step_5)
 
-        # Step 6: use TensorMachinesBinaryClassification
-        step_6 = meta_pipeline.PrimitiveStep(primitive_description = TensorMachinesBinaryClassification.metadata.query())
+	# Step 6: Transform targets into an ndarray
+        step_6 = meta_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
         step_6.add_argument(
-            name = 'inputs',
-            argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.3.produce' #inputs here are the attributes from step 3
+		name = 'inputs',
+		argument_type = ArgumentType.CONTAINER,
+		data_reference = 'steps.5.produce'
         )
-        step_6.add_argument(
-            name = 'outputs',
-            argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.5.produce' #outputs are the targets from step 5
-	)
         step_6.add_output('produce')
         pipeline.add_step(step_6)
-        
-        # Step 7: generate a properly-formatted output dataframe from the prediction outputs using the input dataframe as a reference
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description=ConstructPredictionsPrimitive.metadata.query())
+
+        # Step 7: use TensorMachinesBinaryClassification
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = TensorMachinesBinaryClassification.metadata.query())
         step_7.add_argument(
-            name='inputs',
-            argument_type=ArgumentType.CONTAINER,
-            data_reference='steps.6.produce'  # inputs here are the prediction column
+            name = 'inputs',
+            argument_type = ArgumentType.CONTAINER,
+            data_reference = 'steps.4.produce' #inputs here are the attributes from step 4
         )
         step_7.add_argument(
+            name = 'outputs',
+            argument_type = ArgumentType.CONTAINER,
+            data_reference = 'steps.6.produce' #outputs are the targets from step 6
+        )
+        step_7.add_output('produce')
+        pipeline.add_step(step_7)
+        
+	# Step 8: convert numpy-formatted prediction outputs to a dataframe
+        step_8 = meta_pipeline.PrimitiveStep(primitive_description = NDArrayToDataFramePrimitive.metadata.query())
+        step_8.add_argument(
+                name = 'inputs',
+                argument_type = ArgumentType.CONTAINER,
+                data_reference = 'steps.7.produce'
+        )
+        step_8.add_output('produce')
+        pipeline.add_step(step_8)
+
+        # Step 9: generate a properly-formatted output dataframe from the prediction outputs using the input dataframe as a reference
+        step_9 = meta_pipeline.PrimitiveStep(primitive_description=ConstructPredictionsPrimitive.metadata.query())
+        step_9.add_argument(
+            name='inputs',
+            argument_type=ArgumentType.CONTAINER,
+            data_reference='steps.8.produce'  # inputs here are the prediction column
+        )
+        step_9.add_argument(
             name='reference',
             argument_type=ArgumentType.CONTAINER,
             data_reference='steps.0.produce'  # inputs here are the dataframed input dataset
         )
-        step_7.add_output('produce')
-        pipeline.add_step(step_7)
+        step_9.add_output('produce')
+        pipeline.add_step(step_9)
 
         # Adding output step to the pipeline
         pipeline.add_output(
             name='output', 
-            data_reference='steps.7.produce')
+            data_reference='steps.9.produce')
 
         return pipeline
 
