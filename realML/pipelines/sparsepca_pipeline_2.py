@@ -74,98 +74,98 @@ class sparsepcaPipeline2(BasePipeline):
                 
 
         # Step 2: Extract Attributes
-        #step_4 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        #step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
-        #step_4.add_output('produce')
-        #step_4.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
-        #pipeline.add_step(step_4)
-
-        # Step 3: Extract Targets
-        #step_3 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        #step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
-        #step_3.add_output('produce')
-        #step_3.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
-        #pipeline.add_step(step_3)
-
-        #Transform attributes dataframe into an ndarray
-        step_4 = meta_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
-        step_4.add_argument(
-            name = 'inputs',
-            argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.3.produce' #inputs here are the outputs from step 3
-        )
+        step_4 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
+        step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
         step_4.add_output('produce')
+        step_4.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
         pipeline.add_step(step_4)
 
-        #Run L1LowRank
-        step_5 = meta_pipeline.PrimitiveStep(primitive_description = SparsePCA.metadata.query())
-        step_5.add_argument(
+        # Step 3: Extract Targets
+        step_5 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
+        step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
+        step_5.add_output('produce')
+        step_5.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
+        pipeline.add_step(step_5)
+
+        #Transform attributes dataframe into an ndarray
+        step_6 = meta_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
+        step_6.add_argument(
             name = 'inputs',
             argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.4.produce' #inputs here are the outputs from step 4
-        )
-        step_5.add_hyperparameter(
-               name = 'n_components',
-               argument_type = ArgumentType.VALUE,
-               data = 5
-        )
-        step_5.add_hyperparameter(
-               name = 'beta',
-               argument_type = ArgumentType.VALUE,
-               data = 1e-8
-        )
-        step_5.add_hyperparameter(
-               name = 'alpha',
-               argument_type = ArgumentType.VALUE,
-               data = 1e-6
-        )          
-        step_5.add_output('produce')
-        pipeline.add_step(step_5)
-        
-        # convert numpy-formatted attribute data to a dataframe
-        step_6 = meta_pipeline.PrimitiveStep(primitive_description=NDArrayToDataFramePrimitive.metadata.query())
-        step_6.add_argument(
-            name='inputs',
-            argument_type=ArgumentType.CONTAINER,
-            data_reference='steps.5.produce'  # inputs here are the outputs from step 5
+            data_reference = 'steps.5.produce' #inputs here are the outputs from step 3
         )
         step_6.add_output('produce')
         pipeline.add_step(step_6)
 
-        #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
+        #Run L1LowRank
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = SparsePCA.metadata.query())
         step_7.add_argument(
-        	name = 'inputs',
-        	argument_type = ArgumentType.CONTAINER,
-        	data_reference = 'steps.6.produce'
-        )
-        step_7.add_argument(
-            name = 'outputs',
+            name = 'inputs',
             argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.3.produce'
+            data_reference = 'steps.6.produce' #inputs here are the outputs from step 6
         )
+        step_7.add_hyperparameter(
+               name = 'n_components',
+               argument_type = ArgumentType.VALUE,
+               data = 5
+        )
+        step_7.add_hyperparameter(
+               name = 'beta',
+               argument_type = ArgumentType.VALUE,
+               data = 1e-8
+        )
+        step_7.add_hyperparameter(
+               name = 'alpha',
+               argument_type = ArgumentType.VALUE,
+               data = 1e-6
+        )          
         step_7.add_output('produce')
         pipeline.add_step(step_7)
-
-        #finally generate a properly-formatted output dataframe from the prediction outputs using the input dataframe as a reference
-        step_8 = meta_pipeline.PrimitiveStep(primitive_description=ConstructPredictionsPrimitive.metadata.query())
+        
+        # convert numpy-formatted attribute data to a dataframe
+        step_8 = meta_pipeline.PrimitiveStep(primitive_description=NDArrayToDataFramePrimitive.metadata.query())
         step_8.add_argument(
             name='inputs',
             argument_type=ArgumentType.CONTAINER,
-            data_reference='steps.7.produce'  # inputs here are the prediction column
-        )
-        step_8.add_argument(
-            name='reference',
-            argument_type=ArgumentType.CONTAINER,
-            data_reference='steps.0.produce'  # inputs here are the dataframed input dataset
+            data_reference='steps.7.produce'  # inputs here are the outputs from step 5
         )
         step_8.add_output('produce')
         pipeline.add_step(step_8)
 
+        #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
+        step_9 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
+        step_9.add_argument(
+        	name = 'inputs',
+        	argument_type = ArgumentType.CONTAINER,
+        	data_reference = 'steps.8.produce'
+        )
+        step_9.add_argument(
+            name = 'outputs',
+            argument_type = ArgumentType.CONTAINER,
+            data_reference = 'steps.3.produce'
+        )
+        step_9.add_output('produce')
+        pipeline.add_step(step_9)
+
+        #finally generate a properly-formatted output dataframe from the prediction outputs using the input dataframe as a reference
+        step_10 = meta_pipeline.PrimitiveStep(primitive_description=ConstructPredictionsPrimitive.metadata.query())
+        step_10.add_argument(
+            name='inputs',
+            argument_type=ArgumentType.CONTAINER,
+            data_reference='steps.9.produce'  # inputs here are the prediction column
+        )
+        step_10.add_argument(
+            name='reference',
+            argument_type=ArgumentType.CONTAINER,
+            data_reference='steps.0.produce'  # inputs here are the dataframed input dataset
+        )
+        step_10.add_output('produce')
+        pipeline.add_step(step_10)
+
         # Adding output step to the pipeline
         pipeline.add_output(
             name='output', 
-            data_reference='steps.8.produce')
+            data_reference='steps.10.produce')
 
         return pipeline
 
