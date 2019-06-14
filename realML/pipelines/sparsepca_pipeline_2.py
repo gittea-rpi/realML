@@ -20,6 +20,11 @@ import d3m.primitives.classification.gradient_boosting
 #
 import d3m.primitives.regression.gradient_boosting
 
+from d3m import index
+from d3m.metadata.base import ArgumentType, Context
+from d3m.metadata.pipeline import Pipeline, PrimitiveStep
+
+
 
 class sparsepcaPipeline2(BasePipeline):
 
@@ -47,20 +52,20 @@ class sparsepcaPipeline2(BasePipeline):
 
 
         # Step 1: DISTIL/NK pca feature selection
-        step_1 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_cleaning.data_cleaning.Datacleaning.metadata.query())
+        step_1 = meta_pipeline.PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.data_cleaning.Datacleaning'))
         step_1.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
         step_1.add_output('produce')
         pipeline.add_step(step_1)
 
 
         # Step 2: ColumnParser
-        step_2 = meta_pipeline.PrimitiveStep(primitive_description = ColumnParserPrimitive.metadata.query())
+        step_2 = meta_pipeline.PrimitiveStep(primitive_description=ColumnParserPrimitive.metadata.query())
         step_2.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
         step_2.add_output('produce')
         pipeline.add_step(step_2)
         
         # Step 3: imputer
-        step_3 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_cleaning.imputer.SKlearn.metadata.query() )
+        step_3 = meta_pipeline.PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
         step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
         step_3.add_output('produce')
         step_3.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE,data='replace')
