@@ -123,8 +123,8 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
             raise exceptions.InvalidStateError("Missing training data.")
 
         # Center data
-        print(self._training_inputs)
-        print(self._training_inputs.mean(axis=0))
+        self._training_inputs = np.array(self._training_inputs)
+        self._training_inputs = self._training_inputs[~numpy.isnan(self._training_inputs)]
         self._mean = self._training_inputs.mean(axis=0)
         X = self._training_inputs - self._mean
         # Initialization of Variable Projection Solver
