@@ -114,7 +114,16 @@ json annotations, they will point to a different git commit.
     git push
     ```
     
-13. Now, you need to get the pipelines onto your host system (through the mounted directory, presumably), then *on the host system* copy the pipelines to the ta1-submission repo, replace the old pipelines and push, wait for gitlab to rebuild the pipeline submission image through CI (or force it to the gitlab console), and run the pipelines on the jump server
+13. Clone the structure of the git LFS storing the datasets, then download the ones we will use:
+
+    ```
+    git lfs clone https://gitlab.datadrivendiscovery.org/d3m/datasets.git -X "*"
+    cd datasets
+    git lfs pull -I seed_datasets_current/LL0_207_autoPrice
+    git lfs pull -I seed_datasets_current/196_autoMpg
+    ```
+
+14. (Deprecated) Now, you need to get the pipelines onto your host system (through the mounted directory, presumably), then *on the host system* copy the pipelines to the ta1-submission repo, replace the old pipelines and push, wait for gitlab to rebuild the pipeline submission image through CI (or force it to the gitlab console), and run the pipelines on the jump server
 
     ```
     cd ~/Dropbox/research/RealML/d3mrepos/ta1-submission-pipelines

@@ -4,7 +4,6 @@
 from d3m.metadata import pipeline as meta_pipeline
 from d3m.metadata.base import ArgumentType, Context
 
-import realML.pipelines.datasets
 from realML.pipelines.base import BasePipeline
 from realML.matrix import L1LowRank
 
@@ -27,13 +26,7 @@ class L1LowRankPipeline(BasePipeline):
         
         #specify one seed dataset on which this pipeline can operate
         dataset = '196_autoMpg'
-        self.meta_info = {
-                'problem': realML.pipelines.datasets.get_problem_id(dataset),
-		'full_inputs': [ realML.pipelines.datasets.get_full_id(dataset) ],
-                'train_inputs': [ realML.pipelines.datasets.get_train_id(dataset) ],
-                'test_inputs': [ realML.pipelines.datasets.get_problem_id(dataset) ],
-		'score_inputs': [ realML.pipelines.datasets.get_score_id(dataset) ],
-            }
+        self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
     def _gen_pipeline(self):

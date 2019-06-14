@@ -3,7 +3,6 @@
 from d3m.metadata import pipeline as d3m_pipeline
 from d3m.metadata import base as d3m_base
 
-import realML.pipelines.datasets
 from realML.pipelines.base import BasePipeline
 from realML.kernel import RFMPreconditionedPolynomialKRR
 from common_primitives.dataframe_to_ndarray import DataFrameToNDArrayPrimitive
@@ -21,13 +20,7 @@ class RFMPreconditionedPolynomialKRRPipeline(BasePipeline):
 
         #specify one seed dataset on which this pipeline can operate
         dataset = 'LL0_207_autoPrice'
-        self.meta_info = {
-                'problem': realML.pipelines.datasets.get_problem_id(dataset),
-		'full_inputs': [ realML.pipelines.datasets.get_full_id(dataset) ],
-                'train_inputs': [ realML.pipelines.datasets.get_train_id(dataset) ],
-                'test_inputs': [ realML.pipelines.datasets.get_problem_id(dataset) ],
-		'score_inputs': [ realML.pipelines.datasets.get_score_id(dataset) ],
-            }
+        self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
     def _gen_pipeline(self):
