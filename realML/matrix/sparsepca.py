@@ -134,7 +134,7 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         
         
         # Center data
-        self._mean = X.mean(axis=0)
+        self._mean = self._training_inputs.mean(axis=0)
         
         
         X = self._training_inputs - self._mean
