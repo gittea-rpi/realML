@@ -18,6 +18,8 @@ from sklearn_wrap.SKLinearSVR import SKLinearSVR
 #import d3m.primitives.classification.gradient_boosting as GB
 import d3m.primitives.classification.gradient_boosting
 #
+import d3m.primitives.regression.gradient_boosting
+
 
 class sparsepcaPipelineLL0acled(BasePipeline):
 
@@ -27,7 +29,7 @@ class sparsepcaPipelineLL0acled(BasePipeline):
         super().__init__()
         
         #specify one seed dataset on which this pipeline can operate
-        dataset = 'LL0_acled_reduced'
+        dataset = '534_cps_85_wages'
         self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
@@ -89,7 +91,12 @@ class sparsepcaPipelineLL0acled(BasePipeline):
                name = 'beta',
                argument_type = ArgumentType.VALUE,
                data = 1e-8
-        )        
+        )
+        step_5.add_hyperparameter(
+               name = 'alpha',
+               argument_type = ArgumentType.VALUE,
+               data = 1e-6
+        )          
         step_5.add_output('produce')
         pipeline.add_step(step_5)
         
@@ -104,7 +111,7 @@ class sparsepcaPipelineLL0acled(BasePipeline):
         pipeline.add_step(step_6)
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.classification.gradient_boosting.SKlearn.metadata.query())
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
         step_7.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
