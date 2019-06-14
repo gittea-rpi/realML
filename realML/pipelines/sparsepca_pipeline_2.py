@@ -47,7 +47,7 @@ class sparsepcaPipeline2(BasePipeline):
 
 
         # Step 1: DISTIL/NK pca feature selection
-        step_1 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_cleaning.data_cleaning.Datacleaning.metadata.query()))
+        step_1 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_cleaning.data_cleaning.Datacleaning.metadata.query())
         step_1.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
         step_1.add_output('produce')
         pipeline.add_step(step_1)
@@ -60,7 +60,7 @@ class sparsepcaPipeline2(BasePipeline):
         pipeline.add_step(step_2)
         
         # Step 3: imputer
-        step_3 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_cleaning.imputer.SKlearn.metadata.query() ))
+        step_3 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_cleaning.imputer.SKlearn.metadata.query() )
         step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
         step_3.add_output('produce')
         step_3.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE,data='replace')
