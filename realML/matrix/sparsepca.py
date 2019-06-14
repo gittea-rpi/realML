@@ -13,6 +13,7 @@ from d3m import exceptions, utils
 
 from . import __author__, __version__
 
+from sklearn.preprocessing import OneHotEncoder
 
 Inputs = ndarray
 Outputs = ndarray
@@ -122,10 +123,22 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         if self._training_inputs is None:
             raise exceptions.InvalidStateError("Missing training data.")
 
-        # Center data
+        # Do some preprocessing to pass CI
+        enc = OneHotEncoder(handle_unknown='ignore')
+        enc.fit(self._training_inputs)
+        self._training_inputs = enc.transform(self._training_inputs).toarray()
+        
         self._training_inputs = np.array(self._training_inputs)
         self._training_inputs = self._training_inputs[~np.isnan(self._training_inputs)]
+        
+        
+        
+        # Center data
         self._mean = self._training_inputs.mean(axis=0)
+        
+        
+        
+        
         X = self._training_inputs - self._mean
         # Initialization of Variable Projection Solver
         U, D, Vt = linalg.svd(X, full_matrices=False, overwrite_a=False)
