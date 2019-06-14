@@ -128,8 +128,8 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         #enc.fit(self._training_inputs)
         #self._training_inputs = enc.transform(self._training_inputs).toarray()
         
-        X = np.array(self._training_inputs)
-        X[np.isnan(X)] = 1
+        self._training_inputs = np.array(self._training_inputs)
+        self._training_inputs[np.isnan(self._training_inputs)] = 1
         
         
         
@@ -137,7 +137,7 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         self._mean = X.mean(axis=0)
         
         
-        X = X - self._mean
+        X = self._training_inputs - self._mean
         # Initialization of Variable Projection Solver
         U, D, Vt = linalg.svd(X, full_matrices=False, overwrite_a=False)
         Dmax = D[0]  # l2 norm
