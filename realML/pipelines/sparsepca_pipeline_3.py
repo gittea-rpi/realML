@@ -130,7 +130,7 @@ class sparsepcaPipeline3(BasePipeline):
         step_7.add_hyperparameter(
             name = 'learning_rate',
             argument_type = ArgumentType.VALUE,
-            data = 0.003
+            data = 0.008
         )
         step_7.add_hyperparameter(
             name = 'max_depth',
