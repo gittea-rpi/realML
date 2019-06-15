@@ -75,7 +75,7 @@ class robustsparsepcaPipeline(BasePipeline):
         pipeline.add_step(step_4)
 
         #Run L1LowRank
-        step_5 = meta_pipeline.PrimitiveStep(primitive_description = SparsePCA.metadata.query())
+        step_5 = meta_pipeline.PrimitiveStep(primitive_description = RobustSparsePCA.metadata.query())
         step_5.add_argument(
             name = 'inputs',
             argument_type = ArgumentType.CONTAINER,

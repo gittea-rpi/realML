@@ -78,7 +78,7 @@ class RobustSparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, 
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
     metadata = metadata_base.PrimitiveMetadata({
-        'id': 'ea3b78a6-dc8c-4772-a329-b653583817b4',
+        'id': '3ed8e16e-1d5f-45c8-90f7-fe3c4ce2e758',
         'version': __version__,
         'name': 'Robust Sparse Principal Component Analysis',
         'description': "Given a mean centered rectangular matrix `A` with shape `(m, n)`, Robust SPCA computes a set of robust sparse components that can optimally reconstruct the input data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. In addition, some ridge shrinkage can be applied in order to improve conditioning.",
