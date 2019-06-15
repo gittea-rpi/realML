@@ -129,7 +129,7 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         #self._training_inputs = enc.transform(self._training_inputs).toarray()
         
         self._training_inputs = np.array(self._training_inputs)
-        self._training_inputs[np.isnan(self._training_inputs)] = 1
+        self._training_inputs[np.isnan(self._training_inputs)] = 0
         
         # Center data
         self._mean = self._training_inputs.mean(axis=0)
