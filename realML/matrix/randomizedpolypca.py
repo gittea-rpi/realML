@@ -111,8 +111,8 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         # Create features
         poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
         X = poly.fit_transform(self._training_inputs)
-        poly = PolynomialFeatures(interaction_only=True)
-        X = poly.fit_transform(X)
+        #poly = PolynomialFeatures(interaction_only=True)
+        #X = poly.fit_transform(X)
 
         
         # Center data
@@ -205,8 +205,8 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         # Create features
         poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
         X = poly.fit_transform(inputs)
-        poly = PolynomialFeatures(interaction_only=True)
-        X = poly.fit_transform(X)            
+        #poly = PolynomialFeatures(interaction_only=True)
+        #X = poly.fit_transform(X)            
             
         comps = (X - self._mean).dot(self._transformation)
         return CallResult(ndarray(comps, generate_metadata=True))
