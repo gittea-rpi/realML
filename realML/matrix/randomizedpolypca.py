@@ -202,6 +202,11 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         if not self._fitted:
             raise exceptions.PrimitiveNotFittedError("Primitive not fitted.")
             
+        # Do some preprocessing to pass CI
+        inputs = np.array(inputs)
+        inputs[np.isnan(inputs)] = 0
+                    
+            
         # Create features
         poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
         X = poly.fit_transform(inputs)
