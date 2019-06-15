@@ -129,13 +129,6 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         if k > min(m,n):
             k = min(m,n)       
         
-        if m < n:
-            X = X.T
-            m , n = X.shape 
-            flipped = True
-        else: 
-           flipped = False 
-        
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #Generate a random test matrix Omega
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,7 +173,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         #Note: B = U" * S * Vt
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~      
         #Compute SVD
-        U , s , Vt = sci.linalg.svd( B ,  compute_uv=True,
+        U , s , Vt = sci.linalg.svd(B ,  compute_uv=True,
                                   full_matrices=False, 
                                   overwrite_a=True,
                                   check_finite=False)
@@ -189,10 +182,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         #U = Q.dot(U)
     
         #Return Trunc
-        if flipped==True:
-            Vt = U.T[0:k,:]
-        else: 
-            Vt =  Vt[0:k,:]
+        Vt =  Vt[0:k,:]
 
         # Construct transformation matrix with eigenvectors
         self._invtransformation = Vt
