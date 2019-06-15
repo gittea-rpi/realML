@@ -122,22 +122,22 @@ class sparsepcaPipeline3(BasePipeline):
             argument_type = ArgumentType.CONTAINER,
             data_reference = 'steps.3.produce'
         )
-        step_5.add_hyperparameter(
+        step_7.add_hyperparameter(
             name = 'n_estimators',
             argument_type = ArgumentType.VALUE,
             data = 800
         )
-        step_5.add_hyperparameter(
+        step_7.add_hyperparameter(
             name = 'learning_rate',
             argument_type = ArgumentType.VALUE,
             data = 0.01
         )
-        step_5.add_hyperparameter(
+        step_7.add_hyperparameter(
             name = 'max_depth',
             argument_type = ArgumentType.VALUE,
             data = 5
         )
-        step_5.add_hyperparameter(
+        step_7.add_hyperparameter(
             name = 'subsample',
             argument_type = ArgumentType.VALUE,
             data = 0.6
