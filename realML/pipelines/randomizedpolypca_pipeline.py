@@ -105,8 +105,8 @@ class randomizedpolypcaPipeline(BasePipeline):
         pipeline.add_step(step_6)
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        #step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description = SKLinearSVR.metadata.query())
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
+        #step_7 = meta_pipeline.PrimitiveStep(primitive_description = SKLinearSVR.metadata.query())
         step_7.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
