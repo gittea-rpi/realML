@@ -8,7 +8,7 @@ from .sparsepca_pipeline import sparsepcaPipeline
 from .sparsepca_pipeline_2 import sparsepcaPipeline2
 from .sparsepca_pipeline_3 import sparsepcaPipeline3
 from .robustsparsepca_pipeline import robustsparsepcaPipeline
-
+from .randomizedpolypca_pipeline import robustsparsepcaPipeline
 
 __all__ = ["RFMPreconditionedGaussianKRRPipeline", 
            "RFMPreconditionedPolynomialKRRPipeline",
