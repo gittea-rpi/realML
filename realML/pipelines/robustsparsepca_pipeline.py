@@ -84,7 +84,7 @@ class robustsparsepcaPipeline(BasePipeline):
         step_5.add_hyperparameter(
                name = 'n_components',
                argument_type = ArgumentType.VALUE,
-               data = 5
+               data = 15
         )
         step_5.add_hyperparameter(
                name = 'beta',
