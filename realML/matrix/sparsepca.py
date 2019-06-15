@@ -13,7 +13,9 @@ from d3m import exceptions, utils
 
 from . import __author__, __version__
 
-from sklearn.preprocessing import OneHotEncoder
+
+from sklearn.preprocessing import PolynomialFeatures
+
 
 Inputs = ndarray
 Outputs = ndarray
