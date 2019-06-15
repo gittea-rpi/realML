@@ -89,7 +89,7 @@ class sparsepcaPipeline(BasePipeline):
                data = 1e-8
         )
         step_5.add_hyperparameter(
-               name = 'beta',
+               name = 'alpha',
                argument_type = ArgumentType.VALUE,
                data = 1e-6
         )         
