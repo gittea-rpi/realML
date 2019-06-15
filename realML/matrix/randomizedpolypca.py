@@ -46,11 +46,9 @@ class Hyperparams(hyperparams.Hyperparams):
 
 class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
-    Given a mean centered rectangular matrix `A` with shape `(m, n)`, SPCA
-    computes a set of sparse components that can optimally reconstruct the
-    input data.  The amount of sparseness is controllable by the coefficient
-    of the L1 penalty, given by the parameter alpha. In addition, some ridge
-    shrinkage can be applied in order to improve conditioning.
+    Given a mean rectangular matrix `A` with shape `(m, n)`, a set of polynomial features of degree n
+    is constructed. Then the randomized PCA is used to extract a new set of components 
+    that captures most of the variation in the data.
     """
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
@@ -59,7 +57,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         'version': __version__,
         'name': 'Randomized Principal Component Analysis using Polynomial Features',
         'description': "Extract the dominant PCA modes from polynomial and interaction features.",
-        'python_path': 'd3m.primitives.feature_extraction.pca.RandomizedPolyPCA',
+        'python_path': 'd3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA',
         'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
         'algorithm_types' : [
             'LOW_RANK_MATRIX_APPROXIMATIONS'
