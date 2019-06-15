@@ -19,6 +19,7 @@ from sklearn_wrap.SKLinearSVR import SKLinearSVR
 import d3m.primitives.classification.gradient_boosting
 #
 import d3m.primitives.regression.gradient_boosting
+#
 
 class sparsepcaPipeline3(BasePipeline):
 
@@ -115,7 +116,7 @@ class sparsepcaPipeline3(BasePipeline):
         step_7.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
-        	data_reference = 'steps.6.produce'
+        	data_reference = 'steps.2.produce'
         )
         step_7.add_argument(
             name = 'outputs',
