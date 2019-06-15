@@ -16,6 +16,8 @@ setup(name="realML",
               'regression.fast_lad.FastLAD = realML.matrix:FastLAD',
               #'feature_extraction.l1_low_rank.L1LowRank = realML.matrix:L1LowRank',
               'feature_extraction.sparse_pca.SparsePCA = realML.matrix:SparsePCA',
+              'feature_extraction.sparse_pca.RobustSparsePCA = realML.matrix:RobustSparsePCA',
+
           ],
       },
       url="https://github.com/ICSI-RealML/realML",

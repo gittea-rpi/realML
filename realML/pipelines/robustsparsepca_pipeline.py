@@ -5,7 +5,7 @@ from d3m.metadata import pipeline as meta_pipeline
 from d3m.metadata.base import ArgumentType, Context
 
 from realML.pipelines.base import BasePipeline
-from realML.matrix import SparsePCA
+from realML.matrix import RobustSparsePCA
 
 from d3m.primitives.data_transformation.dataframe_to_ndarray import Common as DataFrameToNDArrayPrimitive
 from d3m.primitives.data_transformation.ndarray_to_dataframe import Common as NDArrayToDataFramePrimitive
@@ -15,12 +15,12 @@ from d3m.primitives.data_transformation.column_parser import DataFrameCommon as 
 from d3m.primitives.data_transformation.construct_predictions import DataFrameCommon as ConstructPredictionsPrimitive
 from d3m.primitives.data_transformation.extract_columns_by_semantic_types import DataFrameCommon as ExtractColumnsBySemanticTypesPrimitive
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
-#import d3m.primitives.classification.gradient_boosting as GB
 import d3m.primitives.classification.gradient_boosting
 #
 import d3m.primitives.regression.gradient_boosting
 
-class sparsepcaPipeline3(BasePipeline):
+
+class robustsparsepcaPipeline(BasePipeline):
 
     #specify one seed dataset on which this pipeline can operate
 
@@ -84,18 +84,23 @@ class sparsepcaPipeline3(BasePipeline):
         step_5.add_hyperparameter(
                name = 'n_components',
                argument_type = ArgumentType.VALUE,
-               data = 15
+               data = 5
         )
         step_5.add_hyperparameter(
                name = 'beta',
                argument_type = ArgumentType.VALUE,
                data = 1e-8
-        ) 
+        )
         step_5.add_hyperparameter(
                name = 'alpha',
                argument_type = ArgumentType.VALUE,
-               data = 1e-7
-        )           
+               data = 1e-6
+        )  
+        step_5.add_hyperparameter(
+               name = 'gamma',
+               argument_type = ArgumentType.VALUE,
+               data = 0.5
+        )         
         step_5.add_output('produce')
         pipeline.add_step(step_5)
         
@@ -147,7 +152,7 @@ class sparsepcaPipeline3(BasePipeline):
         return pipeline
 
 if __name__ == '__main__':
-	instance = sparsepcaPipeline3()
+	instance = robustsparsepcaPipeline()
 	json_info = instance.get_json()
 	instanceid = instance.get_id()
 	instancepath = os.path.join(".", instanceid)
