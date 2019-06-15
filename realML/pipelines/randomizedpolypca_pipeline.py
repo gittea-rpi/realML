@@ -5,7 +5,7 @@ from d3m.metadata import pipeline as meta_pipeline
 from d3m.metadata.base import ArgumentType, Context
 
 from realML.pipelines.base import BasePipeline
-from realML.matrix import RobustSparsePCA
+from realML.matrix import RandomizedPolyPCA
 
 from d3m.primitives.data_transformation.dataframe_to_ndarray import Common as DataFrameToNDArrayPrimitive
 from d3m.primitives.data_transformation.ndarray_to_dataframe import Common as NDArrayToDataFramePrimitive
@@ -75,7 +75,7 @@ class robustsparsepcaPipeline(BasePipeline):
         pipeline.add_step(step_4)
 
         #Run L1LowRank
-        step_5 = meta_pipeline.PrimitiveStep(primitive_description = RobustSparsePCA.metadata.query())
+        step_5 = meta_pipeline.PrimitiveStep(primitive_description = RandomizedPolyPCA.metadata.query())
         step_5.add_argument(
             name = 'inputs',
             argument_type = ArgumentType.CONTAINER,
@@ -87,20 +87,10 @@ class robustsparsepcaPipeline(BasePipeline):
                data = 15
         )
         step_5.add_hyperparameter(
-               name = 'beta',
+               name = 'degree',
                argument_type = ArgumentType.VALUE,
-               data = 1e-8
-        )
-        step_5.add_hyperparameter(
-               name = 'alpha',
-               argument_type = ArgumentType.VALUE,
-               data = 1e-6
-        )  
-        step_5.add_hyperparameter(
-               name = 'gamma',
-               argument_type = ArgumentType.VALUE,
-               data = 0.5
-        )         
+               data = 3
+        )      
         step_5.add_output('produce')
         pipeline.add_step(step_5)
         
