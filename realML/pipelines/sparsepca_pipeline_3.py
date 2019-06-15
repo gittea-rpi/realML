@@ -136,7 +136,12 @@ class sparsepcaPipeline3(BasePipeline):
             name = 'max_depth',
             argument_type = ArgumentType.VALUE,
             data = 2
-        )             
+        )           
+        step_7.add_hyperparameter(
+            name = 'subsample',
+            argument_type = ArgumentType.VALUE,
+            data = 0.8
+        )        
         step_7.add_output('produce')
         pipeline.add_step(step_7)
 
