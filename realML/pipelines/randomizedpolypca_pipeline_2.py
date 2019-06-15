@@ -126,7 +126,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         step_8.add_argument(
             name = 'outputs',
             argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.3.produce'
+            data_reference = 'steps.4.produce'
         )
         step_8.add_hyperparameter(
             name = 'n_estimators',
