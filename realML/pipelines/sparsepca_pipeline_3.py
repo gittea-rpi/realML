@@ -125,7 +125,7 @@ class sparsepcaPipeline3(BasePipeline):
         step_7.add_hyperparameter(
             name = 'n_estimators',
             argument_type = ArgumentType.VALUE,
-            data = 5000
+            data = 10000
         )
         step_7.add_hyperparameter(
             name = 'learning_rate',
@@ -140,7 +140,7 @@ class sparsepcaPipeline3(BasePipeline):
         step_7.add_hyperparameter(
             name = 'loss',
             argument_type = ArgumentType.VALUE,
-            data = 'huber'
+            data = 'ls'
         )        
         step_7.add_output('produce')
         pipeline.add_step(step_7)
