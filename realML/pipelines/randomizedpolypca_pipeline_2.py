@@ -113,7 +113,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
             argument_type=ArgumentType.CONTAINER,
             data_reference='steps.6.produce'  # inputs here are the outputs from step 5
         )
-        step_6.add_output('produce')
+        step_7.add_output('produce')
         pipeline.add_step(step_7)
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
