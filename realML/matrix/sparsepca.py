@@ -48,6 +48,13 @@ class Hyperparams(hyperparams.Hyperparams):
         default=1e-5,
         description="Stopping tolerance for reconstruction error."
     )
+    degree = hyperparams.Hyperparameter[int](
+        semantic_types=[
+            'https://metadata.datadrivendiscovery.org/types/ControlParameter',
+        ],
+        default=1,
+        description="The degree of the polynomial features. Default = 2.",
+    )     
 
     # search over these hyperparameters to tune performance
     alpha = hyperparams.Uniform(
@@ -131,11 +138,15 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         self._training_inputs = np.array(self._training_inputs)
         self._training_inputs[np.isnan(self._training_inputs)] = 0
         
+        # Create features
+        poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
+        X = poly.fit_transform(self._training_inputs)        
+        
         # Center data
-        self._mean = self._training_inputs.mean(axis=0)
+        self._mean = X.mean(axis=0)
         
         
-        X = self._training_inputs - self._mean
+        X = X - self._mean
         # Initialization of Variable Projection Solver
         U, D, Vt = linalg.svd(X, full_matrices=False, overwrite_a=False)
         Dmax = D[0]  # l2 norm
@@ -186,7 +197,14 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         "Returns the latent matrix"
         if not self._fitted:
             raise exceptions.PrimitiveNotFittedError("Primitive not fitted.")
-        comps = (inputs - self._mean).dot(self._transformation)
+            
+        # Create features
+        poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
+        X = poly.fit_transform(inputs)
+        #poly = PolynomialFeatures(interaction_only=True)
+        #X = poly.fit_transform(X)              
+            
+        comps = (X - self._mean).dot(self._transformation)
         return CallResult(ndarray(comps, generate_metadata=True))
 
     def set_training_data(self, *, inputs: Inputs) -> None:  # type: ignore
