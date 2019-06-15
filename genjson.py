@@ -28,7 +28,7 @@ primitives = {
     #'d3m.primitives.feature_extraction.l1_low_rank.L1LowRank' : [L1LowRankPipeline]
     'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [sparsepcaPipeline,sparsepcaPipeline2,sparsepcaPipeline3],
     'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [robustsparsepcaPipeline],
-    'd3m.primitives.feature_extraction.pca.RandomizedPolyPCA' : [randomizedpolypcaPipeline],
+    'd3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [randomizedpolypcaPipeline],
     
 }
 
