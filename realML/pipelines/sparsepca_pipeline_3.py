@@ -96,7 +96,12 @@ class sparsepcaPipeline3(BasePipeline):
                name = 'alpha',
                argument_type = ArgumentType.VALUE,
                data = 0.05
-        )           
+        )
+        step_5.add_hyperparameter(
+               name = 'degree',
+               argument_type = ArgumentType.VALUE,
+               data = 2
+        )            
         step_5.add_output('produce')
         pipeline.add_step(step_5)
         
