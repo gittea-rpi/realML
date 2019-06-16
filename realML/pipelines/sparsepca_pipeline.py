@@ -15,6 +15,9 @@ from d3m.primitives.data_transformation.column_parser import DataFrameCommon as 
 from d3m.primitives.data_transformation.construct_predictions import DataFrameCommon as ConstructPredictionsPrimitive
 from d3m.primitives.data_transformation.extract_columns_by_semantic_types import DataFrameCommon as ExtractColumnsBySemanticTypesPrimitive
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
+import d3m.primitives.classification.gradient_boosting
+#
+import d3m.primitives.regression.gradient_boosting
 
 
 class sparsepcaPipeline(BasePipeline):
@@ -81,7 +84,7 @@ class sparsepcaPipeline(BasePipeline):
         step_5.add_hyperparameter(
                name = 'n_components',
                argument_type = ArgumentType.VALUE,
-               data = 3
+               data = 15
         )
         step_5.add_hyperparameter(
                name = 'beta',
@@ -92,7 +95,12 @@ class sparsepcaPipeline(BasePipeline):
                name = 'alpha',
                argument_type = ArgumentType.VALUE,
                data = 0
-        )         
+        )
+        step_5.add_hyperparameter(
+               name = 'degree',
+               argument_type = ArgumentType.VALUE,
+               data = 1
+        )  
         step_5.add_output('produce')
         pipeline.add_step(step_5)
         
@@ -107,7 +115,8 @@ class sparsepcaPipeline(BasePipeline):
         pipeline.add_step(step_6)
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description = SKLinearSVR.metadata.query())
+        #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
         step_7.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
@@ -118,6 +127,26 @@ class sparsepcaPipeline(BasePipeline):
             argument_type = ArgumentType.CONTAINER,
             data_reference = 'steps.3.produce'
         )
+        step_7.add_hyperparameter(
+            name = 'n_estimators',
+            argument_type = ArgumentType.VALUE,
+            data = 500
+        )
+        step_7.add_hyperparameter(
+            name = 'learning_rate',
+            argument_type = ArgumentType.VALUE,
+            data = 0.09
+        )
+        step_7.add_hyperparameter(
+            name = 'max_depth',
+            argument_type = ArgumentType.VALUE,
+            data = 2
+        )           
+        step_7.add_hyperparameter(
+            name = 'loss',
+            argument_type = ArgumentType.VALUE,
+            data = 'ls'
+        )        
         step_7.add_output('produce')
         pipeline.add_step(step_7)
 
