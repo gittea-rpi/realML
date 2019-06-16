@@ -132,13 +132,13 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         m , n = X.shape
         k = self.hyperparams['n_components']
         q = 3
-        p = 20
+        p = 5
             
         if k > min(m,n):
             k = min(m,n)
             
         if k+p > min(m,n):
-            p = 0
+            p = min(m,n) - k
         
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #Generate a random test matrix Omega
