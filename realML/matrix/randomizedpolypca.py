@@ -106,6 +106,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
             raise exceptions.InvalidStateError("Missing training data.")
 
         # Do some preprocessing to pass CI
+        self._training_inputs = np.array(self._training_inputs)
         self._training_inputs[~np.core.defchararray.isnumeric(self._training_inputs)] = np.nan
         imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
         imp_mean.fit(self._training_inputs)
@@ -209,6 +210,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         
         
         # Do some preprocessing to pass CI
+        inputs = np.array(inputs)
         inputs[~np.core.defchararray.isnumeric(inputs)] = np.nan
         imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
         imp_mean.fit(inputs)
@@ -223,6 +225,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         comps = (X - self._mean).dot(self._transformation)
         
         # remove nan
+        comps = np.array(comps)
         comps[~np.core.defchararray.isnumeric(comps)] = np.nan
         imp_mean2 = SimpleImputer(missing_values=np.nan, strategy='mean')
         imp_mean2.fit(comps)
