@@ -172,10 +172,10 @@ class randomizedpolypcaPipeline2(BasePipeline):
 
 if __name__ == '__main__':
     random.seed(123)
-	instance = robustsparsepcaPipeline2()
-	json_info = instance.get_json()
-	instanceid = instance.get_id()
-	instancepath = os.path.join(".", instanceid)
-	with open(instancepath + ".json", 'w') as file:
-		file.write(json_info)
-		file.close()
+    instance = randomizedpolypcaPipeline2()
+    json_info = instance.get_json()
+    instanceid = instance.get_id()
+    instancepath = os.path.join(".", instanceid)
+    with open(instancepath + ".json", 'w') as file:
+        file.write(json_info)
+        file.close()

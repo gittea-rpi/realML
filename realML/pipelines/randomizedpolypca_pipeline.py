@@ -163,7 +163,7 @@ class randomizedpolypcaPipeline(BasePipeline):
         return pipeline
 
 if __name__ == '__main__':
-	instance = robustsparsepcaPipeline()
+	instance = randomizedpolypcaPipeline()
 	json_info = instance.get_json()
 	instanceid = instance.get_id()
 	instancepath = os.path.join(".", instanceid)
