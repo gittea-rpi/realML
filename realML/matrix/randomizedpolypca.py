@@ -106,12 +106,12 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
             raise exceptions.InvalidStateError("Missing training data.")
 
         # Do some preprocessing to pass CI
-        if self._training_inputs is not None:
-            self._training_inputs = np.array(self._training_inputs)
-            self._training_inputs[~np.core.defchararray.isnumeric(self._training_inputs)] = np.nan
-            imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
-            imp_mean.fit(self._training_inputs)
-            self._training_inputs = imp_mean.transform(self._training_inputs)      
+#        if self._training_inputs is not None:
+#            self._training_inputs = np.array(self._training_inputs)
+#            self._training_inputs[~np.core.defchararray.isnumeric(self._training_inputs)] = np.nan
+#            imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+#            imp_mean.fit(self._training_inputs)
+#            self._training_inputs = imp_mean.transform(self._training_inputs)      
         
         
         # Create features
