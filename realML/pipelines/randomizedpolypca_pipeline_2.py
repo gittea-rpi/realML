@@ -101,7 +101,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         step_6.add_hyperparameter(
                name = 'degree',
                argument_type = ArgumentType.VALUE,
-               data = 3
+               data = 2
         )      
         step_6.add_output('produce')
         pipeline.add_step(step_6)
