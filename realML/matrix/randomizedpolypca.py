@@ -15,6 +15,8 @@ from d3m import exceptions, utils
 from . import __author__, __version__
 
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.impute import SimpleImputer
+
 
 Inputs = ndarray
 Outputs = ndarray
@@ -104,8 +106,11 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
             raise exceptions.InvalidStateError("Missing training data.")
 
         # Do some preprocessing to pass CI
-        self._training_inputs = np.array(self._training_inputs)
-        self._training_inputs[np.isnan(self._training_inputs)] = 0
+        #self._training_inputs = np.array(self._training_inputs)
+        #self._training_inputs[np.isnan(self._training_inputs)] = 0
+        
+        imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+        self._training_inputs = imp_mean.transform(self._training_inputs)        
         
         
         # Create features
@@ -203,8 +208,8 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
             raise exceptions.PrimitiveNotFittedError("Primitive not fitted.")
             
         # Do some preprocessing to pass CI
-        inputs = np.array(inputs)
-        inputs[np.isnan(inputs)] = 0
+        imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+        inputs = imp_mean.transform(inputs) 
                     
             
         # Create features
