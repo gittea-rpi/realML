@@ -110,6 +110,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         #self._training_inputs[np.isnan(self._training_inputs)] = 0
         
         imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+        imp_mean.fit(self._training_inputs)
         self._training_inputs = imp_mean.transform(self._training_inputs)        
         
         
@@ -209,6 +210,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
             
         # Do some preprocessing to pass CI
         imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+        imp_mean.fit(inputs)
         inputs = imp_mean.transform(inputs) 
                     
             
