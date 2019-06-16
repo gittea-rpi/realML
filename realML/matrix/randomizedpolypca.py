@@ -210,11 +210,11 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         
         
         # Do some preprocessing to pass CI
-        inputs = np.array(inputs)
-        inputs[~np.core.defchararray.isnumeric(inputs)] = np.nan
-        imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
-        imp_mean.fit(inputs)
-        inputs = imp_mean.transform(inputs)                    
+        #inputs = np.array(inputs)
+        #inputs[~np.core.defchararray.isnumeric(inputs)] = np.nan
+        #imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+        #imp_mean.fit(inputs)
+        #inputs = imp_mean.transform(inputs)                    
             
         # Create features
         poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
