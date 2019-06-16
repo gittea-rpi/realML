@@ -89,12 +89,12 @@ class sparsepcaPipeline(BasePipeline):
         step_5.add_hyperparameter(
                name = 'beta',
                argument_type = ArgumentType.VALUE,
-               data = 1e-9
+               data = 1e-5
         )
         step_5.add_hyperparameter(
                name = 'alpha',
                argument_type = ArgumentType.VALUE,
-               data = 1e-3
+               data = 1e-2
         )
         step_5.add_hyperparameter(
                name = 'degree',
