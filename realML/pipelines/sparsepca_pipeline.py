@@ -71,7 +71,7 @@ class sparsepcaPipeline(BasePipeline):
         step_4.add_output('produce')
         pipeline.add_step(step_4)
 
-        #Run L1LowRank
+        #Run SparsePCA
         step_5 = meta_pipeline.PrimitiveStep(primitive_description = SparsePCA.metadata.query())
         step_5.add_argument(
             name = 'inputs',
