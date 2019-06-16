@@ -131,12 +131,12 @@ class randomizedpolypcaPipeline2(BasePipeline):
         step_8.add_hyperparameter(
             name = 'n_estimators',
             argument_type = ArgumentType.VALUE,
-            data = 900
+            data = 1000
         )
         step_8.add_hyperparameter(
             name = 'learning_rate',
             argument_type = ArgumentType.VALUE,
-            data = 0.009
+            data = 0.008
         )
         step_8.add_hyperparameter(
             name = 'max_depth',
