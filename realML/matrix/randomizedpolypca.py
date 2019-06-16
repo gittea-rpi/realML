@@ -131,13 +131,13 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         # Shape of input matrix 
         m , n = X.shape
         k = self.hyperparams['n_components']
-        q = 3
+        q = 5
         p = 5
             
         if k > min(m,n):
             k = min(m,n)
             
-        if k+p > min(m,n):
+        if (k+p) > min(m,n):
             p = min(m,n) - k
         
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -157,18 +157,10 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         #If q > 0 perfrom q subspace iterations
         #Note: check_finite=False may give a performance gain
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~      
-        s = 1 #control parameter for number of orthogonalizations
-        if q > 0:
-            for i in np.arange( 1, q+1 ):
-                if( (2*i-2) % s == 0 ):
-                    Y , _ = sci.linalg.qr(Y , mode='economic', check_finite=False, overwrite_a=True)
-                            
-                if( (2*i-1) % s == 0 ):
-                    Z , _ = sci.linalg.qr(X.T.dot(Y), mode='economic', check_finite=False, overwrite_a=True)
-           
-                Y = X.dot(Z)
-            #End for
-         #End if       
+        for i in range(q):
+            Y , _ = sci.linalg.qr(Y , mode='economic', check_finite=False, overwrite_a=True)
+            Z , _ = sci.linalg.qr(X.T.dot(Y), mode='economic', check_finite=False, overwrite_a=True)
+            Y = X.dot(Z)     
             
         Q , _ = sci.linalg.qr(Y ,  mode='economic', check_finite=False, overwrite_a=True)  
         del(Y)
@@ -193,7 +185,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         #U = Q.dot(U)
     
         #Return Trunc
-        Vt =  Vt[0:k,:]
+        Vt =  Vt[0:k]
 
         # Construct transformation matrix with eigenvectors
         self._invtransformation = Vt
