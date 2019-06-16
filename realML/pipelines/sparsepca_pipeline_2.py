@@ -140,7 +140,7 @@ class sparsepcaPipeline2(BasePipeline):
         step_7.add_hyperparameter(
             name = 'max_depth',
             argument_type = ArgumentType.VALUE,
-            data = 2
+            data = 3
         )           
         step_7.add_hyperparameter(
             name = 'loss',
