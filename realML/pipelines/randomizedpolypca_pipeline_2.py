@@ -31,7 +31,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         super().__init__()
         
         #specify one seed dataset on which this pipeline can operate
-        dataset = 'uu6_hepatitis'
+        dataset = 'uu5_heartstatlog'
         self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
