@@ -181,7 +181,7 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         #Note: B = U" * S * Vt
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~      
         #Compute SVD
-        U , s , Vt = sci.linalg.svd(B ,  compute_uv=True,
+        U , s , Vt = sci.linalg.svd(X ,  compute_uv=True,
                                   full_matrices=False, 
                                   overwrite_a=True,
                                   check_finite=False)
