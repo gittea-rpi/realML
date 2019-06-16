@@ -19,6 +19,9 @@ import d3m.primitives.classification.gradient_boosting
 #
 import d3m.primitives.regression.gradient_boosting
 
+from d3m import index
+import d3m.primitives.data_cleaning.imputer
+
 
 class sparsepcaPipeline(BasePipeline):
 
