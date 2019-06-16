@@ -98,12 +98,12 @@ class sparsepcaPipeline(BasePipeline):
                argument_type = ArgumentType.VALUE,
                data = 10
         )
-        step_5.add_hyperparameter(
+        step_6.add_hyperparameter(
                name = 'beta',
                argument_type = ArgumentType.VALUE,
                data = 1e-5
         ) 
-        step_5.add_hyperparameter(
+        step_6.add_hyperparameter(
                name = 'alpha',
                argument_type = ArgumentType.VALUE,
                data = 1e-2
