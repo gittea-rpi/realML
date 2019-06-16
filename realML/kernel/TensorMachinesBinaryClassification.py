@@ -103,15 +103,35 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
         self._fitted = False
         self._weights = None
         self._norms = None
+        self.FALSELABEL = -1
+        self.TRUELABEL = 1
+        self.LABELLIST = None
+
+    def __map_labels_to_binary(self, y): # assumes y is a vector
+        labellist = np.unique(y)
+        if len(labellist)!=2:
+           # RAISE AN ERROR
+           pass
+        binlabels = np.zeros_like(y, dtype=int)
+        binlabels[y == labellist[0]] = self.FALSELABEL
+        binlabels[y == labellist[1]] = self.TRUELABEL
+        self.LABELLIST = labellist
+        return binlabels
+
+    def __map_binary_to_labels(self, binaryy): # binarry y should be numeric
+        labely = np.empty(binaryy.shape, dtype=self.LABELLIST.dtype)
+        trueq = np.abs(binaryy - self.TRUELABEL) <= np.abs( binaryy - self.FALSELABEL)
+        labely[np.logical_not(trueq)] = self.LABELLIST[0]
+        labely[trueq] = self.LABELLIST[1]
+        return labely
 
     def set_training_data(self, *, inputs: Inputs, outputs: Outputs) -> None:
         self._training_inputs = inputs
         self._training_outputs = outputs
 
-
         if self.hyperparams['preprocess'] == 'YES':
             (self._training_inputs, self._norms) = tm_preprocess(self._training_inputs)
-
+        
         self._fitted = False
 
     def fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
@@ -124,8 +144,9 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
 
         if len(self._training_outputs.shape) == 1:
             self._training_outputs = np.expand_dims(self._training_outputs, axis=1)
+        binaryoutputs = self.__map_labels_to_binary(self._training_outputs)
 
-        (self._weights, _) = tm_fit(self._training_inputs, self._training_outputs, 'bc', self.hyperparams['r'],
+        (self._weights, _) = tm_fit(self._training_inputs, binaryoutputs, 'bc', self.hyperparams['r'],
            self.hyperparams['q'], self.hyperparams['gamma'], self.hyperparams['solver'],
            self.hyperparams['epochs'], self.hyperparams['alpha'], seed=self._seed)
 
@@ -139,7 +160,9 @@ class TensorMachinesBinaryClassification(SupervisedLearnerPrimitiveBase[Inputs, 
 
         pred_test = tm_predict(self._weights, inputs, self.hyperparams['q'],
                                      self.hyperparams['r'], 'bc')
-        return CallResult(sign(pred_test.flatten()).astype(int))
+        result = self.__map_binary_to_labels(pred_test.flatten()).astype(self.LABELLIST.dtype)
+        return CallResult(d3m_ndarray(input_array=result, generate_metadata=True))
+        #return CallResult(sign(pred_test.flatten()).astype(int))
 
     def get_params(self) -> Params:
         return Params(weights=self._weights, norms=self._norms)
