@@ -134,8 +134,8 @@ class TensorMachinesRegularizedLeastSquares(SupervisedLearnerPrimitiveBase[Input
 
         pred_test = d3m_ndarray(tm_predict(self._weights, inputs, self.hyperparams['q'],
                                self.hyperparams['r'], 'regression').flatten())
-        pred_test.metadata = self._ymetadata.set_for_value(pred_test)	
-        return CallResult(pred_test)
+        #pred_test.metadata = self._ymetadata.set_for_value(pred_test)	
+        return CallResult(d3m_ndarray(pred_test, generate_metadata=True))
 
     def get_params(self) -> Params:
         return Params(weights=self._weights, norms=self._norms)
