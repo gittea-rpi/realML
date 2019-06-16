@@ -17,6 +17,8 @@ from . import __author__, __version__
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.impute import SimpleImputer
 
+import random
+
 
 Inputs = ndarray
 Outputs = ndarray
@@ -104,6 +106,8 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
             return CallResult(None)
         if self._training_inputs is None:
             raise exceptions.InvalidStateError("Missing training data.")
+
+        random.seed(123)
 
         # Do some preprocessing to pass CI
 #       self._training_inputs = np.array(self._training_inputs)
