@@ -131,7 +131,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         step_8.add_hyperparameter(
             name = 'n_estimators',
             argument_type = ArgumentType.VALUE,
-            data = 10000
+            data = 2000
         )
         step_8.add_hyperparameter(
             name = 'learning_rate',
