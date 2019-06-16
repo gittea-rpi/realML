@@ -25,7 +25,7 @@ class sparsepcaPipeline(BasePipeline):
         super().__init__()
         
         #specify one seed dataset on which this pipeline can operate
-        dataset = '196_autoMpg'
+        dataset = '26_radon_seed'
         self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
