@@ -59,11 +59,12 @@ class randomizedpolypcaPipeline2(BasePipeline):
         step_2.add_output('produce')
         step_2.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE,data='replace')
         step_2.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE,data=True)
+        step_2.add_hyperparameter(name='missing_values', argument_type=ArgumentType.VALUE, data='?')
         pipeline.add_step(step_2)    
 
         # Step 3: Extract Attributes
         step_3 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
         step_3.add_output('produce')
         step_3.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
         pipeline.add_step(step_3)
@@ -71,7 +72,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
 
         # Step 4: Extract Targets
         step_4 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+        step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
         step_4.add_output('produce')
         step_4.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
         pipeline.add_step(step_4)
