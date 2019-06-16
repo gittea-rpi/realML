@@ -106,12 +106,11 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
             raise exceptions.InvalidStateError("Missing training data.")
 
         # Do some preprocessing to pass CI
-#        if self._training_inputs is not None:
-#            self._training_inputs = np.array(self._training_inputs)
-#            self._training_inputs[~np.core.defchararray.isnumeric(self._training_inputs)] = np.nan
-#            imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
-#            imp_mean.fit(self._training_inputs)
-#            self._training_inputs = imp_mean.transform(self._training_inputs)      
+#       self._training_inputs = np.array(self._training_inputs)
+#       self._training_inputs[~np.core.defchararray.isnumeric(self._training_inputs)] = np.nan
+        imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+        imp_mean.fit(self._training_inputs)
+        self._training_inputs = imp_mean.transform(self._training_inputs)      
         
         
         # Create features
@@ -212,9 +211,9 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         # Do some preprocessing to pass CI
         #inputs = np.array(inputs)
         #inputs[~np.core.defchararray.isnumeric(inputs)] = np.nan
-        #imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
-        #imp_mean.fit(inputs)
-        #inputs = imp_mean.transform(inputs)                    
+        imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+        imp_mean.fit(inputs)
+        inputs = imp_mean.transform(inputs)                    
             
         # Create features
         poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
@@ -225,8 +224,8 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         comps = (X - self._mean).dot(self._transformation)
         
         # remove nan
-        comps = np.array(comps)
-        comps[~np.core.defchararray.isnumeric(comps)] = np.nan
+        #comps = np.array(comps)
+        #comps[~np.core.defchararray.isnumeric(comps)] = np.nan
         imp_mean2 = SimpleImputer(missing_values=np.nan, strategy='mean')
         imp_mean2.fit(comps)
         comps = imp_mean2.transform(comps)          
