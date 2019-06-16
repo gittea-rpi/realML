@@ -212,7 +212,10 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
         imp_mean.fit(inputs)
         inputs = imp_mean.transform(inputs) 
-                    
+
+        imp_question = SimpleImputer(missing_values='?', strategy='mean')
+        imp_question.fit(inputs)
+        inputs = imp_question.transform(inputs)                     
             
         # Create features
         poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
@@ -221,6 +224,12 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         #X = poly.fit_transform(X)            
             
         comps = (X - self._mean).dot(self._transformation)
+        
+        # remove nan
+        imp_mean2 = SimpleImputer(missing_values=np.nan, strategy='mean')
+        imp_mean2.fit(comps)
+        comps = imp_mean2.transform(comps)         
+        
         return CallResult(ndarray(comps, generate_metadata=True))
 
     def set_training_data(self, *, inputs: Inputs) -> None:  # type: ignore
