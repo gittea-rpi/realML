@@ -218,8 +218,8 @@ class RandomizedPolyPCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
         X = poly.fit_transform(inputs)
         #poly = PolynomialFeatures(interaction_only=True)
         #X = poly.fit_transform(X)            
-            
-        comps = (X - self._mean).dot(self._transformation)
+        m, n = X.shape    
+        comps = (X - self._mean[0:n]).dot(self._transformation[0:n,:])
               
         
         return CallResult(ndarray(comps, generate_metadata=True))
