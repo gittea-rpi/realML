@@ -96,12 +96,12 @@ class randomizedpolypcaPipeline2(BasePipeline):
         step_6.add_hyperparameter(
                name = 'n_components',
                argument_type = ArgumentType.VALUE,
-               data = 15
+               data = 35
         )
         step_6.add_hyperparameter(
                name = 'degree',
                argument_type = ArgumentType.VALUE,
-               data = 2
+               data = 3
         )      
         step_6.add_output('produce')
         pipeline.add_step(step_6)
@@ -136,7 +136,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         step_8.add_hyperparameter(
             name = 'learning_rate',
             argument_type = ArgumentType.VALUE,
-            data = 0.002
+            data = 0.01
         )
         step_8.add_hyperparameter(
             name = 'max_depth',
