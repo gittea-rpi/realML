@@ -94,7 +94,7 @@ class sparsepcaPipeline2(BasePipeline):
         step_5.add_hyperparameter(
                name = 'alpha',
                argument_type = ArgumentType.VALUE,
-               data = 0
+               data = 1e-3
         )     
         step_5.add_hyperparameter(
                name = 'degree',
@@ -135,12 +135,12 @@ class sparsepcaPipeline2(BasePipeline):
         step_7.add_hyperparameter(
             name = 'learning_rate',
             argument_type = ArgumentType.VALUE,
-            data = 0.5
+            data = 0.1
         )
         step_7.add_hyperparameter(
             name = 'max_depth',
             argument_type = ArgumentType.VALUE,
-            data = 1
+            data = 2
         )           
         step_7.add_hyperparameter(
             name = 'loss',
