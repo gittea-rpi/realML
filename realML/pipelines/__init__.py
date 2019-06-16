@@ -5,7 +5,13 @@ from .TensorMachinesBinaryClassification_pipeline import TensorMachinesBinaryCla
 from .L1LowRank_pipeline import L1LowRankPipeline
 from .FastLAD_pipeline import FastLADPipeline
 from .sparsepca_pipeline import sparsepcaPipeline
-from .sparsepca_pipeline_LL0_acled import sparsepcaPipelineLL0acled
+from .sparsepca_pipeline_2 import sparsepcaPipeline2
+from .sparsepca_pipeline_3 import sparsepcaPipeline3
+from .robustsparsepca_pipeline import robustsparsepcaPipeline
+from .randomizedpolypca_pipeline import randomizedpolypcaPipeline
+from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
+
+
 __all__ = ["RFMPreconditionedGaussianKRRPipeline", 
            "RFMPreconditionedPolynomialKRRPipeline",
            "TensorMachinesRegularizedLeastSquaresPipeline",
@@ -13,4 +19,8 @@ __all__ = ["RFMPreconditionedGaussianKRRPipeline",
            "L1LowRankPipeline",
            "FastLADPipeline",
            "sparsepcaPipeline",
-           "sparsepcaPipelineLL0acled"]
+           "sparsepcaPipeline2",
+           "sparsepcaPipeline3",
+           "robustsparsepcaPipeline",
+           "randomizedpolypcaPipeline",
+           "randomizedpolypcaPipeline2"]

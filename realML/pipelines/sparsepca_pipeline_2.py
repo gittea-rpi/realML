@@ -15,9 +15,12 @@ from d3m.primitives.data_transformation.column_parser import DataFrameCommon as 
 from d3m.primitives.data_transformation.construct_predictions import DataFrameCommon as ConstructPredictionsPrimitive
 from d3m.primitives.data_transformation.extract_columns_by_semantic_types import DataFrameCommon as ExtractColumnsBySemanticTypesPrimitive
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
+#import d3m.primitives.classification.gradient_boosting as GB
+import d3m.primitives.classification.gradient_boosting
+#
+import d3m.primitives.regression.gradient_boosting
 
-
-class sparsepcaPipeline(BasePipeline):
+class sparsepcaPipeline2(BasePipeline):
 
     #specify one seed dataset on which this pipeline can operate
 
@@ -25,7 +28,7 @@ class sparsepcaPipeline(BasePipeline):
         super().__init__()
         
         #specify one seed dataset on which this pipeline can operate
-        dataset = '196_autoMpg'
+        dataset = '534_cps_85_wages'
         self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
@@ -81,18 +84,18 @@ class sparsepcaPipeline(BasePipeline):
         step_5.add_hyperparameter(
                name = 'n_components',
                argument_type = ArgumentType.VALUE,
-               data = 7
+               data = 10
         )
         step_5.add_hyperparameter(
                name = 'beta',
                argument_type = ArgumentType.VALUE,
                data = 1e-8
-        )
+        ) 
         step_5.add_hyperparameter(
                name = 'alpha',
                argument_type = ArgumentType.VALUE,
                data = 1e-6
-        )         
+        )           
         step_5.add_output('produce')
         pipeline.add_step(step_5)
         
@@ -144,7 +147,7 @@ class sparsepcaPipeline(BasePipeline):
         return pipeline
 
 if __name__ == '__main__':
-	instance = sparsepcaPipeline()
+	instance = sparsepcaPipeline2()
 	json_info = instance.get_json()
 	instanceid = instance.get_id()
 	instancepath = os.path.join(".", instanceid)

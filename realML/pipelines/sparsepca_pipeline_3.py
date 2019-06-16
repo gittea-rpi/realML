@@ -17,8 +17,11 @@ from d3m.primitives.data_transformation.extract_columns_by_semantic_types import
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
 #import d3m.primitives.classification.gradient_boosting as GB
 import d3m.primitives.classification.gradient_boosting
+#
+import d3m.primitives.regression.gradient_boosting
+#
 
-class sparsepcaPipelineLL0acled(BasePipeline):
+class sparsepcaPipeline3(BasePipeline):
 
     #specify one seed dataset on which this pipeline can operate
 
@@ -26,7 +29,7 @@ class sparsepcaPipelineLL0acled(BasePipeline):
         super().__init__()
         
         #specify one seed dataset on which this pipeline can operate
-        dataset = 'LL0_acled_reduced'
+        dataset = 'LL0_207_autoPrice'
         self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
@@ -82,13 +85,23 @@ class sparsepcaPipelineLL0acled(BasePipeline):
         step_5.add_hyperparameter(
                name = 'n_components',
                argument_type = ArgumentType.VALUE,
-               data = 20
+               data = 15
         )
         step_5.add_hyperparameter(
                name = 'beta',
                argument_type = ArgumentType.VALUE,
-               data = 1e-8
-        )        
+               data = 1e-15
+        ) 
+        step_5.add_hyperparameter(
+               name = 'alpha',
+               argument_type = ArgumentType.VALUE,
+               data = 1e-10
+        )
+        step_5.add_hyperparameter(
+               name = 'degree',
+               argument_type = ArgumentType.VALUE,
+               data = 2
+        )            
         step_5.add_output('produce')
         pipeline.add_step(step_5)
         
@@ -103,7 +116,8 @@ class sparsepcaPipelineLL0acled(BasePipeline):
         pipeline.add_step(step_6)
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.classification.gradient_boosting.SKlearn.metadata.query())
+        #step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
         step_7.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
@@ -114,6 +128,26 @@ class sparsepcaPipelineLL0acled(BasePipeline):
             argument_type = ArgumentType.CONTAINER,
             data_reference = 'steps.3.produce'
         )
+        step_7.add_hyperparameter(
+            name = 'n_estimators',
+            argument_type = ArgumentType.VALUE,
+            data = 50000
+        )
+        step_7.add_hyperparameter(
+            name = 'learning_rate',
+            argument_type = ArgumentType.VALUE,
+            data = 0.002
+        )
+        step_7.add_hyperparameter(
+            name = 'max_depth',
+            argument_type = ArgumentType.VALUE,
+            data = 2
+        )           
+        step_7.add_hyperparameter(
+            name = 'loss',
+            argument_type = ArgumentType.VALUE,
+            data = 'ls'
+        )        
         step_7.add_output('produce')
         pipeline.add_step(step_7)
 
@@ -140,7 +174,7 @@ class sparsepcaPipelineLL0acled(BasePipeline):
         return pipeline
 
 if __name__ == '__main__':
-	instance = sparsepcaPipeline()
+	instance = sparsepcaPipeline3()
 	json_info = instance.get_json()
 	instanceid = instance.get_id()
 	instancepath = os.path.join(".", instanceid)

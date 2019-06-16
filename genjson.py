@@ -20,13 +20,17 @@ os.makedirs("ICSI")
 version = pkg_resources.get_distribution("realML").version
 
 primitives = {
-    'd3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR'  : [RFMPreconditionedGaussianKRRPipeline],
-    'd3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR' : [RFMPreconditionedPolynomialKRRPipeline],
-    'd3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares': [TensorMachinesRegularizedLeastSquaresPipeline],
+<<<<<<< HEAD
+    #'d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR'  : [RFMPreconditionedGaussianKRRPipeline],
+    #'d3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR' : [RFMPreconditionedPolynomialKRRPipeline],
+    #'d3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares': [TensorMachinesRegularizedLeastSquaresPipeline],
     'd3m.primitives.classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification' : [TensorMachinesBinaryClassificationPipeline],
-    'd3m.primitives.regression.fast_lad.FastLAD' : [FastLADPipeline],
+    #'d3m.primitives.regression.fast_lad.FastLAD' : [FastLADPipeline],
     #'d3m.primitives.feature_extraction.l1_low_rank.L1LowRank' : [L1LowRankPipeline]
-    'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [sparsepcaPipeline, sparsepcaPipelineLL0acled]
+    #'d3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [sparsepcaPipeline,sparsepcaPipeline2,sparsepcaPipeline3],
+    #'d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [robustsparsepcaPipeline],
+    #'d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [randomizedpolypcaPipeline,randomizedpolypcaPipeline2],
+    
 }
 
 for prim in primitives.keys():

@@ -13,9 +13,7 @@ from d3m import exceptions, utils
 
 from . import __author__, __version__
 
-
-from sklearn.preprocessing import PolynomialFeatures
-
+from sklearn.preprocessing import OneHotEncoder
 
 Inputs = ndarray
 Outputs = ndarray
@@ -50,13 +48,6 @@ class Hyperparams(hyperparams.Hyperparams):
         default=1e-5,
         description="Stopping tolerance for reconstruction error."
     )
-    degree = hyperparams.Hyperparameter[int](
-        semantic_types=[
-            'https://metadata.datadrivendiscovery.org/types/ControlParameter',
-        ],
-        default=1,
-        description="The degree of the polynomial features. Default = 2.",
-    )     
 
     # search over these hyperparameters to tune performance
     alpha = hyperparams.Uniform(
@@ -69,9 +60,14 @@ class Hyperparams(hyperparams.Hyperparams):
         description="Amount of ridge shrinkage to apply in order to improve conditionin.",
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'],
     )
+    gamma = hyperparams.Uniform(
+        default=1.0, lower=0.1, upper=5,
+        description="Parameter to control the amount of grossly corrupted entries that should be pulled out.",
+        semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'],
+    )    
 
 
-class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class RobustSparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Given a mean centered rectangular matrix `A` with shape `(m, n)`, SPCA
     computes a set of sparse components that can optimally reconstruct the
@@ -82,11 +78,11 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
 
     __author__ = "ICSI" # a la directions on https://gitlab.datadrivendiscovery.org/jpl/primitives_repo
     metadata = metadata_base.PrimitiveMetadata({
-        'id': 'ea3b78a6-dc8c-4772-a329-b653583817b4',
+        'id': '3ed8e16e-1d5f-45c8-90f7-fe3c4ce2e758',
         'version': __version__,
-        'name': 'Sparse Principal Component Analysis',
-        'description': "Given a mean centered rectangular matrix `A` with shape `(m, n)`, SPCA computes a set of sparse components that can optimally reconstruct the input data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. In addition, some ridge shrinkage can be applied in order to improve conditioning.",
-        'python_path': 'd3m.primitives.feature_extraction.sparse_pca.SparsePCA',
+        'name': 'Robust Sparse Principal Component Analysis',
+        'description': "Given a mean centered rectangular matrix `A` with shape `(m, n)`, Robust SPCA computes a set of robust sparse components that can optimally reconstruct the input data.  The amount of sparseness is controllable by the coefficient of the L1 penalty, given by the parameter alpha. In addition, some ridge shrinkage can be applied in order to improve conditioning.",
+        'python_path': 'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA',
         'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
         'algorithm_types' : [
             'LOW_RANK_MATRIX_APPROXIMATIONS'
@@ -106,7 +102,7 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
             }
         ],
         'location_uris': [ # NEED TO REF SPECIFIC COMMIT
-            'https://github.com/ICSI-RealML/realML/blob/master/realML/matrix/sparsepca.py',
+            'https://github.com/ICSI-RealML/realML/blob/master/realML/matrix/robustsparsepca.py',
             ],
         'preconditions': [
             'NO_MISSING_VALUES',
@@ -138,27 +134,30 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         #self._training_inputs = enc.transform(self._training_inputs).toarray()
         
         self._training_inputs = np.array(self._training_inputs)
-        self._training_inputs[np.isnan(self._training_inputs)] = 0
-        
-        # Create features
-        poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
-        X = poly.fit_transform(self._training_inputs)        
+        self._training_inputs[np.isnan(self._training_inputs)] = 1
         
         # Center data
-        self._mean = X.mean(axis=0)
+        self._mean = self._training_inputs.mean(axis=0)
         
         
-        X = X - self._mean
+        X = self._training_inputs - self._mean
+        
+        
         # Initialization of Variable Projection Solver
         U, D, Vt = linalg.svd(X, full_matrices=False, overwrite_a=False)
         Dmax = D[0]  # l2 norm
         A = Vt[:self.hyperparams['n_components']].T
         B = Vt[:self.hyperparams['n_components']].T
-        VD = Vt.T * D
-        VD2 = Vt.T * D**2
+
+        U = U[:, :self.hyperparams['n_components']]
+        Vt = Vt[:self.hyperparams['n_components']]
+        S = np.zeros_like(X)
+
+
         # Set Tuning Parameters
         alpha = self.hyperparams['alpha']
         beta = self.hyperparams['beta']
+        gamma = self.hyperparams['gamma']
         alpha *= Dmax**2
         beta *= Dmax**2
         nu = 1.0 / (Dmax**2 + beta)
@@ -171,17 +170,29 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
             # Update A:
             # X'XB = UDV'
             # Compute X'XB via SVD of X
-            Z = VD2.dot(Vt.dot(B))
+
+            XS = X - S
+            XB = X.dot(B)
+            Z = (XS).T.dot(XB)
+
             Utilde, Dtilde, Vttilde = linalg.svd(Z, full_matrices=False, overwrite_a=True)
             A = Utilde.dot(Vttilde)
+            
             # Proximal Gradient Descent to Update B
-            G = VD2.dot(Vt.dot(A - B)) - beta * B
+            R = XS - XB.dot(A.T)
+            G = X.T.dot(R.dot(A)) - beta * B            
             arr = B + nu * G
             B = np.sign(arr) * np.maximum(np.abs(arr) - kappa, 0)
+            
             # Compute residuals
-            R = VD.T - VD.T.dot(B).dot(A.T)
+            R = X - X.dot(B).dot(A.T)
+            S = np.sign(R) * np.maximum(np.abs(R) - gamma, 0)
+            R -= S
+            
+            
+            
             # Calculate objective
-            obj.append(0.5*np.sum(R**2) + alpha*np.sum(np.abs(B)) + 0.5*beta*np.sum(B**2))
+            obj.append(0.5 * np.sum(R**2) + alpha * np.sum(np.abs(B)) + 0.5 * beta * np.sum(B**2) + gamma * np.sum(np.abs(S)))
             # Break if obj is not improving anymore
             if n_iter > 0 and abs(obj[-2] - obj[-1]) / obj[-1] < self.hyperparams['max_tol']:
                 break
@@ -199,14 +210,7 @@ class SparsePCA(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         "Returns the latent matrix"
         if not self._fitted:
             raise exceptions.PrimitiveNotFittedError("Primitive not fitted.")
-            
-        # Create features
-        poly = PolynomialFeatures(degree=self.hyperparams['degree'], interaction_only=False)
-        X = poly.fit_transform(inputs)
-        #poly = PolynomialFeatures(interaction_only=True)
-        #X = poly.fit_transform(X)              
-            
-        comps = (X - self._mean).dot(self._transformation)
+        comps = (inputs - self._mean).dot(self._transformation)
         return CallResult(ndarray(comps, generate_metadata=True))
 
     def set_training_data(self, *, inputs: Inputs) -> None:  # type: ignore

@@ -136,3 +136,12 @@ json annotations, they will point to a different git commit.
     cd ta1-example
     /performer-toolbox/d3m_runner/d3m_runner.py --mode ta1 --yaml-file ./generateSubmission.yml --debug
     ```
+
+
+# Notes
+
+* Create id for primitive
+```
+import uuid
+uuid.uuid4()
+```
