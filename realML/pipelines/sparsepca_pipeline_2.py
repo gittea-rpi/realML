@@ -110,7 +110,8 @@ class sparsepcaPipeline2(BasePipeline):
         pipeline.add_step(step_6)
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description = SKLinearSVR.metadata.query())
+        #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
         step_7.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
@@ -121,6 +122,26 @@ class sparsepcaPipeline2(BasePipeline):
             argument_type = ArgumentType.CONTAINER,
             data_reference = 'steps.3.produce'
         )
+        step_7.add_hyperparameter(
+            name = 'n_estimators',
+            argument_type = ArgumentType.VALUE,
+            data = 50000
+        )
+        step_7.add_hyperparameter(
+            name = 'learning_rate',
+            argument_type = ArgumentType.VALUE,
+            data = 0.002
+        )
+        step_7.add_hyperparameter(
+            name = 'max_depth',
+            argument_type = ArgumentType.VALUE,
+            data = 2
+        )           
+        step_7.add_hyperparameter(
+            name = 'loss',
+            argument_type = ArgumentType.VALUE,
+            data = 'ls'
+        )        
         step_7.add_output('produce')
         pipeline.add_step(step_7)
 
