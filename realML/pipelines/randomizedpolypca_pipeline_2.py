@@ -34,7 +34,8 @@ class randomizedpolypcaPipeline2(BasePipeline):
         #specify one seed dataset on which this pipeline can operate
         dataset = 'uu5_heartstatlog'
         self.meta_info = self.genmeta(dataset)
-
+        random.seed(123)
+        
     #define pipeline object
     def _gen_pipeline(self):
         #pipeline context is just metadata, ignore for now
