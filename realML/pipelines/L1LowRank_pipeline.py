@@ -14,7 +14,7 @@ from d3m.primitives.data_transformation.dataset_to_dataframe import Common as Da
 from d3m.primitives.data_transformation.column_parser import DataFrameCommon as ColumnParserPrimitive
 from d3m.primitives.data_transformation.construct_predictions import DataFrameCommon as ConstructPredictionsPrimitive
 from d3m.primitives.data_transformation.extract_columns_by_semantic_types import DataFrameCommon as ExtractColumnsBySemanticTypesPrimitive
-from sklearn_wrap.SKLinearSVR import SKLinearSVR
+from sklearn_wrap.SKRidge import SKRidge
 
 
 class L1LowRankPipeline(BasePipeline):
@@ -25,7 +25,7 @@ class L1LowRankPipeline(BasePipeline):
         super().__init__()
         
         #specify one seed dataset on which this pipeline can operate
-        dataset = '196_autoMpg'
+        dataset = 'LL0_207_autoPrice'
         self.meta_info = self.genmeta(dataset)
 
     #define pipeline object
@@ -91,8 +91,18 @@ class L1LowRankPipeline(BasePipeline):
         step_6.add_output('produce')
         pipeline.add_step(step_6)
 
-        #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description = SKLinearSVR.metadata.query())
+        #Ridge Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = SKRidge.metadata.query())
+        step_7.add_hyperparameter(
+                name = 'max_iter',
+                argument_type = ArgumentType.VALUE,
+                data = 10000
+        )
+        step_7.add_hyperparameter(
+                name = 'tol',
+                argument_type = ArgumentType.VALUE,
+                data = 0.01
+        )
         step_7.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
