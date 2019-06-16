@@ -22,6 +22,7 @@ import d3m.primitives.regression.gradient_boosting
 from d3m import index
 import d3m.primitives.data_cleaning.imputer
 
+import random
 
 class randomizedpolypcaPipeline2(BasePipeline):
 
@@ -170,6 +171,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         return pipeline
 
 if __name__ == '__main__':
+    random.seed(123)
 	instance = robustsparsepcaPipeline2()
 	json_info = instance.get_json()
 	instanceid = instance.get_id()
