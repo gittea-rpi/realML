@@ -14,11 +14,11 @@ from common_primitives.extract_columns_semantic_types import ExtractColumnsBySem
 from d3m.primitives.data_transformation.encoder import DistilBinaryEncoder as BinaryEncoderPrimitive
 from d3m import index
 import d3m.primitives.data_cleaning.imputer
-import d3m.primitives.data_preprocessing.horizontal_concat
+#import d3m.primitives.data_preprocessing.horizontal_concat
 import os.path
 
 #from d3m.primitives.data_preprocessing.horizontal_concat import HorizontalConcat as HorizontalConcat
-
+from common_primitives.horizontal_concat import HorizontalConcatPrimitive
 
 import pandas as pd
 
@@ -185,14 +185,14 @@ class sparsepcaPipeline(BasePipeline):
         pipeline.add_step(step_9)
         
         #step 9: convert numpy-formatted prediction outputs to a dataframe
-        step_10 = d3m_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_preprocessing.horizontal_concat.DSBOX.metadata.query())
+        step_10 = d3m_pipeline.PrimitiveStep(primitive_description = HorizontalConcatPrimitive.metadata.query())
         step_10.add_argument(
-                name = 'inputs1',
+                name = 'left',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
                 data_reference = 'steps.4.produce'
         )
         step_10.add_argument(
-                name = 'inputs2',
+                name = 'right',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
                 data_reference = 'steps.4.produce'
         )          
