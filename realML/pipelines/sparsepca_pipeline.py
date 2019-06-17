@@ -187,12 +187,12 @@ class sparsepcaPipeline(BasePipeline):
         #step 9: convert numpy-formatted prediction outputs to a dataframe
         step_10 = d3m_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_preprocessing.horizontal_concat.DSBOX.metadata.query())
         step_10.add_argument(
-                name = 'inputs',
+                name = 'inputs1',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
                 data_reference = 'steps.4.produce'
         )
         step_10.add_argument(
-                name = 'inputs',
+                name = 'inputs2',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
                 data_reference = 'steps.9.produce'
         )        
