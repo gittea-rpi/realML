@@ -1,5 +1,7 @@
 from .RFMPreconditionedGaussianKRR_pipeline import RFMPreconditionedGaussianKRRPipeline
+from .RFMPreconditionedGaussianKRR_pipeline_196_autoMpg import RFMPreconditionedGaussianKRRPipeline_196_autoMpg
 from .RFMPreconditionedPolynomialKRR_pipeline import RFMPreconditionedPolynomialKRRPipeline
+from .RFMPreconditionedPolynomialKRR_pipeline_196_autoMpg import RFMPreconditionedPolynomialKRRPipeline_196_autoMpg
 from .TensorMachinesRegularizedLeastSquares_pipeline import TensorMachinesRegularizedLeastSquaresPipeline
 from .TensorMachinesRegularizedLeastSquares_pipeline_196_autoMpg import TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg
 from .TensorMachinesBinaryClassification_pipeline import TensorMachinesBinaryClassificationPipeline
@@ -14,7 +16,9 @@ from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
 
 
 __all__ = ["RFMPreconditionedGaussianKRRPipeline", 
+           "RFMPreconditionedGaussianKRRPipeline_196_autoMpg", 
            "RFMPreconditionedPolynomialKRRPipeline",
+           "RFMPreconditionedPolynomialKRRPipeline_196_autoMpg",
            "TensorMachinesRegularizedLeastSquaresPipeline",
            "TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg",
            "TensorMachinesBinaryClassificationPipeline",
