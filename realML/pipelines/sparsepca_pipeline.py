@@ -179,7 +179,7 @@ class sparsepcaPipeline(BasePipeline):
         step_9.add_argument(
                 name = 'inputs',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.8.produce'
+                data_reference = np.concatenate(('steps.8.produce','steps.8.produce'))
         )
         step_9.add_output('produce')
         pipeline.add_step(step_9)
@@ -206,7 +206,7 @@ class sparsepcaPipeline(BasePipeline):
         step_11.add_argument(
         	name = 'inputs',
         	argument_type = d3m_base.ArgumentType.CONTAINER,
-        	data_reference = 'steps.10.produce'
+        	data_reference = 'steps.9.produce'
         )
         step_11.add_argument(
             name = 'outputs',
