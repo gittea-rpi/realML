@@ -17,12 +17,16 @@ import d3m.primitives.data_cleaning.imputer
 import d3m.primitives.data_preprocessing.horizontal_concat
 import os.path
 
+#from d3m.primitives.data_preprocessing.horizontal_concat import HorizontalConcat as HorizontalConcat
+
+
 import pandas as pd
 
 import d3m.primitives.regression.gradient_boosting
 
 from d3m import index
-import d3m.primitives.data_cleaning.imputer
+
+
 
 from realML.matrix import SparsePCA
 
@@ -183,12 +187,12 @@ class sparsepcaPipeline(BasePipeline):
         #step 9: convert numpy-formatted prediction outputs to a dataframe
         step_10 = d3m_pipeline.PrimitiveStep(primitive_description = d3m.primitives.data_preprocessing.horizontal_concat.DSBOX.metadata.query())
         step_10.add_argument(
-                name = 'inputs1',
+                name = 'inputs',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
                 data_reference = 'steps.4.produce'
         )
         step_10.add_argument(
-                name = 'inputs2',
+                name = 'inputs',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
                 data_reference = 'steps.9.produce'
         )        
