@@ -159,12 +159,12 @@ class sparsepcaPipeline4(BasePipeline):
         step_8.add_hyperparameter(
                name = 'beta',
                argument_type = d3m_base.ArgumentType.VALUE,
-               data = 1e-3
+               data = 1e-8
         ) 
         step_8.add_hyperparameter(
                name = 'alpha',
                argument_type = d3m_base.ArgumentType.VALUE,
-               data = 1e-2
+               data = 1e-3
         )         
         step_8.add_hyperparameter(
                name = 'degree',
