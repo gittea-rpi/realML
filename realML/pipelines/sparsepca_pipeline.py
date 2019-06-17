@@ -147,7 +147,7 @@ class sparsepcaPipeline(BasePipeline):
         step_8.add_hyperparameter(
                name = 'n_components',
                argument_type = d3m_base.ArgumentType.VALUE,
-               data = 12
+               data = 5
         )
         step_8.add_hyperparameter(
                name = 'beta',
