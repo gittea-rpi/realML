@@ -206,7 +206,7 @@ class sparsepcaPipeline4(BasePipeline):
         step_11.add_argument(
         	name = 'inputs',
         	argument_type = d3m_base.ArgumentType.CONTAINER,
-        	data_reference = 'steps.10.produce'
+        	data_reference = 'steps.4.produce'
         )
         step_11.add_argument(
             name = 'outputs',
@@ -216,7 +216,7 @@ class sparsepcaPipeline4(BasePipeline):
         step_11.add_hyperparameter(
             name = 'n_estimators',
             argument_type = d3m_base.ArgumentType.VALUE,
-            data = 10000
+            data = 1000
         )
         step_11.add_hyperparameter(
             name = 'learning_rate',
