@@ -25,7 +25,7 @@ import pandas as pd
 import d3m.primitives.regression.gradient_boosting
 
 from d3m import index
-
+import numpy as np
 
 
 from realML.matrix import SparsePCA
