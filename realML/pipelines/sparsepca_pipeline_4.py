@@ -189,7 +189,7 @@ class sparsepcaPipeline4(BasePipeline):
         step_10.add_argument(
                 name = 'left',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.4.produce'
+                data_reference = 'steps.9.produce'
         )
         step_10.add_argument(
                 name = 'right',
