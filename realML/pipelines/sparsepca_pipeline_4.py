@@ -164,7 +164,7 @@ class sparsepcaPipeline4(BasePipeline):
         step_8.add_hyperparameter(
                name = 'alpha',
                argument_type = d3m_base.ArgumentType.VALUE,
-               data = 1e-1
+               data = 1e-2
         )         
         step_8.add_hyperparameter(
                name = 'degree',
@@ -216,12 +216,12 @@ class sparsepcaPipeline4(BasePipeline):
         step_11.add_hyperparameter(
             name = 'n_estimators',
             argument_type = d3m_base.ArgumentType.VALUE,
-            data = 100
+            data = 10000
         )
         step_11.add_hyperparameter(
             name = 'learning_rate',
             argument_type = d3m_base.ArgumentType.VALUE,
-            data = 0.01
+            data = 0.001
         )
         step_11.add_hyperparameter(
             name = 'max_depth',
