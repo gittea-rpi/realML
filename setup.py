@@ -30,7 +30,8 @@ setup(name="realML",
           'regex==2017.4.5',
           'numpy>=1.14.0',
           'scipy<=1.2.1,>=0.19.0',
-          'scikit-learn>=0.18.1'
+          'scikit-learn>=0.18.1',
+	  'distil-primitives>=0.1.0'
       ],
       zip_safe=False
 )
