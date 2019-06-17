@@ -222,7 +222,7 @@ class sparsepcaPipeline(BasePipeline):
                 data_reference = 'steps.0.produce' #inputs here are the dataframe input dataset
         )
         step_11.add_output('produce')
-        pipeline.add_step(step_10)
+        pipeline.add_step(step_11)
 
         # Final Output
         pipeline.add_output(
