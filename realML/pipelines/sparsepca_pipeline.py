@@ -22,7 +22,6 @@ import d3m.primitives.regression.gradient_boosting
 from d3m import index
 import d3m.primitives.data_cleaning.imputer
 
-
 class sparsepcaPipeline(BasePipeline):
 
     #specify one seed dataset on which this pipeline can operate
