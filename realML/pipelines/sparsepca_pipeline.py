@@ -193,7 +193,7 @@ class sparsepcaPipeline(BasePipeline):
         step_10.add_hyperparameter(
             name = 'n_estimators',
             argument_type = d3m_base.ArgumentType.VALUE,
-            data = 40
+            data = 40000
         )
         step_10.add_hyperparameter(
             name = 'learning_rate',
