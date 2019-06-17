@@ -16,6 +16,8 @@ from d3m import index
 import d3m.primitives.data_cleaning.imputer
 import os.path
 
+import pandas as pd
+
 import d3m.primitives.regression.gradient_boosting
 
 from d3m import index
@@ -183,7 +185,7 @@ class sparsepcaPipeline(BasePipeline):
         step_10.add_argument(
         	name = 'inputs',
         	argument_type = d3m_base.ArgumentType.CONTAINER,
-        	data_reference = 'steps.9.produce'
+        	data_reference = pd.concat(['steps.9.produce', 'steps.4.produce'])
         )
         step_10.add_argument(
             name = 'outputs',
