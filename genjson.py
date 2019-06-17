@@ -41,7 +41,6 @@ primitives = {
     'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [sparsepcaPipeline,sparsepcaPipeline2,sparsepcaPipeline3],
     'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [robustsparsepcaPipeline],
     'd3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [randomizedpolypcaPipeline,randomizedpolypcaPipeline2],
-    
 }
 
 for prim in primitives.keys():
