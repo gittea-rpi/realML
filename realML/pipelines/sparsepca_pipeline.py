@@ -179,10 +179,10 @@ class sparsepcaPipeline(BasePipeline):
         
         
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_10 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
+        step_10 = d3m_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
         step_10.add_argument(
         	name = 'inputs',
-        	argument_type = ArgumentType.CONTAINER,
+        	argument_type = d3m_base.ArgumentType.CONTAINER,
         	data_reference = 'steps.9.produce'
         )
         step_10.add_argument(
