@@ -174,8 +174,7 @@ class RFMPreconditionedPolynomialKRR(SupervisedLearnerPrimitiveBase[Inputs, Outp
         """
         result = d3m_ndarray(PolynomialKernel(inputs, self._Xtrain, self.hyperparams['sf'],
                 self.hyperparams['offset'], self.hyperparams['degree']).dot(self._coeffs).flatten())
-        result.metadata = self._ymetadata.set_for_value(result)
-        return CallResult(result)
+        return CallResult(d3m_ndarray(result, generate_metadata=True))
 
     def set_params(self, *, params: Params) -> None:
         self._Xtrain = params['exemplars']
