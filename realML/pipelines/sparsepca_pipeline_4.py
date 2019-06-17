@@ -65,12 +65,18 @@ class sparsepcaPipeline4(BasePipeline):
         step_1.add_output('produce')
         pipeline.add_step(step_1)
 
-        #step 2: ColumnParser 
-        step_2 = d3m_pipeline.PrimitiveStep(primitive_description=ColumnParserPrimitive.metadata.query())
+        #step 2: Imputer 
+        step_2 = d3m_pipeline.PrimitiveStep(
+                primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
         step_2.add_argument(
-                name='inputs',
+                name = 'inputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
-                data_reference='steps.0.produce')
+                data_reference='steps.1.produce')
+        step_2.add_hyperparameter(
+                name = 'use_semantic_types',
+                argument_type=d3m_base.ArgumentType.VALUE,
+                data=True
+        )
         step_2.add_output('produce')
         pipeline.add_step(step_2)
 
@@ -215,7 +221,7 @@ class sparsepcaPipeline4(BasePipeline):
         step_11.add_hyperparameter(
             name = 'learning_rate',
             argument_type = d3m_base.ArgumentType.VALUE,
-            data = 0.005
+            data = 0.0005
         )
         step_11.add_hyperparameter(
             name = 'max_depth',
