@@ -142,7 +142,7 @@ class sparsepcaPipeline(BasePipeline):
         step_8.add_argument(
             name = 'inputs',
             argument_type = d3m_base.ArgumentType.CONTAINER,
-            data_reference = attributes #inputs here are the outputs from step 4
+            data_reference = attributes #inputs here are the outputs from step 7
         )
         step_8.add_hyperparameter(
                name = 'n_components',
@@ -188,7 +188,7 @@ class sparsepcaPipeline(BasePipeline):
         step_10.add_argument(
             name = 'outputs',
             argument_type = d3m_base.ArgumentType.CONTAINER,
-            data_reference = targets
+            data_reference = 'steps.5.produce'
         )
         step_10.add_hyperparameter(
             name = 'n_estimators',
