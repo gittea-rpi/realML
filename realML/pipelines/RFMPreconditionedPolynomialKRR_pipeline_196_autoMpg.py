@@ -143,11 +143,11 @@ class RFMPreconditionedPolynomialKRRPipeline_196_autoMpg(BasePipeline):
         step_8.add_hyperparameter(
                 name='offset',
                 argument_type=d3m_base.ArgumentType.VALUE,
-                data=0.01)
+                data=0.058434)
         step_8.add_hyperparameter(
                 name='sf',
                 argument_type=d3m_base.ArgumentType.VALUE,
-                data=1.99526)
+                data=0.34145)
         step_8.add_output('produce')
         pipeline.add_step(step_8)
 

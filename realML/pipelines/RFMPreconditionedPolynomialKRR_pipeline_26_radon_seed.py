@@ -136,6 +136,18 @@ class RFMPreconditionedPolynomialKRRPipeline_26_radon_seed(BasePipeline):
                 name='outputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
                 data_reference=targets)
+        step_8.add_hyperparameter(
+                name='lparam',
+                argument_type=d3m_base.ArgumentType.VALUE,
+                data=0.1)
+        step_8.add_hyperparameter(
+                name='offset',
+                argument_type=d3m_base.ArgumentType.VALUE,
+                data=0.0584)
+        step_8.add_hyperparameter(
+                name='sf',
+                argument_type=d3m_base.ArgumentType.VALUE,
+                data=0.01)
         step_8.add_output('produce')
         pipeline.add_step(step_8)
 

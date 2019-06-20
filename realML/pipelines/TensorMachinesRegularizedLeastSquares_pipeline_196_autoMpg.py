@@ -143,7 +143,7 @@ class TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg(BasePipeline):
         step_8.add_hyperparameter(
                 name='alpha',
                 argument_type=d3m_base.ArgumentType.VALUE,
-                data=0.001)
+                data=0.9977)
         step_8.add_hyperparameter(
                 name='gamma',
                 argument_type=d3m_base.ArgumentType.VALUE,
@@ -151,11 +151,11 @@ class TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg(BasePipeline):
         step_8.add_hyperparameter(
                 name='q',
                 argument_type=d3m_base.ArgumentType.VALUE,
-                data=3)
+                data=4)
         step_8.add_hyperparameter(
                 name='r',
                 argument_type=d3m_base.ArgumentType.VALUE,
-                data=2)
+                data=4)
         step_8.add_output('produce')
         pipeline.add_step(step_8)
 
