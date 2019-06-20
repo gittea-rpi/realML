@@ -45,36 +45,49 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-### load training data and preprocess it uniformly for all primitives
-def load_training_data(datasetfname):
-  dataset = Dataset.load(f'file://{datasetfname}')
-  dataframe = DatasetToDataFrame(hyperparams=DatasetToDataFrameHyperparams.defaults()).produce(inputs=dataset).value
-  dataframe = ColumnParser(hyperparams=ColumnParserHyperparams.defaults()).produce(inputs=dataframe).value
+### load training and test data and preprocess them uniformly for all primitives
+# have to transform test data using imputer and binary encoding learned on test data (especially b/c some categories may not occur in test data)
+
+def load_data(traindatasetfname, testdatasetfname):
+  train_dataset = Dataset.load(f'file://{traindatasetfname}')
+  train_dataframe = DatasetToDataFrame(hyperparams=DatasetToDataFrameHyperparams.defaults()).produce(inputs=train_dataset).value
+  train_dataframe = ColumnParser(hyperparams=ColumnParserHyperparams.defaults()).produce(inputs=train_dataframe).value
+
+  test_dataset = Dataset.load(f'file://{testdatasetfname}')
+  test_dataframe = DatasetToDataFrame(hyperparams=DatasetToDataFrameHyperparams.defaults()).produce(inputs=test_dataset).value
+  test_dataframe = ColumnParser(hyperparams=ColumnParserHyperparams.defaults()).produce(inputs=test_dataframe).value
 
   ## extract the attributes
-  attributes = ExtractColumnsBySemanticTypes(hyperparams=ExtractColumnsHyperparams.defaults()).produce(inputs=dataframe).value
+  attributeHyperparams = ExtractColumnsHyperparams.defaults().replace({'semantic_types':['https://metadata.datadrivendiscovery.org/types/Attribute']})
+  train_attributes = ExtractColumnsBySemanticTypes(hyperparams=attributeHyperparams).produce(inputs=train_dataframe).value
+  test_attributes = ExtractColumnsBySemanticTypes(hyperparams=attributeHyperparams).produce(inputs=test_dataframe).value
 
   # impute missing values
   ImputerHyperparams = ImputerPrimitive.metadata.get_hyperparams().defaults().replace({'use_semantic_types':True})
   imputer = ImputerPrimitive(hyperparams=ImputerHyperparams)
-  imputer.set_training_data(inputs=attributes)
+  imputer.set_training_data(inputs=train_attributes)
   imputer.fit()
-  attributes = imputer.produce(inputs=attributes).value
+  train_attributes = imputer.produce(inputs=train_attributes).value
+  test_attributes = imputer.produce(inputs=test_attributes).value
  
   # encode categorical values
   BinaryEncoderHyperparams = BinaryEncoderPrimitive.metadata.get_hyperparams().defaults().replace({'min_binary': 2})
   binaryencoder = BinaryEncoderPrimitive(hyperparams=BinaryEncoderHyperparams)
-  binaryencoder.set_training_data(inputs=attributes)
+  binaryencoder.set_training_data(inputs=train_attributes)
   binaryencoder.fit()
-  attributes_array = binaryencoder.produce(inputs=attributes).value
-  attributes_array = DataFrameToNDArray(hyperparams=DataFrameToNDArrayHyperparams.defaults()).produce(inputs=attributes_array).value
+  train_attributes_array = binaryencoder.produce(inputs=train_attributes).value
+  train_attributes_array = DataFrameToNDArray(hyperparams=DataFrameToNDArrayHyperparams.defaults()).produce(inputs=train_attributes_array).value
+  test_attributes_array = binaryencoder.produce(inputs=test_attributes).value
+  test_attributes_array = DataFrameToNDArray(hyperparams=DataFrameToNDArrayHyperparams.defaults()).produce(inputs=test_attributes_array).value
 
   ## extract the targets
   targethyperparams = ExtractColumnsHyperparams.defaults().replace({'semantic_types':['https://metadata.datadrivendiscovery.org/types/SuggestedTarget']})
-  targets = ExtractColumnsBySemanticTypes(hyperparams=targethyperparams).produce(inputs=dataframe).value
-  targets_array = DataFrameToNDArray(hyperparams=DataFrameToNDArrayHyperparams.defaults()).produce(inputs=targets).value
+  train_targets = ExtractColumnsBySemanticTypes(hyperparams=targethyperparams).produce(inputs=train_dataframe).value
+  train_targets_array = DataFrameToNDArray(hyperparams=DataFrameToNDArrayHyperparams.defaults()).produce(inputs=train_targets).value
+  test_targets = ExtractColumnsBySemanticTypes(hyperparams=targethyperparams).produce(inputs=test_dataframe).value
+  test_targets_array = DataFrameToNDArray(hyperparams=DataFrameToNDArrayHyperparams.defaults()).produce(inputs=test_targets).value
 
-  return attributes_array, targets_array
+  return train_attributes_array, train_targets_array, test_attributes_array, test_targets_array
 
 ### create wrapper sklearn estimator classes so can use cross_validate
 class gaussKRREstimator(BaseEstimator, RegressorMixin):
@@ -159,9 +172,10 @@ class TMRLSEstimator(BaseEstimator, RegressorMixin):
         return self
 # Load the data and cross-validate to select hyperparameters for each primitive
 
-datasetfname = os.path.abspath('/root/datasets/seed_datasets_current/196_autoMpg/196_autoMpg_dataset/datasetDoc.json')
-X_train, y_train = load_training_data(datasetfname)
-print("Cross-validating RFM Regression model parameters on dataset " + datasetfname)
+traindatasetfname = os.path.abspath('/root/datasets/seed_datasets_current/196_autoMpg/TRAIN/dataset_TRAIN/datasetDoc.json')
+testdatasetfname = os.path.abspath('/root/datasets/seed_datasets_current/196_autoMpg/SCORE/dataset_TEST/datasetDoc.json')
+X_train, y_train, X_test, y_test = load_data(traindatasetfname, testdatasetfname)
+print("Cross-validating RFM Regression model parameters on dataset " + traindatasetfname)
 print("Preprocessing: impute missing values, binary encode categorical values")
 
 # generate the CV splits for this dataset
@@ -176,6 +190,15 @@ print('NB: dataset has ' + str(X_train.shape[0]) + ' training points')
 # set the error metric for this dataset
 RMSE = lambda yT, yP: np.sqrt(mean_squared_error(yT, yP))
 
+def report_best_hyperparams(kr):
+    kr.fit(X_train, y_train)
+    score = kr.best_score_ # that score is negative MSE score. GridSearchCV, by convention, always tries to maximize its score so loss functions like MSE have to be negated.
+    score = score*-1
+    print('best model: ', kr.best_estimator_)
+    print('model performance (average rmse on CV folds)', score)
+    kr.best_estimator_.fit(X_train, y_train)
+    print('model MSE on scoring dataset', np.sqrt(X_test.shape[0]*mean_squared_error(y_test, kr.best_estimator_.predict(X_test))))
+
 # Do cross-validation to get best Gaussian hyperparameters
 
 print('trying model: Gaussian kernel ridge...')
@@ -186,11 +209,7 @@ kr = GridSearchCV(
                 "sigma": np.logspace(-2, 2.99, 7)},
     scoring=make_scorer(RMSE, greater_is_better=False)
 )
-kr.fit(X_train, y_train)
-score = kr.best_score_ # that score is negative MSE scores. The thing is that GridSearchCV, by convention, always tries to maximize its score so loss functions like MSE have to be negated.
-score = score*-1
-print('model performance using CV (mean rmse)', score)
-print(kr.best_estimator_)
+report_best_hyperparams(kr)
 
 # Do cross-validation to get the best polynomial hyperparameters
 print('trying model: Polynomial kernel ridge...')
@@ -202,11 +221,7 @@ kr = GridSearchCV(
                 "sf": np.logspace(-2,0.3,4)},
     scoring=make_scorer(RMSE, greater_is_better=False)
 )
-kr.fit(X_train, y_train)
-score = kr.best_score_ # that score is negative MSE scores. The thing is that GridSearchCV, by convention, always tries to maximize its score so loss functions like MSE have to be negated.
-score = score*-1
-print('model performance using CV (mean rmse)', score)
-print(kr.best_estimator_)
+report_best_hyperparams(kr)
 
 # Do cross-validation to get the best tensor machines regularized least squares hyperparameters
 print('trying model: Tensor Machines Regularized Least Squares...')
@@ -219,8 +234,4 @@ kr = GridSearchCV(
                 "alpha": np.logspace(-3, -0.001, 4)},
     scoring=make_scorer(RMSE, greater_is_better=False)
 )
-kr.fit(X_train, y_train)
-score = kr.best_score_ # that score is negative MSE scores. The thing is that GridSearchCV, by convention, always tries to maximize its score so loss functions like MSE have to be negated.
-score = score*-1
-print('model performance using CV (mean rmse)', score)
-print(kr.best_estimator_)
+report_best_hyperparams(kr)
