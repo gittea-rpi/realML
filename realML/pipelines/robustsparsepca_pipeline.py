@@ -9,11 +9,11 @@ from realML.matrix import RobustSparsePCA
 
 from d3m.primitives.data_transformation.dataframe_to_ndarray import Common as DataFrameToNDArrayPrimitive
 from d3m.primitives.data_transformation.ndarray_to_dataframe import Common as NDArrayToDataFramePrimitive
-from d3m.primitives.data_transformation.construct_predictions import DataFrameCommon as ConstructPredictionsPrimitive
+from d3m.primitives.data_transformation.construct_predictions import Common as ConstructPredictionsPrimitive
 from d3m.primitives.data_transformation.dataset_to_dataframe import Common as DatasetToDataFramePrimitive
-from d3m.primitives.data_transformation.column_parser import DataFrameCommon as ColumnParserPrimitive
-from d3m.primitives.data_transformation.construct_predictions import DataFrameCommon as ConstructPredictionsPrimitive
-from d3m.primitives.data_transformation.extract_columns_by_semantic_types import DataFrameCommon as ExtractColumnsBySemanticTypesPrimitive
+from d3m.primitives.data_transformation.column_parser import Common as ColumnParserPrimitive
+from d3m.primitives.data_transformation.construct_predictions import Common as ConstructPredictionsPrimitive
+from d3m.primitives.data_transformation.extract_columns_by_semantic_types import Common as ExtractColumnsBySemanticTypesPrimitive
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
 import d3m.primitives.classification.gradient_boosting
 #
