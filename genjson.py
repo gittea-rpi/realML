@@ -78,13 +78,13 @@ for prim in primitives.keys():
                 file.write(json_info)
                 file.close()
             
-            meta = instance.meta_info
-            with open(instancepath + ".meta", 'w') as file:
-                json.dump(meta, file, indent = 4)
-                file.close()
+            #meta = instance.meta_info
+            #with open(instancepath + ".meta", 'w') as file:
+            #    json.dump(meta, file, indent = 4)
+            #    file.close()
             
             print('For pipeline name: ' + pl.__name__)
-            print('Corresponding test command: python3 -m d3m runtime -d ../datasets/ fit-score -m ' + instancepath + '.meta -p ' + instancepath + '.json')
+            print('Corresponding test command: python3 -m d3m runtime -d ../datasets/ fit-score -m ' + instancepath + '.json')
             print(' ')
     
     
