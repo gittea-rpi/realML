@@ -87,6 +87,4 @@ for prim in primitives.keys():
             print('Corresponding test command: python3 -m d3m runtime -d ../datasets/ fit-score -m ' + instancepath + '.json')
             print(' ')
     
-    
-
 
