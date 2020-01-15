@@ -19,6 +19,7 @@ import d3m.primitives.classification.gradient_boosting
 #
 import d3m.primitives.regression.gradient_boosting
 
+from d3m import index
 
 class robustsparsepcaPipeline(BasePipeline):
 
@@ -39,10 +40,24 @@ class robustsparsepcaPipeline(BasePipeline):
         pipeline.add_input(name = 'inputs')
 
         # Step 0: DatasetToDataFrame
-        step_0 = meta_pipeline.PrimitiveStep(primitive_description = DatasetToDataFramePrimitive.metadata.query())
-        step_0.add_argument(name='inputs', argument_type = ArgumentType.CONTAINER, data_reference='inputs.0')
-        step_0.add_output('produce')
+        step_00 = meta_pipeline.PrimitiveStep(primitive_description = DatasetToDataFramePrimitive.metadata.query())
+        step_00.add_argument(name='inputs', argument_type = ArgumentType.CONTAINER, data_reference='inputs.0')
+        step_00.add_output('produce')
+        pipeline.add_step(step_00)
+
+
+        # Step 1: Simple Profiler Column Role Annotation
+        step_0 = meta_pipeline.PrimitiveStep(
+            primitive=index.get_primitive("d3m.primitives.schema_discovery.profiler.Common")
+        )
+        step_0.add_argument(
+            name="inputs",
+            argument_type=ArgumentType.CONTAINER,
+            data_reference="steps.00.produce",
+        )
+        step_0.add_output("produce")
         pipeline.add_step(step_0)
+
 
         # Step 1: ColumnParser
         step_1 = meta_pipeline.PrimitiveStep(primitive_description=ColumnParserPrimitive.metadata.query())
