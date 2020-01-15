@@ -20,11 +20,11 @@ os.makedirs("ICSI")
 version = pkg_resources.get_distribution("realML").version
 
 primitives = {
-    'd3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR'  : [
-        RFMPreconditionedGaussianKRRPipeline, 
-        RFMPreconditionedGaussianKRRPipeline_196_autoMpg,
-        RFMPreconditionedGaussianKRRPipeline_26_radon_seed,
-     ],
+    #'d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR'  : [
+    #    RFMPreconditionedGaussianKRRPipeline, 
+    #    RFMPreconditionedGaussianKRRPipeline_196_autoMpg,
+    #    RFMPreconditionedGaussianKRRPipeline_26_radon_seed,
+    # ],
     #'d3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR' : [
     #    RFMPreconditionedPolynomialKRRPipeline, 
     #    RFMPreconditionedPolynomialKRRPipeline_196_autoMpg,
@@ -44,13 +44,13 @@ primitives = {
 	#sparsepcaPipeline3,
 	#sparsepcaPipeline4
 	#],
-    #'d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [
-	robustsparsepcaPipeline
-	],
+    'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [
+    	robustsparsepcaPipeline
+    	],
     #'d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [
 	#randomizedpolypcaPipeline,
-	randomizedpolypcaPipeline2
-	],
+	#randomizedpolypcaPipeline2
+	#],
 }
 
 for prim in primitives.keys():
