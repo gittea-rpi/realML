@@ -3,6 +3,7 @@
 
 from d3m.metadata import pipeline as meta_pipeline
 from d3m.metadata.base import ArgumentType, Context
+from d3m.metadata import base as d3m_base
 
 from realML.pipelines.base import BasePipeline
 from realML.matrix import RandomizedPolyPCA
@@ -70,12 +71,20 @@ class randomizedpolypcaPipeline2(BasePipeline):
         pipeline.add_step(step_2)
 
         # Step 3: imputer
-        step_3 = meta_pipeline.PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
-        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
-        step_3.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='replace')
-        step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
-        step_3.add_output('produce')        
-        pipeline.add_step(step_3)    
+        #step 2: Imputer 
+        step_3 = meta_pipeline.PrimitiveStep(
+                primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
+        step_3.add_argument(
+                name = 'inputs',
+                argument_type=d3m_base.ArgumentType.CONTAINER,
+                data_reference='steps.1.produce')
+        step_3.add_hyperparameter(
+                name = 'use_semantic_types',
+                argument_type=d3m_base.ArgumentType.VALUE,
+                data=True
+        )
+        step_3.add_output('produce')
+        pipeline.add_step(step_3)   
 
 
         # Step 4: Extract Attributes
