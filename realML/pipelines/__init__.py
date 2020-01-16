@@ -21,8 +21,8 @@ from .sparsepca_pipeline_3 import sparsepcaPipeline3
 
 from .robustsparsepca_pipeline import robustsparsepcaPipeline
 
-from .randomizedpolypca_pipeline import randomizedpolypcaPipeline
-from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
+#from .randomizedpolypca_pipeline import randomizedpolypcaPipeline
+#from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
 
 
 __all__ = [#"RFMPreconditionedGaussianKRRPipeline", 
