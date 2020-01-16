@@ -160,11 +160,11 @@ class sparsepcaPipeline3(BasePipeline):
             argument_type = ArgumentType.VALUE,
             data = 2
         )           
-        step_8.add_hyperparameter(
-            name = 'loss',
-            argument_type = ArgumentType.VALUE,
-            data = 'ls'
-        )        
+        #step_8.add_hyperparameter(
+        #    name = 'loss',
+        #    argument_type = ArgumentType.VALUE,
+        #    data = 'ls'
+        #)        
         step_8.add_output('produce')
         pipeline.add_step(step_8)
 
