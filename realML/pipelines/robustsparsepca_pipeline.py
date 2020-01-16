@@ -170,7 +170,7 @@ class sparsepcaPipeline(BasePipeline):
                argument_type = d3m_base.ArgumentType.VALUE,
                data = 1e-6
         )   
-       step_8.add_hyperparameter(
+        step_8.add_hyperparameter(
                name = 'gamma',
                argument_type = d3m_base.ArgumentType.VALUE,
                data = 0.5
