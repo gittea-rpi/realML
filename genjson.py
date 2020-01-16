@@ -44,13 +44,13 @@ primitives = {
 	sparsepcaPipeline3,
 	#sparsepcaPipeline4
 	],
-    'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [
-    	robustsparsepcaPipeline
-    	],
-    'd3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [
-	randomizedpolypcaPipeline,
-	randomizedpolypcaPipeline2
-	],
+    #'d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [
+    #	robustsparsepcaPipeline
+    #	],
+    #'d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [
+	#randomizedpolypcaPipeline,
+	#randomizedpolypcaPipeline2
+	#],
 }
 
 for prim in primitives.keys():
