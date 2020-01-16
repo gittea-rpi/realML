@@ -140,7 +140,7 @@ class FastLADPipeline(BasePipeline):
         step_8.add_argument(
                 name = 'inputs',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.8.produce'
+                data_reference = 'steps.7.produce'
         )
         step_8.add_output('produce')
         pipeline.add_step(step_8)
