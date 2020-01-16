@@ -70,119 +70,119 @@ class randomizedpolypcaPipeline2(BasePipeline):
         pipeline.add_step(step_2)
 
         # Step 3: imputer
-        #step_3 = meta_pipeline.PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
-        #step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
-        #step_3.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='replace')
-        #step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
-        #step_3.add_output('produce')        
-        #pipeline.add_step(step_3)    
+        step_3 = meta_pipeline.PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
+        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+        step_3.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='replace')
+        step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
+        step_3.add_output('produce')        
+        pipeline.add_step(step_3)    
 
 
         # Step 4: Extract Attributes
-        step_3 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
-        step_3.add_output('produce')
-        step_3.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
-        pipeline.add_step(step_3)
+        step_4 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
+        step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
+        step_4.add_output('produce')
+        step_4.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
+        pipeline.add_step(step_4)
         
 
         # Step 4: Extract Targets
-        step_4 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
-        step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
-        step_4.add_output('produce')
-        step_4.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
-        pipeline.add_step(step_4)
-
-        #Transform attributes dataframe into an ndarray
-        step_5 = meta_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
-        step_5.add_argument(
-            name = 'inputs',
-            argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.3.produce' #inputs here are the outputs from step 3
-        )
+        step_5 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
+        step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
         step_5.add_output('produce')
+        step_5.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE, data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
         pipeline.add_step(step_5)
 
-        #Run L1LowRank
-        step_6 = meta_pipeline.PrimitiveStep(primitive_description = RandomizedPolyPCA.metadata.query())
+        #Transform attributes dataframe into an ndarray
+        step_6 = meta_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
         step_6.add_argument(
             name = 'inputs',
             argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.5.produce' #inputs here are the outputs from step 4
+            data_reference = 'steps.4.produce' #inputs here are the outputs from step 3
         )
-        step_6.add_hyperparameter(
+        step_6.add_output('produce')
+        pipeline.add_step(step_6)
+
+        #Run L1LowRank
+        step_7 = meta_pipeline.PrimitiveStep(primitive_description = RandomizedPolyPCA.metadata.query())
+        step_7.add_argument(
+            name = 'inputs',
+            argument_type = ArgumentType.CONTAINER,
+            data_reference = 'steps.6.produce' #inputs here are the outputs from step 4
+        )
+        step_7.add_hyperparameter(
                name = 'n_components',
                argument_type = ArgumentType.VALUE,
                data = 8
         )
-        step_6.add_hyperparameter(
+        step_7.add_hyperparameter(
                name = 'degree',
                argument_type = ArgumentType.VALUE,
                data = 1
         )      
-        step_6.add_output('produce')
-        pipeline.add_step(step_6)
-        
-        # convert numpy-formatted attribute data to a dataframe
-        step_7 = meta_pipeline.PrimitiveStep(primitive_description=NDArrayToDataFramePrimitive.metadata.query())
-        step_7.add_argument(
-            name='inputs',
-            argument_type=ArgumentType.CONTAINER,
-            data_reference='steps.6.produce'  # inputs here are the outputs from step 5
-        )
         step_7.add_output('produce')
         pipeline.add_step(step_7)
+        
+        # convert numpy-formatted attribute data to a dataframe
+        step_8 = meta_pipeline.PrimitiveStep(primitive_description=NDArrayToDataFramePrimitive.metadata.query())
+        step_8.add_argument(
+            name='inputs',
+            argument_type=ArgumentType.CONTAINER,
+            data_reference='steps.7.produce'  # inputs here are the outputs from step 5
+        )
+        step_8.add_output('produce')
+        pipeline.add_step(step_8)
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_8 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.classification.gradient_boosting.SKlearn.metadata.query())
-        step_8.add_argument(
+        step_9 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.classification.gradient_boosting.SKlearn.metadata.query())
+        step_9.add_argument(
         	name = 'inputs',
         	argument_type = ArgumentType.CONTAINER,
-        	data_reference = 'steps.7.produce'
+        	data_reference = 'steps.8.produce'
         )
-        step_8.add_argument(
+        step_9.add_argument(
             name = 'outputs',
             argument_type = ArgumentType.CONTAINER,
-            data_reference = 'steps.4.produce'
+            data_reference = 'steps.5.produce'
         )
-        step_8.add_hyperparameter(
+        step_9.add_hyperparameter(
             name = 'n_estimators',
             argument_type = ArgumentType.VALUE,
             data = 25000
         )
-        step_8.add_hyperparameter(
+        step_9.add_hyperparameter(
             name = 'learning_rate',
             argument_type = ArgumentType.VALUE,
             data = 0.05
         )
-        step_8.add_hyperparameter(
+        step_9.add_hyperparameter(
             name = 'max_depth',
             argument_type = ArgumentType.VALUE,
             data = 2
         )                 
-        step_8.add_output('produce')
-        pipeline.add_step(step_8)
+        step_9.add_output('produce')
+        pipeline.add_step(step_9)
 
 
         #finally generate a properly-formatted output dataframe from the prediction outputs using the input dataframe as a reference
-        step_9 = meta_pipeline.PrimitiveStep(primitive_description=ConstructPredictionsPrimitive.metadata.query())
-        step_9.add_argument(
+        step_10 = meta_pipeline.PrimitiveStep(primitive_description=ConstructPredictionsPrimitive.metadata.query())
+        step_10.add_argument(
             name='inputs',
             argument_type=ArgumentType.CONTAINER,
-            data_reference='steps.8.produce'  # inputs here are the prediction column
+            data_reference='steps.9.produce'  # inputs here are the prediction column
         )
-        step_9.add_argument(
+        step_10.add_argument(
             name='reference',
             argument_type=ArgumentType.CONTAINER,
             data_reference='steps.1.produce'  # inputs here are the dataframed input dataset
         )
-        step_9.add_output('produce')
-        pipeline.add_step(step_9)
+        step_10.add_output('produce')
+        pipeline.add_step(step_10)
 
         # Adding output step to the pipeline
         pipeline.add_output(
             name='output', 
-            data_reference='steps.9.produce')
+            data_reference='steps.10.produce')
 
         return pipeline
 
