@@ -13,7 +13,7 @@
 #from .TensorMachinesBinaryClassification_pipeline import TensorMachinesBinaryClassificationPipeline
 
 #from .L1LowRank_pipeline import L1LowRankPipeline
-#from .FastLAD_pipeline import FastLADPipeline
+from .FastLAD_pipeline import FastLADPipeline
 #from .sparsepca_pipeline import sparsepcaPipeline
 #from .sparsepca_pipeline_2 import sparsepcaPipeline2
 from .sparsepca_pipeline_3 import sparsepcaPipeline3
