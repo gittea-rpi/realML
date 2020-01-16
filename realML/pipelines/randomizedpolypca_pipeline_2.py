@@ -169,7 +169,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         step_9.add_argument(
             name='inputs',
             argument_type=ArgumentType.CONTAINER,
-            data_reference='steps.9.produce'  # inputs here are the prediction column
+            data_reference='steps.8.produce'  # inputs here are the prediction column
         )
         step_9.add_argument(
             name='reference',
