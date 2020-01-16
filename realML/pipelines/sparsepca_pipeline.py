@@ -17,6 +17,9 @@ import d3m.primitives.data_cleaning.imputer
 #import d3m.primitives.data_preprocessing.horizontal_concat
 import os.path
 
+from d3m import index
+
+
 #from d3m.primitives.data_preprocessing.horizontal_concat import HorizontalConcat as HorizontalConcat
 from common_primitives.horizontal_concat import HorizontalConcatPrimitive
 

@@ -16,10 +16,11 @@
 #from .FastLAD_pipeline import FastLADPipeline
 #from .sparsepca_pipeline import sparsepcaPipeline
 #from .sparsepca_pipeline_2 import sparsepcaPipeline2
-#from .sparsepca_pipeline_3 import sparsepcaPipeline3
+from .sparsepca_pipeline_3 import sparsepcaPipeline3
 #from .sparsepca_pipeline_4 import sparsepcaPipeline4
 
 from .robustsparsepca_pipeline import robustsparsepcaPipeline
+
 from .randomizedpolypca_pipeline import randomizedpolypcaPipeline
 from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
 
@@ -38,7 +39,7 @@ __all__ = [#"RFMPreconditionedGaussianKRRPipeline",
            #"FastLADPipeline",
            #"sparsepcaPipeline",
            #"sparsepcaPipeline2",
-           #"sparsepcaPipeline3",
+           "sparsepcaPipeline3",
            #"sparsepcaPipeline4",           
            "robustsparsepcaPipeline",
            #"randomizedpolypcaPipeline",
