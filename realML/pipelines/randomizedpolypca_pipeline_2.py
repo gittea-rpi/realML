@@ -71,10 +71,10 @@ class randomizedpolypcaPipeline2(BasePipeline):
 
         # Step 2: imputer
         step_3 = meta_pipeline.PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
-        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
-        step_3.add_output('produce')
-        step_3.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE,data='replace')
-        step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE,data=True)
+        step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+        step_3.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='replace')
+        step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
+        step_3.add_output('produce')        
         pipeline.add_step(step_3)    
 
         # Step 3: Extract Attributes
