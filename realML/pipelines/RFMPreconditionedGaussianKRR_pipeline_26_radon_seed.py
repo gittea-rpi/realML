@@ -140,6 +140,14 @@ class RFMPreconditionedGaussianKRRPipeline_26_radon_seed(BasePipeline):
                 name='outputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
                 data_reference=targets)
+        step_8.add_hyperparameter(
+                name='lparam',
+                argument_type=d3m_base.ArgumentType.VALUE,
+                data=1.09)
+        step_8.add_hyperparameter(
+                name='sigma',
+                argument_type=d3m_base.ArgumentType.VALUE,
+                data=977.23722)
         step_8.add_output('produce')
         pipeline.add_step(step_8)
 

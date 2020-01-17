@@ -20,27 +20,37 @@ os.makedirs("ICSI")
 version = pkg_resources.get_distribution("realML").version
 
 primitives = {
-    'd3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR'  : [
-        RFMPreconditionedGaussianKRRPipeline, 
-        RFMPreconditionedGaussianKRRPipeline_196_autoMpg,
-        RFMPreconditionedGaussianKRRPipeline_26_radon_seed,
-     ],
-    'd3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR' : [
-        RFMPreconditionedPolynomialKRRPipeline, 
-        RFMPreconditionedPolynomialKRRPipeline_196_autoMpg,
-        RFMPreconditionedPolynomialKRRPipeline_26_radon_seed
-     ],
-    'd3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares': [
-        TensorMachinesRegularizedLeastSquaresPipeline,
-        TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg,
-        TensorMachinesRegularizedLeastSquaresPipeline_26_radon_seed,
-     ],
-    'd3m.primitives.classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification' : [TensorMachinesBinaryClassificationPipeline],
-    'd3m.primitives.regression.fast_lad.FastLAD' : [FastLADPipeline],
-    'd3m.primitives.feature_extraction.l1_low_rank.L1LowRank' : [L1LowRankPipeline],
-    'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [sparsepcaPipeline,sparsepcaPipeline2,sparsepcaPipeline3],
-    'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [robustsparsepcaPipeline],
-    'd3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [randomizedpolypcaPipeline,randomizedpolypcaPipeline2],
+    #'d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR'  : [
+    #    RFMPreconditionedGaussianKRRPipeline, 
+    #    RFMPreconditionedGaussianKRRPipeline_196_autoMpg,
+    #    RFMPreconditionedGaussianKRRPipeline_26_radon_seed,
+    # ],
+    #'d3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR' : [
+    #    RFMPreconditionedPolynomialKRRPipeline, 
+    #    RFMPreconditionedPolynomialKRRPipeline_196_autoMpg,
+    #    RFMPreconditionedPolynomialKRRPipeline_26_radon_seed
+    # ],
+    #'d3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares': [
+    #    TensorMachinesRegularizedLeastSquaresPipeline,
+    #    TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg,
+    #    TensorMachinesRegularizedLeastSquaresPipeline_26_radon_seed,
+    # ],
+    #'d3m.primitives.classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification' : [TensorMachinesBinaryClassificationPipeline],
+    #'d3m.primitives.regression.fast_lad.FastLAD' : [FastLADPipeline],
+    #'d3m.primitives.feature_extraction.l1_low_rank.L1LowRank' : [L1LowRankPipeline],
+    'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [
+	#sparsepcaPipeline,
+	#sparsepcaPipeline2,
+	sparsepcaPipeline3,
+	#sparsepcaPipeline4
+	],
+    'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [
+    	robustsparsepcaPipeline
+    	],
+    #'d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [
+	#randomizedpolypcaPipeline,
+	#randomizedpolypcaPipeline2
+	#],
 }
 
 for prim in primitives.keys():
@@ -68,15 +78,13 @@ for prim in primitives.keys():
                 file.write(json_info)
                 file.close()
             
-            meta = instance.meta_info
-            with open(instancepath + ".meta", 'w') as file:
-                json.dump(meta, file, indent = 4)
-                file.close()
+            #meta = instance.meta_info
+            #with open(instancepath + ".meta", 'w') as file:
+            #    json.dump(meta, file, indent = 4)
+            #    file.close()
             
             print('For pipeline name: ' + pl.__name__)
-            print('Corresponding test command: python3 -m d3m runtime -d ../datasets/ fit-score -m ' + instancepath + '.meta -p ' + instancepath + '.json')
+            print('Corresponding test command: python3 -m d3m runtime -d ../datasets/ fit-score -m ' + instancepath + '.json')
             print(' ')
     
-    
-
 
