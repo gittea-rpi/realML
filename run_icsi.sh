@@ -23,5 +23,5 @@ echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_
 
 `echo gzip ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/$version/pipelines/$id_run.yaml`
 
-`echo mv ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/$version/pipelines/$id_run.yaml.gz ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/2.8.5/pipeline_runs`
+`echo mv ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/$version/pipelines/$id_run.yaml.gz ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/$version/pipeline_runs`
 
