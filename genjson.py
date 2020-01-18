@@ -86,8 +86,8 @@ for prim in primitives.keys():
             #print('For pipeline name: ' + pl.__name__)
             #print('Corresponding test command: python3 -m d3m runtime -d ../datasets/ fit-score -m ' + instancepath + '.json')
             #print(' ')
-            print(' ')
-            print(pl.__name__+'="'+instancepath+'"')
+            print(pl.__name__+'_path="'+plpath+'"')
+            print(pl.__name__+'="'+instanceid+'"')
 
     
 
