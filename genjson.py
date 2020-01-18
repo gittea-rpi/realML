@@ -61,7 +61,7 @@ for prim in primitives.keys():
         os.makedirs(path)
 
         com = "python3 -m d3m index describe -i 4 " + prim + " > " + os.path.join(path, "primitive.json")
-        print('Running command: %s' % str(com))
+        #print('Running command: %s' % str(com))
         subprocess.check_call(com, shell=True)
 
         plpath = os.path.join(path, 'pipelines')
@@ -83,8 +83,11 @@ for prim in primitives.keys():
             #    json.dump(meta, file, indent = 4)
             #    file.close()
             
-            print('For pipeline name: ' + pl.__name__)
-            print('Corresponding test command: python3 -m d3m runtime -d ../datasets/ fit-score -m ' + instancepath + '.json')
+            #print('For pipeline name: ' + pl.__name__)
+            #print('Corresponding test command: python3 -m d3m runtime -d ../datasets/ fit-score -m ' + instancepath + '.json')
+            #print(' ')
             print(' ')
+            print(pl.__name__+'="'+instancepath+'"')
+
     
 
