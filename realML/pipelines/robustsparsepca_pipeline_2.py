@@ -183,74 +183,58 @@ class robustsparsepcaPipeline2(BasePipeline):
         )
         step_9.add_output('produce')
         pipeline.add_step(step_9)
-        
-        #step 9: convert numpy-formatted prediction outputs to a dataframe
-        step_10 = d3m_pipeline.PrimitiveStep(primitive_description = HorizontalConcatPrimitive.metadata.query())
-        step_10.add_argument(
-                name = 'left',
-                argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.4.produce'
-        )
-        step_10.add_argument(
-                name = 'right',
-                argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.9.produce'
-        )          
-        step_10.add_output('produce')
-        pipeline.add_step(step_10)        
-        
-        
+          
         
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
-        step_11 = d3m_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
-        step_11.add_argument(
+        step_10 = d3m_pipeline.PrimitiveStep(primitive_description = d3m.primitives.regression.gradient_boosting.SKlearn.metadata.query())
+        step_10.add_argument(
         	name = 'inputs',
         	argument_type = d3m_base.ArgumentType.CONTAINER,
-        	data_reference = 'steps.10.produce'
+        	data_reference = 'steps.9.produce'
         )
-        step_11.add_argument(
+        step_10.add_argument(
             name = 'outputs',
             argument_type = d3m_base.ArgumentType.CONTAINER,
             data_reference = 'steps.5.produce'
         )
-        step_11.add_hyperparameter(
+        step_10.add_hyperparameter(
             name = 'n_estimators',
             argument_type = d3m_base.ArgumentType.VALUE,
             data = 63000
         )
-        step_11.add_hyperparameter(
+        step_10.add_hyperparameter(
             name = 'learning_rate',
             argument_type = d3m_base.ArgumentType.VALUE,
             data = 0.0001
         )
-        step_11.add_hyperparameter(
+        step_10.add_hyperparameter(
             name = 'max_depth',
             argument_type = d3m_base.ArgumentType.VALUE,
             data = 3
         )                 
-        step_11.add_output('produce')
-        pipeline.add_step(step_11)        
+        step_10.add_output('produce')
+        pipeline.add_step(step_10)        
         
         
         #step 10: generate a properly-formatted output dataframe from the dataframed prediction outputs using the input dataframe as a reference
-        step_12 = d3m_pipeline.PrimitiveStep(primitive_description = ConstructPredictionsPrimitive.metadata.query())
-        step_12.add_argument(
+        step_11 = d3m_pipeline.PrimitiveStep(primitive_description = ConstructPredictionsPrimitive.metadata.query())
+        step_11.add_argument(
                 name = 'inputs',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.11.produce' #inputs here are the prediction column
+                data_reference = 'steps.10.produce' #inputs here are the prediction column
         )
-        step_12.add_argument(
+        step_11.add_argument(
                 name = 'reference',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
                 data_reference = 'steps.1.produce' #inputs here are the dataframe input dataset
         )
-        step_12.add_output('produce')
-        pipeline.add_step(step_12)
+        step_11.add_output('produce')
+        pipeline.add_step(step_11)
 
         # Final Output
         pipeline.add_output(
                 name='output',
-                data_reference='steps.12.produce')
+                data_reference='steps.11.produce')
 
         return pipeline
 
