@@ -18,6 +18,7 @@ from d3m.primitives.data_transformation.extract_columns_by_semantic_types import
 from d3m.primitives.data_cleaning.imputer import SKlearn as SimpleImputerPrimitive
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
 
+from d3m import index
 
 class TensorMachinesBinaryClassificationPipeline(BasePipeline):
 
@@ -47,12 +48,12 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
         pipeline.add_step(step_0)
         
         # Step 1: Simple Profiler Column Role Annotation
-        step_1 = d3m_pipeline.PrimitiveStep(
+        step_1 = meta_pipeline.PrimitiveStep(
             primitive=index.get_primitive("d3m.primitives.schema_discovery.profiler.Common")
         )
         step_1.add_argument(
             name="inputs",
-            argument_type=d3m_base.ArgumentType.CONTAINER,
+            argument_type=ArgumentType.CONTAINER,
             data_reference="steps.0.produce",
         )
         step_1.add_output("produce")
