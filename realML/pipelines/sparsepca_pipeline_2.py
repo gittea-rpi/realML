@@ -3,6 +3,9 @@
 from d3m.metadata import pipeline as d3m_pipeline
 from d3m.metadata import base as d3m_base
 
+from d3m.metadata.base import ArgumentType, Context
+
+
 from realML.pipelines.base import BasePipeline
 #from realML.kernel import RFMPreconditionedGaussianKRR
 from common_primitives.dataframe_to_ndarray import DataFrameToNDArrayPrimitive
@@ -56,13 +59,16 @@ class sparsepcaPipeline2(BasePipeline):
         step_0.add_output('produce')
         pipeline.add_step(step_0)
 
-        #step 1: ColumnParser
-        step_1 = d3m_pipeline.PrimitiveStep(primitive_description=ColumnParserPrimitive.metadata.query())
+        # Step 1: Simple Profiler Column Role Annotation
+        step_1 = d3m_pipeline.PrimitiveStep(
+            primitive=index.get_primitive("d3m.primitives.schema_discovery.profiler.Common")
+        )
         step_1.add_argument(
-                name='inputs',
-                argument_type=d3m_base.ArgumentType.CONTAINER,
-                data_reference='steps.0.produce')
-        step_1.add_output('produce')
+            name="inputs",
+            argument_type=d3m_base.ArgumentType.CONTAINER,
+            data_reference="steps.0.produce",
+        )
+        step_1.add_output("produce")
         pipeline.add_step(step_1)
 
         #step 2: ColumnParser 
@@ -70,7 +76,7 @@ class sparsepcaPipeline2(BasePipeline):
         step_2.add_argument(
                 name='inputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
-                data_reference='steps.0.produce')
+                data_reference='steps.1.produce')
         step_2.add_output('produce')
         pipeline.add_step(step_2)
 
@@ -106,7 +112,7 @@ class sparsepcaPipeline2(BasePipeline):
         step_5.add_argument(
                 name='inputs', 
                 argument_type=d3m_base.ArgumentType.CONTAINER, 
-                data_reference='steps.1.produce'
+                data_reference='steps.2.produce'
         )
         step_5.add_hyperparameter(
                 name='semantic_types',
@@ -236,7 +242,7 @@ class sparsepcaPipeline2(BasePipeline):
         step_12.add_argument(
                 name = 'reference',
                 argument_type = d3m_base.ArgumentType.CONTAINER,
-                data_reference = 'steps.0.produce' #inputs here are the dataframe input dataset
+                data_reference = 'steps.1.produce' #inputs here are the dataframe input dataset
         )
         step_12.add_output('produce')
         pipeline.add_step(step_12)
