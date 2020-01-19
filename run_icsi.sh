@@ -1,7 +1,8 @@
 #!/bin/bash 
 
 sparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline2_id="d8a4a70d-4c52-434e-8bed-655540b35567"
+sparsepcaPipeline2_id="b41fd182-68af-407f-8aef-c496d7a674fd"
+
 sparsepcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
 sparsepcaPipeline3_id="43e4376b-90d6-4ce7-9672-3bbb628ccae8"
 robustsparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
@@ -21,7 +22,7 @@ path_4="../datasets/seed_datasets_current/LL0_207_autoPrice_MIN_METADATA/TEST/da
 path_5="../datasets/seed_datasets_current/LL0_207_autoPrice_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
 path_6="$sparsepcaPipeline2_path/pipelines/$id_run.yaml"
 
-#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
 
 `echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
 
