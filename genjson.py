@@ -35,11 +35,11 @@ primitives = {
     #    TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg,
     #    TensorMachinesRegularizedLeastSquaresPipeline_26_radon_seed,
     # ],
-    'd3m.primitives.classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification' : [TensorMachinesBinaryClassificationPipeline],
+    #'d3m.primitives.classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification' : [TensorMachinesBinaryClassificationPipeline],
     #'d3m.primitives.regression.fast_lad.FastLAD' : [FastLADPipeline],
     #'d3m.primitives.feature_extraction.l1_low_rank.L1LowRank' : [L1LowRankPipeline],
     'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [
-	sparsepcaPipeline,
+	#sparsepcaPipeline,
 	sparsepcaPipeline2,
 	sparsepcaPipeline3,
 	sparsepcaPipeline4
@@ -49,7 +49,7 @@ primitives = {
     	],
     'd3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [
 	randomizedpolypcaPipeline,
-	randomizedpolypcaPipeline2
+	randomizedpolypcaPipeline3
 	],
 }
 
@@ -91,4 +91,8 @@ for prim in primitives.keys():
             print(pl.__name__+'_id="'+instanceid+'"')
 
     
+
+
+
+
 

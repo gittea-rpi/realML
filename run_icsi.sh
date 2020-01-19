@@ -24,23 +24,23 @@ randomizedpolypcaPipeline2_id="c934876b-feb7-4215-8e78-7d3f60722e3a"
 ####################################################
 echo 'SparsePCA  -- 26_radon_seed - pipeline 1'
 ####################################################
-id_run="${sparsepcaPipeline_id}_run"
-path_1="$sparsepcaPipeline_path/pipelines/$sparsepcaPipeline_id.json"
-path_2="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/26_radon_seed_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/26_radon_seed_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-path_6="$sparsepcaPipeline_path/pipelines/$id_run.yaml"
-
-#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
-
-`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
-
-`echo mkdir $sparsepcaPipeline_path/pipeline_runs`
-
-`echo gzip $sparsepcaPipeline_path/pipelines/$id_run.yaml`
-
-`echo mv $sparsepcaPipeline_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline_path/pipeline_runs`
+#id_run="${sparsepcaPipeline_id}_run"
+#path_1="$sparsepcaPipeline_path/pipelines/$sparsepcaPipeline_id.json"
+#path_2="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/26_radon_seed_MIN_METADATA_problem/problemDoc.json"
+#path_3="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/26_radon_seed_MIN_METADATA_dataset/datasetDoc.json"
+#path_4="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+#path_5="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+#path_6="$sparsepcaPipeline_path/pipelines/$id_run.yaml"
+#
+##echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+#
+#`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
+#
+#`echo mkdir $sparsepcaPipeline_path/pipeline_runs`
+#
+#`echo gzip $sparsepcaPipeline_path/pipelines/$id_run.yaml`
+#
+#`echo mv $sparsepcaPipeline_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline_path/pipeline_runs`
 
 
 ####################################################
@@ -154,3 +154,54 @@ path_6="$randomizedpolypcaPipeline_path/pipelines/$id_run.yaml"
 
 `echo mv $randomizedpolypcaPipeline_path/pipelines/$id_run.yaml.gz $randomizedpolypcaPipeline_path/pipeline_runs`
 
+
+
+
+
+
+
+
+
+####################################################
+echo 'TensorMachinesBinaryClassificationPipeline  -- uu4_SPECT - pipeline 2'
+####################################################
+id_run="${TensorMachinesBinaryClassificationPipeline_id}_run"
+path_1="$TensorMachinesBinaryClassificationPipeline_path/pipelines/$TensorMachinesBinaryClassificationPipeline_id.json"
+path_2="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/uu4_SPECT_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/uu4_SPECT_MIN_METADATA_dataset/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_6="$TensorMachinesBinaryClassificationPipeline_path/pipelines/$id_run.yaml"
+
+echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+
+`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
+
+`echo mkdir $TensorMachinesBinaryClassificationPipeline_path/pipeline_runs`
+
+`echo gzip $TensorMachinesBinaryClassificationPipeline_path/pipelines/$id_run.yaml`
+
+`echo mv $TensorMachinesBinaryClassificationPipeline_path/pipelines/$id_run.yaml.gz $TensorMachinesBinaryClassificationPipeline_path/pipeline_runs`
+
+
+
+####################################################
+echo 'RandomizedPolyPCA  -- uu5_heartstatlog - pipeline 2'
+####################################################
+id_run="${randomizedpolypcaPipeline2_id}_run"
+path_1="$randomizedpolypcaPipeline2_path/pipelines/$randomizedpolypcaPipeline2_id.json"
+path_2="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SEMI_1053_jm1_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SEMI_1053_jm1_MIN_METADATA_dataset/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_6="$randomizedpolypcaPipeline2_path/pipelines/$id_run.yaml"
+
+echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+
+`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
+
+`echo mkdir $randomizedpolypcaPipeline2_path/pipeline_runs`
+
+`echo gzip $randomizedpolypcaPipeline2_path/pipelines/$id_run.yaml`
+
+`echo mv $randomizedpolypcaPipeline2_path/pipelines/$id_run.yaml.gz $randomizedpolypcaPipeline2_path/pipeline_runs`
