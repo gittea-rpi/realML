@@ -46,6 +46,7 @@ primitives = {
 	],
     'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [
     	robustsparsepcaPipeline
+        robustsparsepcaPipeline2
     	],
     'd3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [
 	randomizedpolypcaPipeline,
