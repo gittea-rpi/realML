@@ -18,6 +18,7 @@ from d3m.primitives.data_transformation.column_parser import Common as ColumnPar
 from d3m.primitives.data_transformation.construct_predictions import Common as ConstructPredictionsPrimitive
 from d3m.primitives.data_transformation.extract_columns_by_semantic_types import Common as ExtractColumnsBySemanticTypesPrimitive
 from sklearn_wrap.SKLinearSVR import SKLinearSVR
+
 import d3m.primitives.classification.gradient_boosting
 #
 import d3m.primitives.regression.gradient_boosting
@@ -37,7 +38,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         super().__init__()
         
         #specify one seed dataset on which this pipeline can operate
-        dataset = 'uu4_SPECT'
+        dataset = 'SEMI_1053_jm1_MIN_METADATA'
         self.meta_info = self.genmeta(dataset)
         random.seed(123)
         
@@ -104,7 +105,7 @@ class randomizedpolypcaPipeline2(BasePipeline):
         pipeline.add_step(step_4)
         
 
-        # Step 4: Extract Targets
+        # Step 5: Extract Targets
         step_5 = meta_pipeline.PrimitiveStep(primitive_description = ExtractColumnsBySemanticTypesPrimitive.metadata.query())
         step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
         step_5.add_output('produce')
