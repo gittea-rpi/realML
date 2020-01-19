@@ -1,29 +1,32 @@
 #!/bin/bash 
 
 RFMPreconditionedGaussianKRRPipeline_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR/3.0.1"
-RFMPreconditionedGaussianKRRPipeline_id="538d8de1-3321-4f07-b97f-0be03b57b167"
+RFMPreconditionedGaussianKRRPipeline_id="ef109429-c2ce-4227-97ba-fc7cd451f185"
 RFMPreconditionedGaussianKRRPipeline_196_autoMpg_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR/3.0.1"
-RFMPreconditionedGaussianKRRPipeline_196_autoMpg_id="95479984-d1b0-429d-9d76-58d8a35519b7"
+RFMPreconditionedGaussianKRRPipeline_196_autoMpg_id="66b0a93e-f294-40dc-a55b-d71926abe38f"
 RFMPreconditionedPolynomialKRRPipeline_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR/3.0.1"
-RFMPreconditionedPolynomialKRRPipeline_id="faa88202-4ba7-462a-a5c4-bdc6a1385a5d"
+RFMPreconditionedPolynomialKRRPipeline_id="73fe6004-0ac0-4f0a-a4a2-c54eb088ba74"
 TensorMachinesRegularizedLeastSquaresPipeline_path="ICSI/d3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares/3.0.1"
-TensorMachinesRegularizedLeastSquaresPipeline_id="685c6c1c-0cab-41b4-8e2a-1acccd1d0a3f"
+TensorMachinesRegularizedLeastSquaresPipeline_id="aa5aed20-3441-4409-8209-890ccbcdff4d"
 sparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline2_id="9c8c7f11-01f6-4158-b65f-105987f8bf31"
+sparsepcaPipeline2_id="0127193a-2b3d-4f01-9786-a3252160ce11"
 sparsepcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline3_id="8291f380-551b-4e57-967a-006ce2624acc"
+sparsepcaPipeline3_id="39db7c22-ef0e-426f-a1e0-e5be4175f85d"
 sparsepcaPipeline4_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline4_id="687fd5a6-886d-466c-a65a-e495b850b071"
+sparsepcaPipeline4_id="0d3ad5a3-e27a-4e48-9fb0-91d362f286b5"
 sparsepcaPipeline5_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline5_id="fcee0795-dadd-4e90-a1e0-a6d95b2fd1ca"
+sparsepcaPipeline5_id="99af9c24-f08f-4130-8348-09fb3ad901fc"
+sparsepcaPipeline6_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
+sparsepcaPipeline6_id="379ffca6-3675-4579-869a-f0b1a1f65979"
 robustsparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline_id="0626d1b6-858d-4070-93ad-33b9682a0ce5"
+robustsparsepcaPipeline_id="c864c502-ff5e-4469-845f-1e1c074b7fa5"
 robustsparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline2_id="cc057e01-7856-41d9-983a-b6062324d2c5"
+robustsparsepcaPipeline2_id="434be6a4-22b4-4628-8568-6e0807b124d0"
 randomizedpolypcaPipeline_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline_id="08906a28-5b83-43b4-8cff-144e4c91b1e7"
+randomizedpolypcaPipeline_id="3e36dd4b-6f93-47c7-b3de-0e1c89cfea0e"
 randomizedpolypcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline3_id="195277ad-3dcd-478a-9aa6-19d791517ce9"
+randomizedpolypcaPipeline3_id="93bf2b4e-ec0a-4de2-8d82-6b4e41f4d74d"
+
 
 
 
@@ -48,6 +51,27 @@ path_6="$sparsepcaPipeline5_path/pipelines/$id_run.yaml"
 `echo gzip $sparsepcaPipeline5_path/pipelines/$id_run.yaml`
 
 `echo mv $sparsepcaPipeline5_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline5_path/pipeline_runs`
+
+####################################################
+echo 'SparsePCA  -- 56_sunspots_MIN_METADATA - pipeline 5'
+####################################################
+id_run="${sparsepcaPipeline6_id}_run"
+path_1="$sparsepcaPipeline6_path/pipelines/$sparsepcaPipeline6_id.json"
+path_2="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/56_sunspots_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/56_sunspots_MIN_METADATA_dataset/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_6="$sparsepcaPipeline6_path/pipelines/$id_run.yaml"
+
+#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+
+`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
+
+#`echo mkdir $sparsepcaPipeline6_path/pipeline_runs`
+
+`echo gzip $sparsepcaPipeline6_path/pipelines/$id_run.yaml`
+
+`echo mv $sparsepcaPipeline6_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline6_path/pipeline_runs`
 
 
 
