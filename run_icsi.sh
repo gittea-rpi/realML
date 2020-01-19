@@ -1,21 +1,23 @@
 #!/bin/bash 
 
+
+
+
+
 sparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline2_id="c8020ed1-bae0-4bb1-bd09-29e2f7cb4f1d"
+sparsepcaPipeline2_id="0e6d697a-11ef-4e59-ba2a-f05899f63b3f"
 sparsepcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline3_id="36ff2544-5dba-4a50-b53c-9f2faff91d6b"
+sparsepcaPipeline3_id="d1046929-4e91-4f1f-b02c-6d6359d9f94f"
 sparsepcaPipeline4_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline4_id="6eaa7225-cb7d-4c91-9790-307a8b7747cb"
+sparsepcaPipeline4_id="31cdcefd-1ac7-4fff-b692-724fd02e9d8b"
 robustsparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline_id="0e945727-15c8-45f5-b4f8-1d8095c05b48"
+robustsparsepcaPipeline_id="10d19ccb-6598-4541-b482-f917a0663b8d"
+robustsparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
+robustsparsepcaPipeline2_id="604da2d2-07ae-49a2-8f3f-0f149529a7d6"
 randomizedpolypcaPipeline_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline_id="4bf4de4a-6d5e-4c8a-b90a-afe0311be202"
+randomizedpolypcaPipeline_id="1ed57fd1-e9b2-40bc-9f5c-5727441d6e93"
 randomizedpolypcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline3_id="5f6fcebe-eb99-495b-83d7-bae618aa0336"
-
-
-
-
+randomizedpolypcaPipeline3_id="0994318b-1748-4a08-b119-1eed18b0c5de
 
 
 
@@ -110,15 +112,15 @@ path_6="$robustsparsepcaPipeline_path/pipelines/$id_run.yaml"
 
 
 ####################################################
-echo 'RobustSparsePCA  -- LL0_207_autoPrice_MIN_METADATA - pipeline2'
+echo 'RobustSparsePCA  -- 534_cps_85_wages - pipeline2'
 ####################################################
-id_run="${robustsparsepcaPipeline_id}_run"
-path_1="$robustsparsepcaPipeline_path/pipelines/$robustsparsepcaPipeline_id.json"
-path_2="../datasets/seed_datasets_current/LL0_207_autoPrice_MIN_METADATA/LL0_207_autoPrice_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/LL0_207_autoPrice_MIN_METADATA/LL0_207_autoPrice_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/LL0_207_autoPrice_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/LL0_207_autoPrice_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-path_6="$robustsparsepcaPipeline_path/pipelines/$id_run.yaml"
+id_run="${robustsparsepcaPipeline2_id}_run"
+path_1="$robustsparsepcaPipeline2_path/pipelines/$robustsparsepcaPipeline2_id.json"
+path_2="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_dataset/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_6="$robustsparsepcaPipeline2_path/pipelines/$id_run.yaml"
 
 #echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
 
@@ -126,9 +128,9 @@ path_6="$robustsparsepcaPipeline_path/pipelines/$id_run.yaml"
 
 #`echo mkdir $robustsparsepcaPipeline_path/pipeline_runs`
 
-`echo gzip $robustsparsepcaPipeline_path/pipelines/$id_run.yaml`
+`echo gzip $robustsparsepcaPipeline2_path/pipelines/$id_run.yaml`
 
-`echo mv $robustsparsepcaPipeline_path/pipelines/$id_run.yaml.gz $robustsparsepcaPipeline_path/pipeline_runs`
+`echo mv $robustsparsepcaPipeline2_path/pipelines/$id_run.yaml.gz $robustsparsepcaPipeline2_path/pipeline_runs`
 
 
 
