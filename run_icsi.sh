@@ -1,25 +1,20 @@
 #!/bin/bash 
 
 sparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline2_id="78570a03-2b2f-4354-a200-eb86f965489a"
-
+sparsepcaPipeline2_id="5e7f6efd-3888-41b5-a932-f696558fd907"
 sparsepcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline3_id="f706291d-9af9-4f8a-b200-557b6a3083d3"
-
+sparsepcaPipeline3_id="63aa5ddb-727e-4d94-a3b2-0ef3c863404a"
 sparsepcaPipeline4_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline4_id="9e28369f-f39e-429c-a09a-dbb3d73f5ee1"
-
+sparsepcaPipeline4_id="e2ee3954-ed16-41d9-ba79-4110a6ca4f50"
 robustsparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline_id="f6ecd953-7193-47c1-bf16-9fcabba04b45"
-
+robustsparsepcaPipeline_id="b3a296b8-7812-455b-ab33-a8e025295959"
 robustsparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline2_id="74daafbe-223c-4e63-9ab5-0d0a40c48e8d"
-
+robustsparsepcaPipeline2_id="2e564f07-c414-4f2f-b2bd-ef82cbd698b8"
 randomizedpolypcaPipeline_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline_id="d790b435-30f2-47a5-b74e-ce464ca0087e"
-
+randomizedpolypcaPipeline_id="af384259-3ed8-4846-a9fb-f6f8ebcf5f9f"
 randomizedpolypcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline3_id="db02920d-9fda-4344-96b9-816959d0d279"
+randomizedpolypcaPipeline3_id="a68fb1cf-aebb-40dd-a6d0-b7afce1afebe"
+
 
 
 
