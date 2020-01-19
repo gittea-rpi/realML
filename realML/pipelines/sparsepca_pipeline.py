@@ -33,7 +33,7 @@ import numpy as np
 
 from realML.matrix import SparsePCA
 
-class sparsepcaPipeline2(BasePipeline):
+class sparsepcaPipeline(BasePipeline):
     def __init__(self):
         super().__init__()
 
