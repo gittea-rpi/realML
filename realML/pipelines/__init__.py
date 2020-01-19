@@ -23,7 +23,8 @@ from .robustsparsepca_pipeline import robustsparsepcaPipeline
 from .robustsparsepca_pipeline_2 import robustsparsepcaPipeline2
 
 from .randomizedpolypca_pipeline import randomizedpolypcaPipeline
-#from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
+#
+from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
 from .randomizedpolypca_pipeline_3 import randomizedpolypcaPipeline3
 
 

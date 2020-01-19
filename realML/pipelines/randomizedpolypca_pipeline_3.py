@@ -22,7 +22,7 @@ import d3m.primitives.regression.gradient_boosting
 from d3m import index
 
 
-class randomizedpolypcaPipeline_3(BasePipeline):
+class randomizedpolypcaPipeline3(BasePipeline):
 
     #specify one seed dataset on which this pipeline can operate
 
