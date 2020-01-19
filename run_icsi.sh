@@ -1,37 +1,29 @@
 #!/bin/bash 
 
 RFMPreconditionedGaussianKRRPipeline_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR/3.0.1"
-RFMPreconditionedGaussianKRRPipeline_id="7fc83c4a-ee3d-4ce2-a10c-4206e7c7f121"
+RFMPreconditionedGaussianKRRPipeline_id="8a670629-dea2-4279-886c-2756df585302"
 RFMPreconditionedGaussianKRRPipeline_196_autoMpg_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR/3.0.1"
-RFMPreconditionedGaussianKRRPipeline_196_autoMpg_id="c36cb17b-bb95-4e10-a93d-ad46d6624ef1"
+RFMPreconditionedGaussianKRRPipeline_196_autoMpg_id="56478958-1926-47cc-a67e-3f658702d69b"
 RFMPreconditionedPolynomialKRRPipeline_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR/3.0.1"
-RFMPreconditionedPolynomialKRRPipeline_id="82093dcd-f314-442e-8d87-00b429d49624"
+RFMPreconditionedPolynomialKRRPipeline_id="63ab6f61-efee-4ae2-85dc-24ec621c1384"
 TensorMachinesRegularizedLeastSquaresPipeline_path="ICSI/d3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares/3.0.1"
-TensorMachinesRegularizedLeastSquaresPipeline_id="f3ccfbd3-9632-42b8-9912-9baaa6bec6b6"
+TensorMachinesRegularizedLeastSquaresPipeline_id="7b0be95d-2335-4039-b808-dfd30f814e07"
 sparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline2_id="93dec172-53f3-4c07-99f9-915da6b3847d"
+sparsepcaPipeline2_id="b3fc5b86-fe56-4743-b03a-4efa9af1355a"
 sparsepcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline3_id="286e81bc-8b75-4c4f-909b-d3dde0f1bc51"
+sparsepcaPipeline3_id="547953e9-3cd3-4354-aa32-f61869802142"
 sparsepcaPipeline4_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline4_id="a6d95949-52c2-452a-8176-bedc8fa0ce70"
+sparsepcaPipeline4_id="bcaa63d3-f6ae-4b2d-8e17-aa592af39410"
 sparsepcaPipeline5_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline5_id="ed6834cf-fe86-4379-abb9-efb83af81712"
-sparsepcaPipeline6_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline6_id="9e47a0e6-a1cf-443e-9eb4-225f8b56f770"
+sparsepcaPipeline5_id="9d04bea4-51de-4905-8aa5-4e295fb76388"
 robustsparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline_id="75f33701-1976-4903-94e2-f8f1b8fd108a"
+robustsparsepcaPipeline_id="dc1b610a-cffa-439c-afa0-165341d3785b"
 robustsparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline2_id="e76ebbde-a52d-4d88-8c8e-ecb51cc80767"
+robustsparsepcaPipeline2_id="f9281a96-c769-40c0-9853-ed5eef00924a"
 randomizedpolypcaPipeline_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline_id="e4ae1939-b40e-4332-b3ee-3dc748a10c94"
+randomizedpolypcaPipeline_id="f84453fd-8813-4d83-aee6-c4be38e7d5ad"
 randomizedpolypcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline3_id="1b783f82-0b15-4e73-b1d7-b242cb0b71fe"
-
-
-
-
-
-
+randomizedpolypcaPipeline3_id="29472e1a-1687-4add-b725-41c0594190c7"
 
 
 
