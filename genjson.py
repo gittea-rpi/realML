@@ -49,7 +49,7 @@ primitives = {
     	],
     'd3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA' : [
 	randomizedpolypcaPipeline,
-	#randomizedpolypcaPipeline2
+	randomizedpolypcaPipeline2
 	],
 }
 

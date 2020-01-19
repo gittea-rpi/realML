@@ -22,7 +22,7 @@ from .sparsepca_pipeline_4 import sparsepcaPipeline4
 from .robustsparsepca_pipeline import robustsparsepcaPipeline
 
 from .randomizedpolypca_pipeline import randomizedpolypcaPipeline
-#from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
+from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
 
 
 __all__ = [#"RFMPreconditionedGaussianKRRPipeline", 
@@ -39,5 +39,5 @@ __all__ = [#"RFMPreconditionedGaussianKRRPipeline",
            "sparsepcaPipeline4",           
            "robustsparsepcaPipeline",
            "randomizedpolypcaPipeline",
-           #"randomizedpolypcaPipeline2"
+           "randomizedpolypcaPipeline2"
            ]
