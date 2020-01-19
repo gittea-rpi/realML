@@ -22,19 +22,19 @@ version = pkg_resources.get_distribution("realML").version
 primitives = {
     'd3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR'  : [
         RFMPreconditionedGaussianKRRPipeline, 
-    #    RFMPreconditionedGaussianKRRPipeline_196_autoMpg,
-        RFMPreconditionedGaussianKRRPipeline_26_radon_seed,
+        RFMPreconditionedGaussianKRRPipeline_196_autoMpg,
+    #    RFMPreconditionedGaussianKRRPipeline_26_radon_seed,
      ],
     'd3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR' : [
         RFMPreconditionedPolynomialKRRPipeline, 
     #    RFMPreconditionedPolynomialKRRPipeline_196_autoMpg,
     #    RFMPreconditionedPolynomialKRRPipeline_26_radon_seed
      ],
-    #'d3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares': [
-    #    TensorMachinesRegularizedLeastSquaresPipeline,
+    'd3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares': [
+        TensorMachinesRegularizedLeastSquaresPipeline,
     #    TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg,
     #    TensorMachinesRegularizedLeastSquaresPipeline_26_radon_seed,
-    # ],
+     ],
     #'d3m.primitives.classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification' : [TensorMachinesBinaryClassificationPipeline],
     #'d3m.primitives.regression.fast_lad.FastLAD' : [FastLADPipeline],
     #'d3m.primitives.feature_extraction.l1_low_rank.L1LowRank' : [L1LowRankPipeline],

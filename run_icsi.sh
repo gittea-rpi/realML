@@ -52,27 +52,6 @@ path_6="$RFMPreconditionedGaussianKRRPipeline_path/pipelines/$id_run.yaml"
 `echo mv $RFMPreconditionedGaussianKRRPipeline_path/pipelines/$id_run.yaml.gz $RFMPreconditionedGaussianKRRPipeline_path/pipeline_runs`
 
 
-####################################################
-echo 'RFMPreconditionedGaussianKRRP  -- 26_radon_seed'
-####################################################
-id_run="${RFMPreconditionedGaussianKRRPipeline_26_radon_seed_id}_run"
-path_1="$RFMPreconditionedGaussianKRRPipeline_26_radon_seed_path/pipelines/$RFMPreconditionedGaussianKRRPipeline_26_radon_seed_id.json"
-path_2="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/26_radon_seed_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/26_radon_seed_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-path_6="$RFMPreconditionedGaussianKRRPipeline_26_radon_seed_path/pipelines/$id_run.yaml"
-
-#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
-
-`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
-
-#`echo mkdir $RFMPreconditionedGaussianKRRPipeline_26_radon_seed_path/pipeline_runs`
-
-`echo gzip $RFMPreconditionedGaussianKRRPipeline_26_radon_seed_path/pipelines/$id_run.yaml`
-
-`echo mv $RFMPreconditionedGaussianKRRPipeline_26_radon_seed_path/pipelines/$id_run.yaml.gz $RFMPreconditionedGaussianKRRPipeline_26_radon_seed_path/pipeline_runs`
-
 
 
 ####################################################
