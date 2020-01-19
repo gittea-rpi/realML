@@ -21,10 +21,10 @@ echo 'RandomizedPolyPCA  -- uu5_heartstatlog - pipeline 2'
 ####################################################
 id_run="${randomizedpolypcaPipeline2_id}_run"
 path_1="$randomizedpolypcaPipeline2_path/pipelines/$randomizedpolypcaPipeline2_id.json"
-path_2="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/uu4_SPECT_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/uu4_SPECT_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_2="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SEMI_1053_jm1_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SEMI_1053_jm1_MIN_METADATA_dataset/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
 path_6="$randomizedpolypcaPipeline2_path/pipelines/$id_run.yaml"
 
 echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
