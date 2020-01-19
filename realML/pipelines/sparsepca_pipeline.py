@@ -66,7 +66,7 @@ class sparsepcaPipeline(BasePipeline):
         step_1.add_argument(
             name="inputs",
             argument_type=d3m_base.ArgumentType.CONTAINER,
-            data_reference="steps.1.produce",
+            data_reference="steps.0.produce",
         )
         step_1.add_output("produce")
         pipeline.add_step(step_1)
