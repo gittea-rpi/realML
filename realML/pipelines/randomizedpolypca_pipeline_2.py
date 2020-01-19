@@ -48,6 +48,8 @@ class randomizedpolypcaPipeline2(BasePipeline):
         #define inputs.  This will be read in automatically as a Dataset object.
         pipeline.add_input(name = 'inputs')
 
+        print('start')
+
         # Step 0: DatasetToDataFrame
         step_0 = meta_pipeline.PrimitiveStep(primitive_description = DatasetToDataFramePrimitive.metadata.query())
         step_0.add_argument(name='inputs', argument_type = ArgumentType.CONTAINER, data_reference='inputs.0')
@@ -150,6 +152,10 @@ class randomizedpolypcaPipeline2(BasePipeline):
         )
         step_8.add_output('produce')
         pipeline.add_step(step_8)
+
+
+        print('boost')
+
 
         #Linear Regression on low-rank data (inputs and outputs for sklearns are both dataframes)
         step_9 = meta_pipeline.PrimitiveStep(primitive_description = d3m.primitives.classification.gradient_boosting.SKlearn.metadata.query())
