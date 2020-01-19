@@ -23,13 +23,13 @@ primitives = {
     'd3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR'  : [
         RFMPreconditionedGaussianKRRPipeline, 
     #    RFMPreconditionedGaussianKRRPipeline_196_autoMpg,
-    #    RFMPreconditionedGaussianKRRPipeline_26_radon_seed,
+        RFMPreconditionedGaussianKRRPipeline_26_radon_seed,
      ],
-    #'d3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR' : [
-    #    RFMPreconditionedPolynomialKRRPipeline, 
+    'd3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR' : [
+        RFMPreconditionedPolynomialKRRPipeline, 
     #    RFMPreconditionedPolynomialKRRPipeline_196_autoMpg,
     #    RFMPreconditionedPolynomialKRRPipeline_26_radon_seed
-    # ],
+     ],
     #'d3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares': [
     #    TensorMachinesRegularizedLeastSquaresPipeline,
     #    TensorMachinesRegularizedLeastSquaresPipeline_196_autoMpg,
