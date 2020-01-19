@@ -33,10 +33,10 @@ echo 'SparsePCA  -- uu3_world_development_indicators_MIN_METADATA - pipeline 5'
 ####################################################
 id_run="${sparsepcaPipeline5_id}_run"
 path_1="$sparsepcaPipeline5_path/pipelines/$sparsepcaPipeline5_id.json"
-path_2="../datasets/seed_datasets_current/uu3_world_development_indicators_MIN_METADATA/uu3_world_development_indicators_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/uu3_world_development_indicators_MIN_METADATA/uu3_world_development_indicators_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/uu3_world_development_indicators_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/uu3_world_development_indicators_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_2="../datasets/seed_datasets_current/uu9_posts_2_MIN_METADATA/uu9_posts_2_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/uu9_posts_2_MIN_METADATA/uu9_posts_2_MIN_METADATA_dataset/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/uu9_posts_2_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/uu9_posts_2_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
 path_6="$sparsepcaPipeline5_path/pipelines/$id_run.yaml"
 
 #echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
