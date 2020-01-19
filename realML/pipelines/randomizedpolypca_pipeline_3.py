@@ -216,7 +216,7 @@ class randomizedpolypcaPipeline3(BasePipeline):
         step_11.add_hyperparameter(
             name = 'max_depth',
             argument_type = d3m_base.ArgumentType.VALUE,
-            data = 3
+            data = 1
         )                 
         step_11.add_output('produce')
         pipeline.add_step(step_11)        
