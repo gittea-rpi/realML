@@ -69,7 +69,7 @@ class RFMPreconditionedPolynomialKRRPipeline(BasePipeline):
         step_3.add_argument(
                 name = 'inputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
-                data_reference='steps.1.produce')
+                data_reference='steps.2.produce')
         step_3.add_output('produce')
         step_3.add_hyperparameter(
                 name = 'use_semantic_types',

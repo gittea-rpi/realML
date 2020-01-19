@@ -55,7 +55,7 @@ class RFMPreconditionedGaussianKRRPipeline_26_radon_seed(BasePipeline):
         step_1.add_output("produce")
         pipeline.add_step(step_1)
 
-        #step 1: ColumnParser
+        #step 2: ColumnParser
         step_2 = d3m_pipeline.PrimitiveStep(primitive_description=ColumnParserPrimitive.metadata.query())
         step_2.add_argument(
                 name='inputs',
@@ -70,7 +70,7 @@ class RFMPreconditionedGaussianKRRPipeline_26_radon_seed(BasePipeline):
         step_3.add_argument(
                 name = 'inputs',
                 argument_type=d3m_base.ArgumentType.CONTAINER,
-                data_reference='steps.1.produce')
+                data_reference='steps.2.produce')
         step_3.add_hyperparameter(
                 name = 'use_semantic_types',
                 argument_type=d3m_base.ArgumentType.VALUE,
