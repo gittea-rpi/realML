@@ -65,7 +65,7 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
 		data=['https://metadata.datadrivendiscovery.org/types/Attribute'] )
         pipeline.add_step(step_2)
 
-	# Step 3: Impute missing attributes
+    	# Step 3: Impute missing attributes
         step_3 = meta_pipeline.PrimitiveStep(primitive_description = SimpleImputerPrimitive.metadata.query())
         step_3.add_argument(name='inputs', 
 		argument_type=ArgumentType.CONTAINER, 
@@ -73,7 +73,7 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
         step_3.add_output('produce')
         pipeline.add_step(step_3)
 
-	# Step 4: Convert attributes to ndarray
+    	# Step 4: Convert attributes to ndarray
         step_4 = meta_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
         step_4.add_argument(
 		name = 'inputs',
@@ -94,7 +94,7 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
 		data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'] )
         pipeline.add_step(step_5)
 
-	# Step 6: Transform targets into an ndarray
+    	# Step 6: Transform targets into an ndarray
         step_6 = meta_pipeline.PrimitiveStep(primitive_description = DataFrameToNDArrayPrimitive.metadata.query())
         step_6.add_argument(
 		name = 'inputs',
@@ -119,7 +119,7 @@ class TensorMachinesBinaryClassificationPipeline(BasePipeline):
         step_7.add_output('produce')
         pipeline.add_step(step_7)
         
-	# Step 8: convert numpy-formatted prediction outputs to a dataframe
+        #step 8: convert numpy-formatted prediction outputs to a dataframe
         step_8 = meta_pipeline.PrimitiveStep(primitive_description = NDArrayToDataFramePrimitive.metadata.query())
         step_8.add_argument(
                 name = 'inputs',

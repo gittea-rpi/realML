@@ -6,7 +6,7 @@
 
 #from .TensorMachinesRegularizedLeastSquares_pipeline import TensorMachinesRegularizedLeastSquaresPipeline
 
-#from .TensorMachinesBinaryClassification_pipeline import TensorMachinesBinaryClassificationPipeline
+from .TensorMachinesBinaryClassification_pipeline import TensorMachinesBinaryClassificationPipeline
 
 #from .L1LowRank_pipeline import L1LowRankPipeline
 
@@ -30,7 +30,7 @@ __all__ = [#"RFMPreconditionedGaussianKRRPipeline",
            #"RFMPreconditionedGaussianKRRPipeline_26_radon_seed", 
            #"RFMPreconditionedPolynomialKRRPipeline",
            #"TensorMachinesRegularizedLeastSquaresPipeline",
-           #"TensorMachinesBinaryClassificationPipeline",
+           "TensorMachinesBinaryClassificationPipeline",
            #"L1LowRankPipeline",
            #"FastLADPipeline",
            "sparsepcaPipeline",
