@@ -40,7 +40,7 @@ primitives = {
     #'d3m.primitives.feature_extraction.l1_low_rank.L1LowRank' : [L1LowRankPipeline],
     'd3m.primitives.feature_extraction.sparse_pca.SparsePCA' : [
 	#sparsepcaPipeline,
-	#sparsepcaPipeline2,
+	sparsepcaPipeline2,
 	sparsepcaPipeline3,
 	#sparsepcaPipeline4
 	],
