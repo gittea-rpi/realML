@@ -18,6 +18,7 @@ from .TensorMachinesBinaryClassification_pipeline import TensorMachinesBinaryCla
 from .sparsepca_pipeline_2 import sparsepcaPipeline2
 from .sparsepca_pipeline_3 import sparsepcaPipeline3
 from .sparsepca_pipeline_4 import sparsepcaPipeline4
+from .sparsepca_pipeline_5 import sparsepcaPipeline5
 
 from .robustsparsepca_pipeline import robustsparsepcaPipeline
 from .robustsparsepca_pipeline_2 import robustsparsepcaPipeline2

@@ -42,7 +42,8 @@ primitives = {
 	#sparsepcaPipeline,
 	sparsepcaPipeline2,
 	sparsepcaPipeline3,
-	sparsepcaPipeline4
+	sparsepcaPipeline4,
+	sparsepcaPipeline5
 	],
     'd3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA' : [
     	robustsparsepcaPipeline,
