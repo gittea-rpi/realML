@@ -1,27 +1,53 @@
 #!/bin/bash 
 
 RFMPreconditionedGaussianKRRPipeline_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR/3.0.1"
-RFMPreconditionedGaussianKRRPipeline_id="edf3666d-39f5-401e-87a0-6662d317b68d"
+RFMPreconditionedGaussianKRRPipeline_id="f4988539-8565-405d-8c86-c285af7f586f"
 RFMPreconditionedGaussianKRRPipeline_196_autoMpg_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_gaussian_krr.RFMPreconditionedGaussianKRR/3.0.1"
-RFMPreconditionedGaussianKRRPipeline_196_autoMpg_id="ee8df832-2320-4825-b90e-6e94b0c7f6a1"
+RFMPreconditionedGaussianKRRPipeline_196_autoMpg_id="bed79546-2673-4c44-9fa3-07f64d359ecb"
 RFMPreconditionedPolynomialKRRPipeline_path="ICSI/d3m.primitives.regression.rfm_precondition_ed_polynomial_krr.RFMPreconditionedPolynomialKRR/3.0.1"
-RFMPreconditionedPolynomialKRRPipeline_id="d4b27376-c286-42a9-94d3-af9196f5752f"
+RFMPreconditionedPolynomialKRRPipeline_id="dacd1506-c68e-46fa-8472-aa1416db3867"
 TensorMachinesRegularizedLeastSquaresPipeline_path="ICSI/d3m.primitives.regression.tensor_machines_regularized_least_squares.TensorMachinesRegularizedLeastSquares/3.0.1"
-TensorMachinesRegularizedLeastSquaresPipeline_id="2a9bb3fd-b6c7-4085-95b5-f75061062941"
+TensorMachinesRegularizedLeastSquaresPipeline_id="bf5fc061-cbcd-4a9d-9692-3e733b47941e"
 sparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline2_id="2850c0e9-8cf7-4509-9ec4-f9e1626d5b69"
+sparsepcaPipeline2_id="7f9cbc25-53cc-4a74-ba4a-4f759fba97a6"
 sparsepcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline3_id="350456e0-25d1-41d9-9871-585dae873d82"
+sparsepcaPipeline3_id="22a93782-7708-4105-ad1c-0aa95527b813"
 sparsepcaPipeline4_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline4_id="8a299366-726f-4d0d-ad84-a8903b0f9c47"
+sparsepcaPipeline4_id="68ab9835-7037-4667-9e03-a8d6076bff46"
+sparsepcaPipeline5_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
+sparsepcaPipeline5_id="1487cdce-4ac5-4d67-9c98-1014820514ca"
 robustsparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline_id="e1a4aec2-622e-45b6-89f7-d77fbe0f1dfc"
+robustsparsepcaPipeline_id="0f2c9d63-6262-4d61-ae9d-1f3d233500fc"
 robustsparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline2_id="40ed69cc-6a3a-469e-8808-cdfbe47e310f"
+robustsparsepcaPipeline2_id="865d6da5-d883-4c6f-a59b-b8710a72e3de"
 randomizedpolypcaPipeline_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline_id="28b90c0b-77b8-4fa8-8320-6e2257fbcc92"
+randomizedpolypcaPipeline_id="632bc7cd-3a95-404b-b3ba-a27b628ed5a7"
 randomizedpolypcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline3_id="097d1fb3-110b-4fed-b12f-3822925bcdf5"
+randomizedpolypcaPipeline3_id="b0807e49-860d-4382-942b-44d48627b9ef"
+
+
+
+####################################################
+echo 'SparsePCA  -- 196_autoMpg - pipeline 4'
+####################################################
+id_run="${sparsepcaPipeline5_id}_run"
+path_1="$sparsepcaPipeline5_path/pipelines/$sparsepcaPipeline5_id.json"
+path_2="../datasets/seed_datasets_current/22_handgeometry_MIN_METADATA/22_handgeometry_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/22_handgeometry_MIN_METADATA/22_handgeometry_MIN_METADATA_dataset/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/22_handgeometry_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/22_handgeometry_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_6="$sparsepcaPipeline5_path/pipelines/$id_run.yaml"
+
+#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+
+`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
+
+#`echo mkdir $sparsepcaPipeline5_path/pipeline_runs`
+
+`echo gzip $sparsepcaPipeline5_path/pipelines/$id_run.yaml`
+
+`echo mv $sparsepcaPipeline5_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline5_path/pipeline_runs`
+
 
 
 ####################################################
