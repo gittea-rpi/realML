@@ -115,10 +115,10 @@ path_6="$robustsparsepcaPipeline_path/pipelines/$id_run.yaml"
 
 
 ####################################################
-echo 'RobustSparsePCA  -- 534_cps_85_wages'
+echo 'RobustSparsePCA  -- 534_cps_85_wages - pipeline 2'
 ####################################################
-id_run="${robustsparsepcaPipeline_id}_run"
-path_1="$robustsparsepcaPipeline2_path/pipelines/$robustsparsepcaPipeline_id.json"
+id_run="${robustsparsepcaPipeline2_id}_run"
+path_1="$robustsparsepcaPipeline2_path/pipelines/$robustsparsepcaPipeline2_id.json"
 path_2="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_problem/problemDoc.json"
 path_3="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_problem/datasetDoc.json"
 path_4="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
