@@ -1,19 +1,20 @@
 #!/bin/bash 
 
 sparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline2_id="5e7f6efd-3888-41b5-a932-f696558fd907"
+sparsepcaPipeline2_id="4aca4795-5ef0-4377-878f-ee5adc46c35e"
 sparsepcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline3_id="63aa5ddb-727e-4d94-a3b2-0ef3c863404a"
+sparsepcaPipeline3_id="765cb27a-22c4-4ca3-a5ca-4d61b4e6a75e"
 sparsepcaPipeline4_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline4_id="e2ee3954-ed16-41d9-ba79-4110a6ca4f50"
+sparsepcaPipeline4_id="16fe9b7d-f3d0-4a62-ab9d-da95372abe6b"
 robustsparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline_id="b3a296b8-7812-455b-ab33-a8e025295959"
+robustsparsepcaPipeline_id="0ede29e9-56a7-4122-8d58-6f5e2ba45466"
 robustsparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline2_id="2e564f07-c414-4f2f-b2bd-ef82cbd698b8"
+robustsparsepcaPipeline2_id="7bce58b1-14ff-4f21-8a19-fc6e0995782f"
 randomizedpolypcaPipeline_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline_id="af384259-3ed8-4846-a9fb-f6f8ebcf5f9f"
+randomizedpolypcaPipeline_id="e69fced7-4faf-475b-b8ec-c6d87ef03294"
 randomizedpolypcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline3_id="a68fb1cf-aebb-40dd-a6d0-b7afce1afebe"
+randomizedpolypcaPipeline3_id="aa8c0f74-dbc9-40d2-9956-092e972856ff"
+
 
 
 
@@ -107,29 +108,6 @@ path_6="$robustsparsepcaPipeline_path/pipelines/$id_run.yaml"
 `echo gzip $robustsparsepcaPipeline_path/pipelines/$id_run.yaml`
 
 `echo mv $robustsparsepcaPipeline_path/pipelines/$id_run.yaml.gz $robustsparsepcaPipeline_path/pipeline_runs`
-
-
-####################################################
-echo 'RobustSparsePCA  -- 534_cps_85_wages - pipeline 2'
-####################################################
-id_run="${robustsparsepcaPipeline2_id}_run"
-path_1="$robustsparsepcaPipeline2_path/pipelines/$robustsparsepcaPipeline2_id.json"
-path_2="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-path_6="$robustsparsepcaPipeline_path/pipelines/$id_run.yaml"
-
-#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
-
-`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
-
-`echo mkdir $robustsparsepcaPipeline2_path/pipeline_runs`
-
-`echo gzip $robustsparsepcaPipeline2_path/pipelines/$id_run.yaml`
-
-`echo mv $robustsparsepcaPipeline2_path/pipelines/$id_run.yaml.gz $robustsparsepcaPipeline2_path/pipeline_runs`
-
 
 
 
