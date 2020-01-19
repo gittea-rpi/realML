@@ -1,46 +1,28 @@
 #!/bin/bash 
 
-TensorMachinesBinaryClassificationPipeline_path="ICSI/d3m.primitives.classification.tensor_machines_binary_classification.TensorMachinesBinaryClassification/3.0.1"
-TensorMachinesBinaryClassificationPipeline_id="3f6d2464-7be0-4bf4-a5ab-8f510c951e1a"
-sparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline_id="02c44e21-5f5d-4ea8-b815-25ec2fdcdafd"
 sparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline2_id="a7f321d7-761a-4541-a3f7-84ce24af24f6"
+sparsepcaPipeline2_id="78570a03-2b2f-4354-a200-eb86f965489a"
+
 sparsepcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline3_id="352f740d-4a6e-4758-9bb5-66dc916ba0a8"
+sparsepcaPipeline3_id="f706291d-9af9-4f8a-b200-557b6a3083d3"
+
 sparsepcaPipeline4_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.SparsePCA/3.0.1"
-sparsepcaPipeline4_id="346fb1f7-6ddd-4d61-be92-e3932c983b35"
+sparsepcaPipeline4_id="9e28369f-f39e-429c-a09a-dbb3d73f5ee1"
+
 robustsparsepcaPipeline_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
-robustsparsepcaPipeline_id="c52d2724-86cf-486b-a885-0cfda23f785d"
+robustsparsepcaPipeline_id="f6ecd953-7193-47c1-bf16-9fcabba04b45"
+
+robustsparsepcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.sparse_pca.RobustSparsePCA/3.0.1"
+robustsparsepcaPipeline2_id="74daafbe-223c-4e63-9ab5-0d0a40c48e8d"
+
 randomizedpolypcaPipeline_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline_id="5a755c78-17ed-4379-bf95-f71a281dc1e6"
-randomizedpolypcaPipeline2_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
-randomizedpolypcaPipeline2_id="c934876b-feb7-4215-8e78-7d3f60722e3a"
+randomizedpolypcaPipeline_id="d790b435-30f2-47a5-b74e-ce464ca0087e"
+
+randomizedpolypcaPipeline3_path="ICSI/d3m.primitives.feature_extraction.pca_features.RandomizedPolyPCA/3.0.1"
+randomizedpolypcaPipeline3_id="db02920d-9fda-4344-96b9-816959d0d279"
 
 
 
-
-
-####################################################
-echo 'SparsePCA  -- 26_radon_seed - pipeline 1'
-####################################################
-#id_run="${sparsepcaPipeline_id}_run"
-#path_1="$sparsepcaPipeline_path/pipelines/$sparsepcaPipeline_id.json"
-#path_2="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/26_radon_seed_MIN_METADATA_problem/problemDoc.json"
-#path_3="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/26_radon_seed_MIN_METADATA_dataset/datasetDoc.json"
-#path_4="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-#path_5="../datasets/seed_datasets_current/26_radon_seed_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-#path_6="$sparsepcaPipeline_path/pipelines/$id_run.yaml"
-#
-##echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
-#
-#`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
-#
-#`echo mkdir $sparsepcaPipeline_path/pipeline_runs`
-#
-#`echo gzip $sparsepcaPipeline_path/pipelines/$id_run.yaml`
-#
-#`echo mv $sparsepcaPipeline_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline_path/pipeline_runs`
 
 
 ####################################################
@@ -132,6 +114,31 @@ path_6="$robustsparsepcaPipeline_path/pipelines/$id_run.yaml"
 `echo mv $robustsparsepcaPipeline_path/pipelines/$id_run.yaml.gz $robustsparsepcaPipeline_path/pipeline_runs`
 
 
+####################################################
+echo 'RobustSparsePCA  -- 534_cps_85_wages'
+####################################################
+id_run="${robustsparsepcaPipeline_id}_run"
+path_1="$robustsparsepcaPipeline2_path/pipelines/$robustsparsepcaPipeline_id.json"
+path_2="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_problem/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_6="$robustsparsepcaPipeline_path/pipelines/$id_run.yaml"
+
+#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+
+`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
+
+`echo mkdir $robustsparsepcaPipeline2_path/pipeline_runs`
+
+`echo gzip $robustsparsepcaPipeline2_path/pipelines/$id_run.yaml`
+
+`echo mv $robustsparsepcaPipeline2_path/pipelines/$id_run.yaml.gz $robustsparsepcaPipeline2_path/pipeline_runs`
+
+
+
+
+
 
 ####################################################
 echo 'RandomizedPolyPCA  -- LL0_207_autoPrice_MIN_METADATA - pipeline 1'
@@ -158,50 +165,26 @@ path_6="$randomizedpolypcaPipeline_path/pipelines/$id_run.yaml"
 
 
 
-
-
-
-
 ####################################################
-echo 'TensorMachinesBinaryClassificationPipeline  -- uu4_SPECT - pipeline 2'
+echo 'RandomizedPolyPCA  -- 534_cps_85_wages - pipeline 3'
 ####################################################
-id_run="${TensorMachinesBinaryClassificationPipeline_id}_run"
-path_1="$TensorMachinesBinaryClassificationPipeline_path/pipelines/$TensorMachinesBinaryClassificationPipeline_id.json"
-path_2="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/uu4_SPECT_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/uu4_SPECT_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/uu4_SPECT_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-path_6="$TensorMachinesBinaryClassificationPipeline_path/pipelines/$id_run.yaml"
+id_run="${randomizedpolypcaPipeline3_id}_run"
+path_1="$randomizedpolypcaPipeline3_path/pipelines/$randomizedpolypcaPipeline3_id.json"
+path_2="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/534_cps_85_wages_MIN_METADATA_problem/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/534_cps_85_wages_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_6="$randomizedpolypcaPipeline_path/pipelines/$id_run.yaml"
 
-echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
 
 `echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
 
-`echo mkdir $TensorMachinesBinaryClassificationPipeline_path/pipeline_runs`
+`echo mkdir $randomizedpolypcaPipeline3_path/pipeline_runs`
 
-`echo gzip $TensorMachinesBinaryClassificationPipeline_path/pipelines/$id_run.yaml`
+`echo gzip $randomizedpolypcaPipeline3_path/pipelines/$id_run.yaml`
 
-`echo mv $TensorMachinesBinaryClassificationPipeline_path/pipelines/$id_run.yaml.gz $TensorMachinesBinaryClassificationPipeline_path/pipeline_runs`
+`echo mv $randomizedpolypcaPipeline3_path/pipelines/$id_run.yaml.gz $randomizedpolypcaPipeline3_path/pipeline_runs`
 
 
 
-####################################################
-echo 'RandomizedPolyPCA  -- uu5_heartstatlog - pipeline 2'
-####################################################
-id_run="${randomizedpolypcaPipeline2_id}_run"
-path_1="$randomizedpolypcaPipeline2_path/pipelines/$randomizedpolypcaPipeline2_id.json"
-path_2="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SEMI_1053_jm1_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SEMI_1053_jm1_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/SEMI_1053_jm1_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-path_6="$randomizedpolypcaPipeline2_path/pipelines/$id_run.yaml"
-
-echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
-
-`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
-
-`echo mkdir $randomizedpolypcaPipeline2_path/pipeline_runs`
-
-`echo gzip $randomizedpolypcaPipeline2_path/pipelines/$id_run.yaml`
-
-`echo mv $randomizedpolypcaPipeline2_path/pipelines/$id_run.yaml.gz $randomizedpolypcaPipeline2_path/pipeline_runs`
