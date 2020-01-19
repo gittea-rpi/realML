@@ -41,7 +41,7 @@ __all__ = [#"RFMPreconditionedGaussianKRRPipeline",
            "sparsepcaPipeline3",
            "sparsepcaPipeline4",           
            "robustsparsepcaPipeline",
-           "robustsparsepcaPipeline2",
+           #"robustsparsepcaPipeline2",
            "randomizedpolypcaPipeline",
            #"randomizedpolypcaPipeline2"
            "randomizedpolypcaPipeline3"

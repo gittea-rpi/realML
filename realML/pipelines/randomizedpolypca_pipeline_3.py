@@ -159,7 +159,7 @@ class randomizedpolypcaPipeline3(BasePipeline):
         step_8.add_hyperparameter(
                name = 'degree',
                argument_type = d3m_base.ArgumentType.VALUE,
-               data = 2
+               data = 3
         )      
         step_8.add_output('produce')
         pipeline.add_step(step_8)
