@@ -183,7 +183,7 @@ class sparsepcaPipeline6(BasePipeline):
         step_9.add_hyperparameter(
                name = 'degree',
                argument_type = d3m_base.ArgumentType.VALUE,
-               data = 2
+               data = 1
         )      
         step_9.add_output('produce')
         pipeline.add_step(step_9)
