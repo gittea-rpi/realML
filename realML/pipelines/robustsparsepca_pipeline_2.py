@@ -153,9 +153,9 @@ class robustsparsepcaPipeline2(BasePipeline):
         )
         step_8.add_hyperparameter(
                name = 'n_components',
-               argument_type = ArgumentType.VALUE,
+               argument_type = d3m_base.ArgumentType.VALUE,
                data = 9
-        )
+        )      
         step_8.add_hyperparameter(
                name = 'beta',
                argument_type = ArgumentType.VALUE,
@@ -170,7 +170,7 @@ class robustsparsepcaPipeline2(BasePipeline):
                name = 'gamma',
                argument_type = ArgumentType.VALUE,
                data = 0.5
-        )        
+        )    
         step_8.add_output('produce')
         pipeline.add_step(step_8)
                 
