@@ -1,4 +1,4 @@
-#from .RFMPreconditionedGaussianKRR_pipeline import RFMPreconditionedGaussianKRRPipeline
+from .RFMPreconditionedGaussianKRR_pipeline import RFMPreconditionedGaussianKRRPipeline
 #from .RFMPreconditionedGaussianKRR_pipeline_196_autoMpg import RFMPreconditionedGaussianKRRPipeline_196_autoMpg
 #from .RFMPreconditionedGaussianKRR_pipeline_26_radon_seed import RFMPreconditionedGaussianKRRPipeline_26_radon_seed
 
@@ -28,7 +28,7 @@ from .randomizedpolypca_pipeline_2 import randomizedpolypcaPipeline2
 from .randomizedpolypca_pipeline_3 import randomizedpolypcaPipeline3
 
 
-__all__ = [#"RFMPreconditionedGaussianKRRPipeline", 
+__all__ = ["RFMPreconditionedGaussianKRRPipeline", 
            #"RFMPreconditionedGaussianKRRPipeline_196_autoMpg", 
            #"RFMPreconditionedGaussianKRRPipeline_26_radon_seed", 
            #"RFMPreconditionedPolynomialKRRPipeline",
