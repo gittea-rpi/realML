@@ -24,7 +24,7 @@ import d3m.primitives.regression.gradient_boosting
 from d3m import index
 
 
-class robustsparsepcaPipeline_2(BasePipeline):
+class robustsparsepcaPipeline2(BasePipeline):
 
     #specify one seed dataset on which this pipeline can operate
 
