@@ -109,6 +109,7 @@ echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_
 `echo mv $sparsepcaPipeline4_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline4_path/pipeline_runs`
 
 
+
 ####################################################
 echo 'RobustSparsePCA  -- LL0_207_autoPrice_MIN_METADATA'
 ####################################################
