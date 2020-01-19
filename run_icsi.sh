@@ -33,47 +33,7 @@ randomizedpolypcaPipeline3_id="1b783f82-0b15-4e73-b1d7-b242cb0b71fe"
 
 
 
-####################################################
-echo 'SparsePCA  -- 56_sunspots_MIN_METADATA - pipeline 5'
-####################################################
-id_run="${sparsepcaPipeline5_id}_run"
-path_1="$sparsepcaPipeline5_path/pipelines/$sparsepcaPipeline5_id.json"
-path_2="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/56_sunspots_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/56_sunspots_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-path_6="$sparsepcaPipeline5_path/pipelines/$id_run.yaml"
 
-#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
-
-`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
-
-#`echo mkdir $sparsepcaPipeline5_path/pipeline_runs`
-
-`echo gzip $sparsepcaPipeline5_path/pipelines/$id_run.yaml`
-
-`echo mv $sparsepcaPipeline5_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline5_path/pipeline_runs`
-
-####################################################
-echo 'SparsePCA  -- 299_libras_move_MIN_METADATA  - pipeline 6'
-####################################################
-id_run="${sparsepcaPipeline6_id}_run"
-path_1="$sparsepcaPipeline6_path/pipelines/$sparsepcaPipeline6_id.json"
-path_2="../datasets/seed_datasets_current/299_libras_move_MIN_METADATA/299_libras_move_MIN_METADATA_problem/problemDoc.json"
-path_3="../datasets/seed_datasets_current/299_libras_move_MIN_METADATA/299_libras_move_MIN_METADATA_dataset/datasetDoc.json"
-path_4="../datasets/seed_datasets_current/299_libras_move_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
-path_5="../datasets/seed_datasets_current/299_libras_move_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
-path_6="$sparsepcaPipeline6_path/pipelines/$id_run.yaml"
-
-#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
-
-`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
-
-#`echo mkdir $sparsepcaPipeline6_path/pipeline_runs`
-
-`echo gzip $sparsepcaPipeline6_path/pipelines/$id_run.yaml`
-
-`echo mv $sparsepcaPipeline6_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline6_path/pipeline_runs`
 
 
 
@@ -232,6 +192,26 @@ path_6="$sparsepcaPipeline4_path/pipelines/$id_run.yaml"
 
 `echo mv $sparsepcaPipeline4_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline4_path/pipeline_runs`
 
+####################################################
+echo 'SparsePCA  -- 56_sunspots_MIN_METADATA - pipeline 5'
+####################################################
+id_run="${sparsepcaPipeline5_id}_run"
+path_1="$sparsepcaPipeline5_path/pipelines/$sparsepcaPipeline5_id.json"
+path_2="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/56_sunspots_MIN_METADATA_problem/problemDoc.json"
+path_3="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/56_sunspots_MIN_METADATA_dataset/datasetDoc.json"
+path_4="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/TEST/dataset_TEST/datasetDoc.json"
+path_5="../datasets/seed_datasets_current/56_sunspots_MIN_METADATA/SCORE/dataset_SCORE/datasetDoc.json"
+path_6="$sparsepcaPipeline5_path/pipelines/$id_run.yaml"
+
+#echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6
+
+`echo python3 -m d3m runtime fit-score -p $path_1 -r $path_2 -i $path_3 -t $path_4 -a $path_5 -O $path_6`
+
+#`echo mkdir $sparsepcaPipeline5_path/pipeline_runs`
+
+`echo gzip $sparsepcaPipeline5_path/pipelines/$id_run.yaml`
+
+`echo mv $sparsepcaPipeline5_path/pipelines/$id_run.yaml.gz $sparsepcaPipeline5_path/pipeline_runs`
 
 
 ####################################################
