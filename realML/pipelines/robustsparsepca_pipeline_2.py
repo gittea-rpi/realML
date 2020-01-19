@@ -33,7 +33,7 @@ import numpy as np
 
 from realML.matrix import RobustSparsePCA
 
-class robustsparsepcaPipelin2(BasePipeline):
+class robustsparsepcaPipeline2(BasePipeline):
     def __init__(self):
         super().__init__()
 

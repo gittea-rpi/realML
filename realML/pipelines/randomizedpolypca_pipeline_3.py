@@ -33,7 +33,7 @@ import numpy as np
 
 from realML.matrix import RandomizedPolyPCA
 
-class sparsepcaPipeline2(BasePipeline):
+class randomizedpolypcaPipeline3(BasePipeline):
     def __init__(self):
         super().__init__()
 
