@@ -24,7 +24,7 @@ setup(name="realML",
       long_description=readme,
       author="International Computer Science Institute",
       author_email="gittea@rpi.edu",
-      license="GPL",
+      license="Apache License 2.0",
       keywords=['d3m_primitive', 'machine learning', 'regression', 'dimensionality reduction', 'low rank factorization', 'featurization', 'sufficient dimensionality reduction', 'kernel methods'],
       install_requires=[
           #'regex==2017.4.5',
