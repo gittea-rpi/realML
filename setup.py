@@ -4,7 +4,7 @@ with open('README.md') as file:
     readme = file.read()
 
 setup(name="realML",
-      version="3.0.2",
+      version="3.0.3",
       description="ICSI provided machine learning primitives for DARPA D3M project, focusing on fast kernel methods and matrix factorizations ",
       packages=find_packages(),
       entry_points={
